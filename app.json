@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Give Garden",
+    "slug": "givegarden",
+    "version": "1.1.0",
+    "icon": "./assets/images/noti.png",
+    
+    "extra": {
+      "eas": {
+        "projectId": "7f68606c-9d95-495a-8cc6-ffd0dafb2a66"
+      }
+    },
+    "android": {
+      "package": "com.tranthanhuet.givegarden",
+      "versionCode": "4"
+    },
+    "ios": {
+      "bundleIdentifier": "com.tranthanhuet.givegarden",
+      "buildNumber": "5"
+    }
+  },
+  "name": "Give Garden",
+  "displayName": "Give Garden",
+  "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "The app accesses your photos to let you share them with your friends."
+      }
+    ],
+    [
+      "expo-notifications",
+      {
+        "icon": "./assets/images/noti.png",
+        "color": "#ffffff"
+      }
+    ]
+  ],
+  "android": {
+    "package": "com.givegarden",
+    "versionCode": 2
+  },
+  "packagerOpts": {
+    "config": "metro.config.js",
+    "sourceExts": [
+      "js",
+      "jsx",
+      "svg",
+      "ts",
+      "tsx"
+    ]
+  }
+}

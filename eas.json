@@ -1,0 +1,37 @@
+{
+  "cli": {
+    "version": ">= 3.8.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "production": {
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios":{
+        "appleId": "danieltrinh29@gmail.com",
+        "ascAppId": "6446326929",
+        "appleTeamId": "3Q87NQ7R2Q"
+      },
+      "android":{
+        "serviceAccountKeyPath":"../pc-api-4666331775527642913-356-a5ca9273f435.json"
+      }
+    }
+  }
+}
