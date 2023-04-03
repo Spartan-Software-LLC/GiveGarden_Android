@@ -77,7 +77,7 @@ const AppNav = () => {
     const dataRes = async () => {
       await axios
         .post(
-          'https://api.givegarden.info/api/user/device-token',
+          'http://api.givegarden.info/api/user/device-token',
           {
             device_token: expoPushToken,
           },

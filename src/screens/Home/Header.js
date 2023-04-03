@@ -17,7 +17,7 @@ const Header = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.post(
-          'https://api.givegarden.info/api/groups/index',
+          'http://api.givegarden.info/api/groups/index',
           {
             id: userInfo?.group_id,
           },

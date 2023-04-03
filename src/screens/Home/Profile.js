@@ -80,7 +80,7 @@ const Profile = () => {
 
       setLoading(true);
       await axios
-        .post('https://api.givegarden.info/api/users/profile', formData, {
+        .post('http://api.givegarden.info/api/users/profile', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + token,

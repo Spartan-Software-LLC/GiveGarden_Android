@@ -23,7 +23,7 @@ const CustomDrawer = props => {
   const {logout, userInfo, isLoggedIn, token, setLoading} = useContext(AuthContext);
 
   const actionData = async (group_id) => {
-    await axios.post("https://api.givegarden.info/api/user/change-group", {
+    await axios.post("http://api.givegarden.info/api/user/change-group", {
       user_id: userInfo.id,
       group_id: group_id
     } ,{

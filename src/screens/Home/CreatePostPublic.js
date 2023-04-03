@@ -17,7 +17,7 @@ import {
 
 import * as ImagePicker from 'expo-image-picker';
 import SelectDropdown from 'react-native-select-dropdown';
-
+import mime from 'mime';
 //components
 import Spacer from '../../components/Spacer';
 import CustomButton from '../../components/CustomButton';
@@ -52,7 +52,7 @@ export default function CreatePost() {
       setImage(result.assets[0]);
     }
   };
-
+  // const newImageUri = 'file:///' + imageUri.split('file:/').join('');
   const submitPost = async () => {
     setLoading(true);
     let formData = new FormData();
@@ -64,7 +64,7 @@ export default function CreatePost() {
       name:
         imageArr?.fileName ||
         Math.floor(Math.random() * Math.floor(999999999)) + '.jpg',
-      type: imageArr?.type || 'image/jpeg',
+      type: mime.getType(imageArr?.uri),
     };
     {
       imageArr && formData.append('image_1', file);
@@ -75,7 +75,7 @@ export default function CreatePost() {
     formData.append('content', value);
     formData.append('group_id', userInfo.group_id);
     await axios
-      .post('https://api.givegarden.info/api/posts/create', formData, {
+      .post('http://api.givegarden.info/api/posts/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + token,
@@ -83,22 +83,21 @@ export default function CreatePost() {
       })
       .then(response => {
         setLoading(false);
-        userInfo.role == "member" ?
-          Alert.alert('Give Garden', 'Bài viết của bạn đang được duyệt', [
-            {
-              text: 'Xác nhận',
-              onPress: () => navigation.navigate('Home'),
-              style: 'cancel',
-            },
-          ])
-          :
-          Alert.alert('Give Garden', 'Đăng bài viết thành công', [
-            {
-              text: 'Xác nhận',
-              onPress: () => navigation.navigate('Home'),
-              style: 'cancel',
-            },
-          ])
+        userInfo.role == 'member'
+          ? Alert.alert('Give Garden', 'Bài viết của bạn đang được duyệt', [
+              {
+                text: 'Xác nhận',
+                onPress: () => navigation.navigate('Home'),
+                style: 'cancel',
+              },
+            ])
+          : Alert.alert('Give Garden', 'Đăng bài viết thành công', [
+              {
+                text: 'Xác nhận',
+                onPress: () => navigation.navigate('Home'),
+                style: 'cancel',
+              },
+            ]);
       })
       .catch(err => {
         setLoading(false);
@@ -140,7 +139,7 @@ export default function CreatePost() {
                   name="images"
                   size={24}
                   color="#10C45C"
-                  style={{paddingTop: 4, paddingLeft:4}}
+                  style={{paddingTop: 4, paddingLeft: 4}}
                 />
                 <Text style={[styles.customText, {padding: 8}]}>Hình ảnh</Text>
               </TouchableOpacity>
@@ -151,12 +150,10 @@ export default function CreatePost() {
                   width: 120,
                   borderRadius: 50,
                   backgroundColor: 'rgba(145, 158, 171, 0.08)',
-                 
                 }}
                 dropdownStyle={{
                   borderRadius: 16,
                 }}
-              
                 buttonTextStyle={styles.customText}
                 defaultValue={types[0]}
                 onSelect={(selectedItem, index) => {
@@ -168,11 +165,10 @@ export default function CreatePost() {
                       name={isOpened ? 'chevron-up' : 'chevron-down'}
                       color={'#637381'}
                       size={14}
-                      style={{marginRight:10}}
+                      style={{marginRight: 10}}
                     />
                   );
                 }}
-                
                 dropdownIconPosition={'right'}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem;

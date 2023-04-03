@@ -18,7 +18,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
-  useWindowDimensions
+  useWindowDimensions,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import {WebView} from 'react-native-webview';
@@ -34,11 +34,6 @@ import axios from 'axios';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheetLicense from '../components/BottomSheetLicense';
 
-// const HideKeyboard = ({children}) => (
-//   <TouchableWithoutFeedback }>
-//     {children}
-//   </TouchableWithoutFeedback>
-// );
 const LoginScreen = () => {
   Ionicons.loadFont();
   MaterialIcons.loadFont();
@@ -50,7 +45,7 @@ const LoginScreen = () => {
   const [countdown, setCountDown] = useState(200);
   const [emailError, setEmailError] = useState('');
   const [loginFail, setLoginFail] = useState(false);
-  const {login, Error, setError,isLoading} = useContext(AuthContext);
+  const {login, Error, setError, isLoading} = useContext(AuthContext);
   const [loadData, setLoadData] = useState(false);
   const [loadOtp, setLoadOtp] = useState(false);
   const sent_at = new Date();
@@ -98,15 +93,18 @@ const LoginScreen = () => {
       return false;
     }
     try {
-      setLoadOtp(true)
+      setLoadOtp(true);
       const res = await axios.post(
-        BASE_URL + '/send-otp-app',
+        "http://api.givegarden.info/api/send-otp-app",
         {
-          email,
-          sent_at,
+          email : email,
+          sent_at : sent_at,
         },
         {
-          headers:{"Accept":"application/json, text/plain, /","Content-Type": "multipart/form-data"}
+          headers: {
+            "Accept": "application/json",
+            'Content-Type': 'multipart/form-data'
+            }
         },
       );
       if (res.status == 200) {
@@ -114,7 +112,7 @@ const LoginScreen = () => {
         setCountDown(200);
         setLoginFail(false);
         setError(false);
-        setLoadOtp(false)
+        setLoadOtp(false);
       } else if (res.status == 202) {
         const resData = await axios.post(
           BASE_URL + '/check-cooldown',
@@ -131,14 +129,14 @@ const LoginScreen = () => {
           setCountDown(200 - resData.data);
           setLoginFail(false);
           setError(false);
-          setLoadOtp(false)
+          setLoadOtp(false);
         } else {
           console.log('resres', resData);
-          setLoadOtp(false)
+          setLoadOtp(false);
         }
       } else {
         console.log('Loi otp');
-        loadOtp(false)
+        loadOtp(false);
       }
 
       let i = setInterval(() => {
@@ -148,9 +146,9 @@ const LoginScreen = () => {
     } catch (err) {
       setLoginFail(true);
       setOtp('');
-      setLoadOtp(false)
-      setError(true)
-      console.error(err);
+      setLoadOtp(false);
+      setError(true);
+      console.error('err', err);
     }
   };
 
@@ -159,13 +157,12 @@ const LoginScreen = () => {
     setCountDown(200);
     setShow(false);
     setError(false);
-    setLoadOtp(false)
+    setLoadOtp(false);
   }
 
   const handleLogin = () => {
     login(email, otp);
   };
-
 
   return (
     <GestureHandlerRootView style={{flex: 1, height: '100%'}}>
@@ -182,7 +179,7 @@ const LoginScreen = () => {
             <View
               style={{
                 width: '90%',
-                height: dimensions.height * 0.7,
+                height: dimensions.height * 0.75,
                 backgroundColor: 'white',
                 alignSelf: 'center',
                 marginTop: 20,

@@ -98,7 +98,7 @@ export default function CreatePostPrivate() {
       formData.append('content', value);
       formData.append('group_id', userInfo.group_id);
       await axios
-        .post('https://api.givegarden.info/api/posts/create', formData, {
+        .post('http://api.givegarden.info/api/posts/create', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: 'Bearer ' + token,

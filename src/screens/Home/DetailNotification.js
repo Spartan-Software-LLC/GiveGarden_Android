@@ -51,7 +51,7 @@ const DetailNotification = ({route, navigation}) => {
     setLoading(true);
     const fetchData = async () => {
       const res = await axios.get(
-        `https://api.givegarden.info/api/post/${id}`,
+        `http://api.givegarden.info/api/post/${id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const DetailNotification = ({route, navigation}) => {
     } else {
       await axios
         .post(
-          'https://api.givegarden.info/api/post/decline',
+          'http://api.givegarden.info/api/post/decline',
           {
             id: id,
             note: text,
@@ -121,7 +121,7 @@ const DetailNotification = ({route, navigation}) => {
     } else {
       await axios
         .post(
-          'https://api.givegarden.info/api/post/decline',
+          'http://api.givegarden.info/api/post/decline',
           {
             id: id,
             note: value,
@@ -158,7 +158,7 @@ const DetailNotification = ({route, navigation}) => {
   const submitPostApprove = async () => {
     await axios
       .post(
-        'https://api.givegarden.info/api/post/approve',
+        'http://api.givegarden.info/api/post/approve',
         {
           id: id,
         },

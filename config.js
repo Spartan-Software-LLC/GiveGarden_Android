@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://api.givegarden.info/api';
+export const BASE_URL = 'http://api.givegarden.info/api';

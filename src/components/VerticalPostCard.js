@@ -7,9 +7,10 @@ import {
   TouchableHighlight,
   Share,
   Alert,
+  Image,
   useWindowDimensions 
 } from 'react-native';
-import {Image} from 'expo-image';
+// import {Image} from 'expo-image';
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -19,7 +20,6 @@ import {
   FontAwesome,
   Entypo,
 } from '@expo/vector-icons';
-import ImageModal from 'react-native-image-modal';
 import ActionSheet from 'react-native-actionsheet';
 import moment from 'moment';
 import {AuthContext} from '../context/AuthContext';
@@ -64,7 +64,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
   const onSubmitLike = async () => {
     const res = await axios.post(
-      'https://api.givegarden.info/api/posts/reaction',
+      'http://api.givegarden.info/api/posts/reaction',
       {
         post_id: item.id,
       },
@@ -289,9 +289,9 @@ const VerticalPostCard = ({item, actionDelte}) => {
                   uri: dataPost?.images[0],
                 }}
                 style={Styles.PostImage}
-                placeholder={blurhash}
+                // placeholder={blurhash}
                 
-                transition={100}
+                // transition={100}
               />
             </TouchableOpacity>
           )}

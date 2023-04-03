@@ -19,7 +19,7 @@ const Notification = () => {
     const asyncData = async () => {
       setLoading(true);
       const resData = await axios.get(
-        'https://api.givegarden.info/api/notifications',
+        'http://api.givegarden.info/api/notifications',
         {
           headers: {
             Authorization: 'Bearer ' + token,

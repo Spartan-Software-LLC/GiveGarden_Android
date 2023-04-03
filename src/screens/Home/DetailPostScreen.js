@@ -13,10 +13,11 @@ import {
   Share,
   ActivityIndicator,
   useWindowDimensions,
+  Image
 } from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {Image} from 'expo-image';
+// import {Image} from 'expo-image';
 import React, {useState, useRef, useContext, useEffect} from 'react';
 import {
   Ionicons,
@@ -54,7 +55,7 @@ const DetailPostScreen = ({route, navigation}) => {
     const fetchData = async () => {
       setLoading(true);
       const res = await axios.get(
-        `https://api.givegarden.info/api/post/${item.id}`,
+        `http://api.givegarden.info/api/post/${item.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const onClickSheet = async index => {
     if (index == 1) {
       await axios
-        .delete(`https://api.givegarden.info/api/post/${data.id}`, {
+        .delete(`http://api.givegarden.info/api/post/${data.id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -147,7 +148,7 @@ const DetailPostScreen = ({route, navigation}) => {
       ]);
     } else {
       const res = await axios.post(
-        'https://api.givegarden.info/api/posts/comment',
+        'http://api.givegarden.info/api/posts/comment',
         {
           post_id: data.id,
           content: value,
@@ -167,7 +168,7 @@ const DetailPostScreen = ({route, navigation}) => {
 
   const onSubmitLike = async () => {
     const res = await axios.post(
-      'https://api.givegarden.info/api/posts/reaction',
+      'http://api.givegarden.info/api/posts/reaction',
       {
         post_id: item.id,
       },
@@ -571,16 +572,16 @@ const DetailPostScreen = ({route, navigation}) => {
                       </View>
                     </View>
 
-                    <ScrollView style={{marginTop: 10}}>
+                    {/* <ScrollView style={{marginTop: 10}}>
                       {data?.comments?.map((item, index) => (
                         <CustomComment key={index} item={item} />
                       ))}
-                    </ScrollView>
+                    </ScrollView> */}
 
                     <Spacer height={10} />
                   </View>
 
-                  <ActionSheet
+                  {/* <ActionSheet
                     ref={actionSheet}
                     // Title of the Bottom Sheet
                     // title={'What do you do ?'}
@@ -595,7 +596,7 @@ const DetailPostScreen = ({route, navigation}) => {
                       // Clicking on the option will give you alert
                       onClickSheet(index+1);
                     }}
-                  />
+                  /> */}
                 </View>
               </View>
             </ScrollView>

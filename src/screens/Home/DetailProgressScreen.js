@@ -50,7 +50,7 @@ const DetailPostScreen = ({route, navigation}) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        `https://api.givegarden.info/api/post/${id}`,
+        `http://api.givegarden.info/api/post/${id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const onClickSheet = async index => {
     if (index == 1) {
       await axios
-        .delete(`https://api.givegarden.info/api/post/${data.id}`, {
+        .delete(`http://api.givegarden.info/api/post/${data.id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -140,7 +140,7 @@ const DetailPostScreen = ({route, navigation}) => {
       ]);
     } else {
       const res = await axios.post(
-        'https://api.givegarden.info/api/posts/comment',
+        'http://api.givegarden.info/api/posts/comment',
         {
           post_id: data.id,
           content: value,
@@ -160,7 +160,7 @@ const DetailPostScreen = ({route, navigation}) => {
 
   const onSubmitLike = async () => {
     const res = await axios.post(
-      'https://api.givegarden.info/api/posts/reaction',
+      'http://api.givegarden.info/api/posts/reaction',
       {
         post_id: item.id,
       },
