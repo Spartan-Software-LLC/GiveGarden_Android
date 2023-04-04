@@ -30,7 +30,6 @@ const AuthStack = () => {
       >
       <Drawer.Screen
         name="HomeScreen"
-        
         component={TabNavigator}
         options={{
           drawerIcon: ({color}) => (

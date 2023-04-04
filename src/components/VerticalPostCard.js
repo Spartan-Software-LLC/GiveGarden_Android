@@ -274,24 +274,12 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 })
               }
               style={Styles.ImageView}>
-              {/* <ImageModal
-                contentFit="contain"
-                style={{
-                  width: dimensions.width -20,
-                  height: 300,
-                }}
-                source={{
-                  uri: dataPost?.images[0],
-                }}
-              /> */}
+            
               <Image
                 source={{
                   uri: dataPost?.images[0],
                 }}
                 style={Styles.PostImage}
-                // placeholder={blurhash}
-                
-                // transition={100}
               />
             </TouchableOpacity>
           )}
@@ -395,6 +383,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         <ActionSheet
           ref={actionSheet}
           // title={'What do you do ?'}
+          
           options={optionArray}
           cancelButtonIndex={2}
           onPress={index => {

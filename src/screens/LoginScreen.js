@@ -179,7 +179,7 @@ const LoginScreen = () => {
             <View
               style={{
                 width: '90%',
-                height: dimensions.height * 0.75,
+                height: dimensions.height * 0.78,
                 backgroundColor: 'white',
                 alignSelf: 'center',
                 marginTop: 20,

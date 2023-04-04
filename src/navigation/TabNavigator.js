@@ -10,12 +10,15 @@ import DetailPostScreen from '../screens/Home/DetailPostScreen';
 import DetailProgressScreen from '../screens/Home/DetailProgressScreen';
 import CheckInPost from '../screens/Home/CheckInPost';
 import DetailNotification from '../screens/Home/DetailNotification';
+import {AntDesign, Ionicons, Feather, Entypo} from '@expo/vector-icons';
 import {
-  AntDesign,
-  Ionicons,
-  Feather,
-} from '@expo/vector-icons';
-import {TouchableOpacity, View, Image, StyleSheet, Text} from 'react-native';
+  TouchableOpacity,
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
 import {ImageContext} from '../context/ImageContext';
 import {SlideContext} from '../context/SlideContext';
 
@@ -118,6 +121,7 @@ const NotificationStack = () => {
 };
 
 const TabNavigator = ({navigation}) => {
+  const dimensions = useWindowDimensions();
   const {slide, setSlide} = useContext(SlideContext);
   const {setImageUri, setModalVisibleStatus} = useContext(ImageContext);
   const CheckIn = props => <CheckInPost slide={slide} {...props} />;
@@ -169,18 +173,32 @@ const TabNavigator = ({navigation}) => {
           unmountOnBlur: true,
           headerTitleAlign: 'center',
           headerTitle: props => (
-            <Image
-              source={require('../../assets/images/give-graden.png')}
+            <View
               style={{
-                width: 80,
-                height: 50,
-                marginBottom: 20,
-              }}
-              resizeMode="contain"
-            />
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: dimensions.width-40,
+                justifyContent:'space-between'
+                // gap: dimensions.width /3.2
+              }}>
+              <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+                <Entypo name="menu" size={24} color="black" />
+              </TouchableOpacity>
+              <Image
+                source={require('../../assets/images/give-graden.png')}
+                style={{
+                  width: 80,
+                  height: 50,
+                  marginBottom: 20,
+                }}
+                resizeMode="contain"
+              />
+              <View style={{width: 24, height:24}}></View>
+            </View>
           ),
 
-          headerTitleStyle: {flex: 1, textAlign: 'center'},
+          headerTitleStyle: {textAlign: 'center', flexDirection: 'row'},
           navigationOptions: {
             header: {visible: false},
           },

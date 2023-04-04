@@ -13,7 +13,8 @@ import {
   Share,
   ActivityIndicator,
   useWindowDimensions,
-  Image
+  Image,
+  YellowBox
 } from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import {useHeaderHeight} from '@react-navigation/elements';
@@ -39,7 +40,7 @@ Ionicons.loadFont();
 MaterialIcons.loadFont();
 
 let optionArray = ['Xóa', 'Báo cáo', 'Huỷ'];
-
+YellowBox.ignoreWarnings(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 const DetailPostScreen = ({route, navigation}) => {
   const height = useHeaderHeight();
   const dimensions = useWindowDimensions();
@@ -128,7 +129,7 @@ const DetailPostScreen = ({route, navigation}) => {
             },
           ]);
         });
-    }else if(index == 2){
+    } else if (index == 2) {
       Alert.alert('Give Garden', 'Đã gửi đánh giá cho admin', [
         {
           text: 'Cancel',
@@ -222,385 +223,372 @@ const DetailPostScreen = ({route, navigation}) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{flex: 1}}
           enabled>
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
-              <View style={Styles.CardStyle}>
-                <View style={{flex: 'column', marginTop: 10}}>
-                  {/* Header  */}
+          <ScrollView keyboardShouldPersistTaps={'handled'}>
+            <View style={Styles.CardStyle}>
+              <View style={{marginTop: 10}}>
+                {/* Header  */}
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingHorizontal: 12,
+                  }}>
+                  {/* Header Left  */}
                   <View
                     style={{
-                      width: '100%',
-                      alignItems: 'center',
+                      flex: 1,
                       flexDirection: 'row',
-                      paddingHorizontal: 12,
                     }}>
-                    {/* Header Left  */}
+                    <View
+                      style={{
+                        position: 'relative',
+                      }}>
+                      <View
+                        style={{
+                          width: 20,
+                          height: 20,
+                          borderRadius: 40,
+                          backgroundColor: 'white',
+                          position: 'absolute',
+                          zIndex: 100,
+                          top: -4,
+                          left: 30,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <View
+                          style={{
+                            width: 17,
+                            height: 17,
+                            borderRadius: 50,
+                            backgroundColor: '#10C45C',
+                          }}>
+                          <Text
+                            style={{
+                              padding: 3,
+                              textAlign: 'center',
+                              color: 'white',
+                              fontSize: 10,
+                              fontWeight: 'bold',
+                            }}>
+                            {data?.user?.level}
+                          </Text>
+                        </View>
+                      </View>
+                      <Image
+                        source={{uri: `${data?.user?.avatar}`}}
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 40,
+                        }}
+                      />
+                    </View>
+                    <View style={{flex: 2, marginLeft: 15}}>
+                      <View style={{display: 'flex', flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color: 'black',
+                            fontWeight: '500',
+                          }}>
+                          {data?.user?.name}
+                        </Text>
+                        {data?.user?.role == 'admin' && (
+                          <View
+                            style={{
+                              backgroundColor: '#ff563029',
+                              marginLeft: 4,
+                              borderRadius: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 13,
+                                fontWeight: 500,
+                                color: '#B71d18',
+                                paddingHorizontal: 4,
+                                paddingTop: 1.5,
+                              }}>
+                              {data?.user?.role}
+                            </Text>
+                          </View>
+                        )}
+                        {data?.user?.role == 'supporter' && (
+                          <View
+                            style={{
+                              backgroundColor: '#3366ff29',
+                              marginLeft: 4,
+                              borderRadius: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 13,
+                                fontWeight: 500,
+                                color: '#1939b7',
+                                paddingHorizontal: 4,
+                                paddingTop: 1.5,
+                              }}>
+                              {data?.user?.role}
+                            </Text>
+                          </View>
+                        )}
+                        {data?.user?.role == 'coach' && (
+                          <View
+                            style={{
+                              backgroundColor: '#ffab0029',
+                              marginLeft: 4,
+                              borderRadius: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 13,
+                                fontWeight: 500,
+                                color: '#B76e00',
+                                paddingHorizontal: 4,
+                                paddingTop: 1.5,
+                              }}>
+                              {data?.user?.role}
+                            </Text>
+                          </View>
+                        )}
+                      </View>
+                      {/* 
+                       </View> */}
+
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text
+                          style={{
+                            color: '#919EAB',
+                          }}>
+                          {moment(date).fromNow()}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Header Right  */}
+                  <TouchableHighlight onPress={showActionSheet}>
+                    <View
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Entypo
+                        name="dots-three-vertical"
+                        size={24}
+                        color="black"
+                      />
+                    </View>
+                  </TouchableHighlight>
+                </View>
+
+                {/* Content */}
+                <View style={{marginTop: 10}}>
+                  <Text style={Styles.PostTitle}>{data?.content}</Text>
+
+                  {data?.images == null || data?.images[0] == null ? (
+                    <></>
+                  ) : (
+                    <TouchableOpacity style={Styles.ImageView}>
+                      <ImageModal
+                        contentFit="contain"
+                        resizeMode="contain"
+                        style={{
+                          width: dimensions.width - 20,
+                          height: 300,
+                        }}
+                        source={{
+                          uri: data?.images[0],
+                        }}
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+
+                {/* Infor  actions*/}
+                <View
+                  style={{
+                    height: 40,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    color: 'white',
+                    borderBottomColor: 'rgba(145, 158, 171, 0.4)',
+                    borderBottomWidth: 1,
+                    paddingHorizontal: 12,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={Styles.styleInfor}>
+                      {data?.reactions?.length == 0
+                        ? ''
+                        : `${data?.reactions?.length} thích`}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={Styles.styleInfor}>
+                      {data?.comments?.length == 0
+                        ? ''
+                        : `${data?.comments?.length} bình luận`}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Footer actions*/}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    height: 50,
+                    paddingHorizontal: 12,
+                  }}>
+                  {/* Likes  */}
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: 'center',
+                    }}
+                    onPress={() => onSubmitLike()}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      {liked ? (
+                        <AntDesign name="like1" size={18} color="blue" />
+                      ) : (
+                        <AntDesign name="like2" size={18} color="#637381" />
+                      )}
+
+                      <Text style={Styles.actionStyle}>Thích</Text>
+                    </View>
+                  </TouchableOpacity>
+                  {/* Comments  */}
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: 'center',
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        fontWeight: '500',
+                      }}>
+                      <FontAwesome name="comment-o" size={18} color="#637381" />
+
+                      <Text style={Styles.actionStyle}>Bình luận</Text>
+                    </View>
+                  </TouchableOpacity>
+                  {/* Chia sẻ  */}
+                  <TouchableOpacity
+                    onPress={postOnFacebook}
+                    style={{
+                      justifyContent: 'center',
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <AntDesign name="sharealt" size={18} color="#637381" />
+
+                      <Text style={Styles.actionStyle}>Chia sẻ</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                {/* Comments  */}
+
+                <View
+                  style={{
+                    color: 'white',
+                    borderTopColor: 'rgba(145, 158, 171, 0.4)',
+                    borderTopWidth: 1,
+                    paddingVertical: 10,
+                    paddingHorizontal: 12,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
                     <View
                       style={{
                         flex: 1,
                         flexDirection: 'row',
                       }}>
-                      <View
-                        style={{
-                          position: 'relative',
-                        }}>
-                        <View
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: 40,
-                            backgroundColor: 'white',
-                            position: 'absolute',
-                            zIndex: 100,
-                            top: -4,
-                            left: 30,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <View
-                            style={{
-                              width: 17,
-                              height: 17,
-                              borderRadius: 50,
-                              backgroundColor: '#10C45C',
-                            }}>
-                            <Text
-                              style={{
-                                padding: 3,
-                                textAlign: 'center',
-                                color: 'white',
-                                fontSize: 10,
-                                fontWeight: 'bold',
-                              }}>
-                              {data?.user?.level}
-                            </Text>
-                          </View>
-                        </View>
+                      {userInfo.avatar && (
                         <Image
-                          source={{uri: `${data?.user?.avatar}`}}
+                          source={{
+                            uri: userInfo.avatar,
+                          }}
                           style={{
                             width: 40,
                             height: 40,
                             borderRadius: 40,
                           }}
                         />
-                      </View>
-                      <View style={{flex: 2, marginLeft: 15}}>
-                        <View style={{display: 'flex', flexDirection: 'row'}}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: 'black',
-                              fontWeight: '500',
-                            }}>
-                            {data?.user?.name}
-                          </Text>
-                          {data?.user?.role == 'admin' && (
-                            <View
-                              style={{
-                                backgroundColor: '#ff563029',
-                                marginLeft: 4,
-                                borderRadius: 4,
-                              }}>
-                              <Text
-                                style={{
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  color: '#B71d18',
-                                  paddingHorizontal: 4,
-                                  paddingTop: 1.5,
-                                }}>
-                                {data?.user?.role}
-                              </Text>
-                            </View>
-                          )}
-                          {data?.user?.role == 'supporter' && (
-                            <View
-                              style={{
-                                backgroundColor: '#3366ff29',
-                                marginLeft: 4,
-                                borderRadius: 4,
-                              }}>
-                              <Text
-                                style={{
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  color: '#1939b7',
-                                  paddingHorizontal: 4,
-                                  paddingTop: 1.5,
-                                }}>
-                                {data?.user?.role}
-                              </Text>
-                            </View>
-                          )}
-                          {data?.user?.role == 'coach' && (
-                            <View
-                              style={{
-                                backgroundColor: '#ffab0029',
-                                marginLeft: 4,
-                                borderRadius: 4,
-                              }}>
-                              <Text
-                                style={{
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  color: '#B76e00',
-                                  paddingHorizontal: 4,
-                                  paddingTop: 1.5,
-                                }}>
-                                {data?.user?.role}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                        {/* 
-                       </View> */}
-
-                        <View
-                          style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <Text
-                            style={{
-                              color: '#919EAB',
-                            }}>
-                            {moment(date).fromNow()}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-
-                    {/* Header Right  */}
-                    <TouchableHighlight onPress={showActionSheet}>
-                      <View
-                        style={{
-                          width: 40,
-                          height: 40,
-                          borderRadius: 40,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <Entypo
-                          name="dots-three-vertical"
-                          size={24}
-                          color="black"
+                      )}
+                      <View style={{flex: 2, marginLeft: 10}}>
+                        <TextInput
+                          style={Styles.InputField}
+                          onChangeText={text => setValue(text)}
+                          value={value}
+                          placeholder="Viết bình luận..."
+                          keyboardType="default"
+                          placeholderTextColor={'gray'}
+                          returnKeyType="done"
+                          multiline={true}
+                          blurOnSubmit={true}
+                          onBlur={() => {
+                            Keyboard.dismiss();
+                          }}
                         />
                       </View>
-                    </TouchableHighlight>
-                  </View>
-
-                  {/* Content */}
-                  <View style={{marginTop: 10}}>
-                    <Text style={Styles.PostTitle}>{data?.content}</Text>
-
-                    {data?.images == null || data?.images[0] == null ? (
-                      <></>
-                    ) : (
                       <TouchableOpacity
-                        style={Styles.ImageView}>
-                        <ImageModal
-                          contentFit="contain"
-                          resizeMode="contain"
-                          style={{
-                            width: dimensions.width - 20,
-                            height: 300,
-                          }}
-                          source={{
-                            uri: data?.images[0],
-                          }}
+                        style={Styles.InputSend}
+                        onPress={onSubmitComment}>
+                        <Ionicons
+                          name="send"
+                          size={24}
+                          justifyContent="center"
+                          color="#10C45C"
                         />
                       </TouchableOpacity>
-                    )}
-                  </View>
-
-                  {/* Infor  actions*/}
-                  <View
-                    style={{
-                      height: 40,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      color: 'white',
-                      borderBottomColor: 'rgba(145, 158, 171, 0.4)',
-                      borderBottomWidth: 1,
-                      paddingHorizontal: 12,
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <Text style={Styles.styleInfor}>
-                        {data?.reactions?.length == 0
-                          ? ''
-                          : `${data?.reactions?.length} thích`}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <Text style={Styles.styleInfor}>
-                        {data?.comments?.length == 0
-                          ? ''
-                          : `${data?.comments?.length} bình luận`}
-                      </Text>
                     </View>
                   </View>
 
-                  {/* Footer actions*/}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      height: 50,
-                      paddingHorizontal: 12,
-                    }}>
-                    {/* Likes  */}
-                    <TouchableOpacity
-                      style={{
-                        justifyContent: 'center',
-                      }}
-                      onPress={() => onSubmitLike()}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        {liked ? (
-                          <AntDesign name="like1" size={18} color="blue" />
-                        ) : (
-                          <AntDesign name="like2" size={18} color="#637381" />
-                        )}
+                  <ScrollView style={{marginTop: 10}}>
+                    {data?.comments?.map((item, index) => (
+                      <CustomComment key={index} item={item} />
+                    ))}
+                  </ScrollView>
 
-                        <Text style={Styles.actionStyle}>Thích</Text>
-                      </View>
-                    </TouchableOpacity>
-                    {/* Comments  */}
-                    <TouchableOpacity
-                      style={{
-                        justifyContent: 'center',
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          fontWeight: '500',
-                        }}>
-                        <FontAwesome
-                          name="comment-o"
-                          size={18}
-                          color="#637381"
-                        />
-
-                        <Text style={Styles.actionStyle}>Bình luận</Text>
-                      </View>
-                    </TouchableOpacity>
-                    {/* Chia sẻ  */}
-                    <TouchableOpacity
-                      onPress={postOnFacebook}
-                      style={{
-                        justifyContent: 'center',
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        <AntDesign name="sharealt" size={18} color="#637381" />
-
-                        <Text style={Styles.actionStyle}>Chia sẻ</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-
-                  {/* Comments  */}
-
-                  <View
-                    style={{
-                      color: 'white',
-                      borderTopColor: 'rgba(145, 158, 171, 0.4)',
-                      borderTopWidth: 1,
-                      paddingVertical: 10,
-                      paddingHorizontal: 12,
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                      }}>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'row',
-                        }}>
-                        {userInfo.avatar && (
-                          <Image
-                            source={{
-                              uri: userInfo.avatar,
-                            }}
-                            style={{
-                              width: 40,
-                              height: 40,
-                              borderRadius: 40,
-                            }}
-                          />
-                        )}
-                        <View style={{flex: 2, marginLeft: 10}}>
-                          <TextInput
-                            style={Styles.InputField}
-                            onChangeText={text => setValue(text)}
-                            value={value}
-                            placeholder="Viết bình luận..."
-                            keyboardType="default"
-                            placeholderTextColor={'gray'}
-                            returnKeyType="done"
-                            multiline={true}
-                            blurOnSubmit={true}
-                            onBlur={() => {
-                              Keyboard.dismiss();
-                            }}
-                          />
-                        </View>
-                        <TouchableOpacity
-                          style={Styles.InputSend}
-                          onPress={onSubmitComment}>
-                          <Ionicons
-                            name="send"
-                            size={24}
-                            justifyContent="center"
-                            color="#10C45C"
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-
-                    {/* <ScrollView style={{marginTop: 10}}>
-                      {data?.comments?.map((item, index) => (
-                        <CustomComment key={index} item={item} />
-                      ))}
-                    </ScrollView> */}
-
-                    <Spacer height={10} />
-                  </View>
-
-                  {/* <ActionSheet
-                    ref={actionSheet}
-                    // Title of the Bottom Sheet
-                    // title={'What do you do ?'}
-                    // Options Array to show in bottom sheet
-                    options={optionArray}
-                    // Define cancel button index in the option array
-                    // This will take the cancel option in bottom
-                    // and will highlight it
-                    cancelButtonIndex={2}
-                    // Highlight any specific option
-                    onPress={index => {
-                      // Clicking on the option will give you alert
-                      onClickSheet(index+1);
-                    }}
-                  /> */}
+                  <Spacer height={10} />
                 </View>
+
+                <ActionSheet
+                 
+                  ref={actionSheet}
+                  options={optionArray}
+                  cancelButtonIndex={2}
+                  onPress={index => {
+                    onClickSheet(index + 1);
+                  }}
+                />
               </View>
-            </ScrollView>
-       
+            </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       )}
     </View>
@@ -667,7 +655,6 @@ const Styles = StyleSheet.create({
   InputField: {
     borderColor: '#eeeeee',
     borderWidth: 1,
-    paddingTop: 10,
     paddingLeft: 10,
     width: '98%',
     borderRadius: 8,

@@ -11,7 +11,8 @@ import {
   ScrollView,
   Keyboard,
   Alert,
-  useWindowDimensions
+  useWindowDimensions,
+  YellowBox,
 } from 'react-native';
 import {useHeaderHeight} from '@react-navigation/elements';
 import ImageModal from 'react-native-image-modal';
@@ -37,8 +38,9 @@ Ionicons.loadFont();
 MaterialIcons.loadFont();
 
 let optionArray = ['Xóa', 'Báo cáo', 'Huỷ'];
-
+YellowBox.ignoreWarnings(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 const DetailPostScreen = ({route, navigation}) => {
+
   const height = useHeaderHeight();
   const dimensions = useWindowDimensions();
   const {token, userInfo} = useContext(AuthContext);
@@ -186,7 +188,7 @@ const DetailPostScreen = ({route, navigation}) => {
         enabled>
         <ScrollView keyboardShouldPersistTaps={'handled'}>
           <View style={Styles.CardStyle}>
-            <View style={{flex: 'column', marginTop: 10}}>
+            <View style={{ marginTop: 10}}>
               {/* Header  */}
               <View
                 style={{
@@ -636,7 +638,6 @@ const Styles = StyleSheet.create({
   InputField: {
     borderColor: '#eeeeee',
     borderWidth: 1,
-    paddingTop: 10,
     paddingLeft: 10,
     width: '98%',
     borderRadius: 8,
