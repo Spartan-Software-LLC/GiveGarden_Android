@@ -73,7 +73,7 @@ function OnboardingScreen({navigation}) {
                   textAlign: 'center',
                   fontWeight: 'bold',
                 }}>
-                Tham gia cộng đồng
+                THAM GIA CỘNG ĐỒNG
               </Text>
               {/* <MaterialIcons name="arrow-forward-ios" size={22} color="#fff" /> */}
             </TouchableOpacity>

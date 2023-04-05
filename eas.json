@@ -30,7 +30,7 @@
         "appleTeamId": "3Q87NQ7R2Q"
       },
       "android":{
-        "serviceAccountKeyPath":"../pc-api-4666331775527642913-356-a5ca9273f435.json"
+        "serviceAccountKeyPath":"../givegarden/pc-api-4666331775527642913-356-a5ca9273f435.json"
       }
     }
   }

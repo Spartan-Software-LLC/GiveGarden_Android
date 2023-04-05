@@ -201,7 +201,7 @@ const LoginScreen = () => {
                     paddingTop: 30,
                     textAlign: 'center',
                   }}>
-                  Tham gia cộng đồng
+                  THAM GIA CỘNG ĐỒNG
                 </Text>
                 <Text
                   style={{
@@ -315,7 +315,7 @@ const LoginScreen = () => {
                           textAlign: 'center',
                           fontWeight: 'bold',
                         }}>
-                        Gửi OTP
+                        Gửi Mã OTP
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -375,7 +375,7 @@ const DataLicense = () => {
         </View>
         <View>
           <Text>
-            Give Garden is licensed to You (End-User) by Give Garden inc,
+            GIVE Garden is licensed to You (End-User) by GIVE Garden inc,
             located at __________, __________, __________ __________, __________
             ("Licensor"), for use only under the terms of this License
             Agreement. By downloading the Licensed Application from Apple's
@@ -393,9 +393,9 @@ const DataLicense = () => {
             Application and the content thereof. This License Agreement may not
             provide for usage rules for the Licensed Application that are in
             conflict with the latest Apple Media Services Terms and Conditions
-            and Google Play Terms of Service ("Usage Rules"). Give Garden inc
+            and Google Play Terms of Service ("Usage Rules"). GIVE Garden inc
             acknowledges that it had the opportunity to review the Usage Rules
-            and this License Agreement is not conflicting with them. Give Garden
+            and this License Agreement is not conflicting with them. GIVE Garden
             when purchased or downloaded through the Services, is licensed to
             You for use only under the terms of this License Agreement. The
             Licensor reserves all rights not expressly granted to You. Give
@@ -411,8 +411,8 @@ const DataLicense = () => {
               1. THE APPLICATION
             </Text>
             <Text>
-              Give Garden ("Licensed Application") is a piece of software
-              created to Fitness App for Give Garden Community — and customized
+              GIVE Garden ("Licensed Application") is a piece of software
+              created to Fitness App for GIVE Garden Community — and customized
               for iOS and Android mobile devices ("Devices"). It is used to
               Check in Progress, Ask Coach. The Licensed Application is not
               tailored to comply with industry-specific regulations (Health
@@ -446,7 +446,7 @@ const DataLicense = () => {
               reverse engineer, translate, disassemble, integrate, decompile,
               remove, modify, combine, create derivative works or updates of,
               adapt, or attempt to derive the source code of the Licensed
-              Application, or any part thereof (except with Give Garden inc's
+              Application, or any part thereof (except with GIVE Garden inc's
               prior written consent).
             </Text>
           </View>
@@ -469,7 +469,7 @@ const DataLicense = () => {
               maintenance and support services for this Licensed Application.
               You can reach the Licensor at the email address listed in the App
               Store or Play Store Overview for this Licensed Application. 4.2
-              Give Garden inc and the End-User acknowledge that the Services
+              GIVE Garden inc and the End-User acknowledge that the Services
               have no obligation whatsoever to furnish any maintenance and
               support services with respect to the Licensed Application.
             </Text>
@@ -629,15 +629,15 @@ const DataLicense = () => {
               inappropriately or culpably, combined or installed with
               inappropriate hardware or software, used with inappropriate
               accessories, regardless if by Yourself or by third parties, or if
-              there are any other reasons outside of Give Garden inc's sphere of
+              there are any other reasons outside of GIVE Garden inc's sphere of
               influence that affect the executability of the Licensed
               Application. 9.3 You are required to inspect the Licensed
-              Application immediately after installing it and notify Give Garden
+              Application immediately after installing it and notify GIVE Garden
               inc about issues discovered without delay by email provided in
               Contact Information. The defect report will be taken into
               consideration and further investigated if it has been emailed
               within a period of one (1) days after discovery. 9.4 If we confirm
-              that the Licensed Application is defective, Give Garden inc
+              that the Licensed Application is defective, GIVE Garden inc
               reserves a choice to remedy the situation either by means of
               solving the defect or substitute delivery. 9.5 In the event of any
               failure of the Licensed Application to conform to any applicable

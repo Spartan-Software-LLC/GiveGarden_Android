@@ -87,18 +87,18 @@ const Profile = () => {
           },
         })
         .then(response => {
-          Alert.alert('Give Garden', 'Update thành công', [
+          Alert.alert('GIVE Garden', 'Update thành công', [
             {
-              text: 'Cancel',
+              text: 'Xác nhận',
               style: 'cancel',
             },
           ]);
           setLoading(false);
         })
         .catch(err => {
-          Alert.alert('Give Garden', 'Update thất bại', [
+          Alert.alert('GIVE Garden', 'Update thất bại', [
             {
-              text: 'Cancel',
+              text: 'Xác nhận',
               style: 'cancel',
             },
           ]);

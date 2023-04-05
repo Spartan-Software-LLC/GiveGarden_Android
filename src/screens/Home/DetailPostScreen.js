@@ -112,9 +112,9 @@ const DetailPostScreen = ({route, navigation}) => {
         })
         .then(res => {
           if (res.status == 200) {
-            Alert.alert('Give Garden', 'Xóa bài viết thành công', [
+            Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
               {
-                text: 'Cancel',
+                text: 'Xác nhận',
                 onPress: () => navigation.push('HomeScreen'),
                 style: 'cancel',
               },
@@ -122,17 +122,17 @@ const DetailPostScreen = ({route, navigation}) => {
           }
         })
         .catch(err => {
-          Alert.alert('Give Garden', 'Không thể xóa bài viết', [
+          Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
             {
-              text: 'Cancel',
+              text: 'Xác nhận',
               style: 'cancel',
             },
           ]);
         });
     } else if (index == 2) {
-      Alert.alert('Give Garden', 'Đã gửi đánh giá cho admin', [
+      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho admin', [
         {
-          text: 'Cancel',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);
@@ -141,9 +141,9 @@ const DetailPostScreen = ({route, navigation}) => {
 
   const onSubmitComment = async () => {
     if (value == '') {
-      Alert.alert('Give Garden', 'Please enter a comment', [
+      Alert.alert('GIVE Garden', 'Please enter a comment', [
         {
-          text: 'Cancel',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);

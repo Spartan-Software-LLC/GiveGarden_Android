@@ -97,9 +97,9 @@ const DetailNotification = ({route, navigation}) => {
           setData();
           setShowDelete(false);
           if (res.status == 200) {
-            Alert.alert('Give Garden', 'Duyệt bài thành công', [
+            Alert.alert('GIVE Garden', 'Duyệt bài thành công', [
               {
-                text: 'Cancel',
+                text: 'Xác nhận',
                 onPress: () => navigation.push('NotificationList'),
                 style: 'cancel',
               },
@@ -112,9 +112,9 @@ const DetailNotification = ({route, navigation}) => {
 
   const submitPost = async () => {
     if (value === '') {
-      Alert.alert('Give Garden', 'Nhập lý do', [
+      Alert.alert('GIVE Garden', 'Nhập lý do', [
         {
-          text: 'Cancel',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);
@@ -137,9 +137,9 @@ const DetailNotification = ({route, navigation}) => {
           if (res.status == 200) {
             setData('');
             setShowDelete(false);
-            Alert.alert('Give Garden', 'Hủy bài thành công', [
+            Alert.alert('GIVE Garden', 'Hủy bài thành công', [
               {
-                text: 'Cancel',
+                text: 'Xác nhận',
                 onPress: () => navigation.navigate('Notifications'),
                 style: 'cancel',
               },
@@ -171,9 +171,9 @@ const DetailNotification = ({route, navigation}) => {
       )
       .then(res => {
         if (res.status == 200) {
-          Alert.alert('Give Garden', 'Duyệt bài thành công', [
+          Alert.alert('GIVE Garden', 'Duyệt bài thành công', [
             {
-              text: 'Cancel',
+              text: 'Xác nhận',
               onPress: () => navigation.navigate('Home'),
               style: 'cancel',
             },
@@ -351,7 +351,7 @@ const DetailNotification = ({route, navigation}) => {
                               <AntDesign
                                 name="closecircle"
                                 size={24}
-                                color="#D0D9E1"
+                                color="#e06666"
                               />
                             </TouchableHighlight>
                           </View>
@@ -412,7 +412,7 @@ const DetailNotification = ({route, navigation}) => {
                       <ActionSheet
                         ref={actionSheet}
                         // Title of the Bottom Sheet
-                        title={'What do you do ?'}
+                        title={'Thao tác'}
                         // Options Array to show in bottom sheet
                         options={optionArray}
                         // Define cancel button index in the option array

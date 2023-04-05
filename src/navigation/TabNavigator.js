@@ -205,7 +205,7 @@ const TabNavigator = ({navigation}) => {
         })}
       />
       <Tab.Screen
-        name="Progress"
+        name="Hình chuyển đổi"
         listeners={({navigation}) => ({
           tabPress: event => {
             setSlide('progress');

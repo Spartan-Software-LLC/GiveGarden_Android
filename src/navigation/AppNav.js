@@ -113,7 +113,7 @@ const AppNav = () => {
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
-          confirmText="Cancel"
+          confirmText="Xác nhận"
           confirmButtonColor="#DD6B55"
           onConfirmPressed={() => {
             hideAlert();

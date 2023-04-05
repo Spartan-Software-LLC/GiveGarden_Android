@@ -32,7 +32,7 @@ export default class CheckInPost extends React.Component {
     index: `${this.props.slide}` === 'home' ? 0 : 1,
     routes: [
       {key: `home`, title: 'Cộng đồng'},
-      {key: `progress`, title: 'Progress'},
+      {key: `progress`, title: 'Hình chuyển đổi'},
     ],
   };
 

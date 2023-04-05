@@ -68,11 +68,11 @@ export default function CreatePostPrivate() {
   const submitPost = async () => {
     if (checkImage == false || value == '') {
       Alert.alert(
-        'Give Garden',
+        'GIVE Garden',
         'Vui lòng chọn 3 ảnh và điền đẩy đủ nội dung',
         [
           {
-            text: 'Cancel',
+            text: 'Xác nhận',
             style: 'cancel',
           },
         ],
@@ -107,9 +107,9 @@ export default function CreatePostPrivate() {
         .then(response => {
           setLoading(false);
           response.status === 200 &&
-            Alert.alert('Give Garden', 'Đăng bài thành công', [
+            Alert.alert('GIVE Garden', 'Đăng bài thành công', [
               {
-                text: 'Cancel',
+                text: 'Xác nhận',
                 onPress: () => navigation.navigate('Progress'),
                 style: 'cancel',
               },
@@ -117,9 +117,9 @@ export default function CreatePostPrivate() {
         })
         .catch(err => {
           setLoading(false);
-          Alert.alert('Give Garden', 'Đăng bài thất bại', [
+          Alert.alert('GIVE Garden', 'Đăng bài thất bại', [
             {
-              text: 'Cancel',
+              text: 'Xác nhận',
               style: 'cancel',
             },
           ]);
@@ -137,7 +137,7 @@ export default function CreatePostPrivate() {
             {/* Input text  */}
             <TextInput
               style={styles.TextInput}
-              placeholder={`Nội dung bài viết bạn muốn đăng...`}
+              placeholder={`Nếu có thể xin vui lòng điền chỉ số cân nặng, số đo vòng eo vào bài viết này. Xin Cảm ơn.`}
               keyboardType={`default`}
               focusable={false}
               multiline={true}

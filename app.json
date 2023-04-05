@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Give Garden",
+    "name": "GIVE Garden",
     "slug": "givegarden",
-    "version": "1.1.0",
+    "version": "1.1.6",
     "icon": "./assets/images/noti.png",
     
     "extra": {
@@ -12,15 +12,15 @@
     },
     "android": {
       "package": "com.tranthanhuet.givegarden",
-      "versionCode": "4"
+      "versionCode": "9"
     },
     "ios": {
       "bundleIdentifier": "com.tranthanhuet.givegarden",
       "buildNumber": "5"
     }
   },
-  "name": "Give Garden",
-  "displayName": "Give Garden",
+  "name": "GIVE Garden",
+  "displayName": "GIVE Garden",
   "plugins": [
     [
       "expo-image-picker",

@@ -96,9 +96,9 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
     if (index == 1) {
       actionDelte(1,dataPost?.id)
     }else if(index == 2){
-      Alert.alert('Give Garden', 'Đã gửi đánh giá cho admin', [
+      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho admin', [
         {
-          text: 'Cancel',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);
