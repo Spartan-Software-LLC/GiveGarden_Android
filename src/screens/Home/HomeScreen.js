@@ -18,12 +18,14 @@ import {ScrollView} from 'react-native-virtualized-view';
 import axios from 'axios';
 import VerticalPostCard from '../../components/VerticalPostCard';
 import {AuthContext} from '../../context/AuthContext';
+import {SlideContext} from '../../context/SlideContext';
 
 const Afternoon = require('../../../assets/images/frame.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
 
 const HomeScreen = () => {
   const {userInfo, token, loading} = useContext(AuthContext);
+  const { groupChange} = useContext(SlideContext);
   const dimensions = useWindowDimensions();
   const [data, setData] = React.useState([]);
   const [topGroup, setTopGroup] = React.useState();
@@ -32,6 +34,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [count_page, setCountPage] = React.useState(1);
   const [last_page, setLastPage] = React.useState(100);
+
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -46,9 +49,9 @@ const HomeScreen = () => {
     const fetchTopGroup = async () => {
       try {
         const response = await axios.post(
-          'http://api.givegarden.info/api/groups/index',
+          'https://api.givegarden.info/api/groups/index',
           {
-            id: userInfo?.group_id,
+            id:groupChange ? groupChange: userInfo?.group_id,
           },
           {
             headers: {
@@ -66,19 +69,19 @@ const HomeScreen = () => {
       }
     };
     fetchTopGroup();
-  }, [userInfo,loading]);
+  }, [groupChange,loading]);
 
   React.useEffect(() => {
     fetchPostData();
-  }, [userInfo,loading]);
+  }, []);
 
   const fetchPostDataRefeshing = async () => {
     try {
         setLoadingPost(true);
         const response = await axios.post(
-          'http://api.givegarden.info/api/posts/community?page=' + count_page,
+          'https://api.givegarden.info/api/posts/community?page=' + 1,
           {
-            group_id: userInfo?.group_id,
+            group_id: groupChange? groupChange: userInfo?.group_id,
           },
           {
             headers: {
@@ -90,7 +93,7 @@ const HomeScreen = () => {
 
         if (response?.status == 200) {
           setData(response.data.data);
-          setCountPage(count_page + 1);
+          setCountPage(response.data.current_page + 1);
           setLastPage(response.data.last_page);
           setLoadingPost(false);
         } else {
@@ -106,10 +109,11 @@ const HomeScreen = () => {
   React.useEffect(() => {
     if (loading == true) {
       setData([]);
-      setCountPage(1);
-      setLastPage(100);
+      setTimeout(() => {
+        fetchPostDataRefeshing()
+      }, 1000);
     }
-  }, [loading]);
+  }, [groupChange,loading]);
 
   const fetchPostData = async () => {
     try {
@@ -118,9 +122,9 @@ const HomeScreen = () => {
       } else {
         setLoadingPost(true);
         const response = await axios.post(
-          'http://api.givegarden.info/api/posts/community?page=' + count_page,
+          'https://api.givegarden.info/api/posts/community?page=' + count_page,
           {
-            group_id: userInfo?.group_id,
+            group_id:  userInfo?.group_id,
           },
           {
             headers: {
@@ -174,7 +178,7 @@ const HomeScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`http://api.givegarden.info/api/post/${id}`, {
+        .delete(`https://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -184,7 +188,7 @@ const HomeScreen = () => {
           if (res.status == 200) {
             Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
               {
-                text: 'Xác nhận',
+                text: 'Đồng ý',
                 style: 'cancel',
               },
             ]);
@@ -195,7 +199,7 @@ const HomeScreen = () => {
         .catch(err => {
           Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
             {
-              text: 'Xác nhận',
+              text: 'Đồng ý',
               style: 'cancel',
             },
           ]);

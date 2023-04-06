@@ -101,34 +101,56 @@ const DetailPostScreen = ({route, navigation}) => {
     actionSheet.current.show();
   };
 
+  const actionDelte =async(dataPostId)=>{
+    await axios
+    .delete(`https://api.givegarden.info/api/post/${dataPostId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    .then(res => {
+      if (res.status == 200) {
+        Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
+          {
+            text: 'Đồng ý',
+            onPress: () => navigation.push('HomeScreen'),
+            style: 'cancel',
+          },
+        ]);
+      }
+    })
+    .catch(err => {
+      Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
+        {
+          text: 'Đồng ý',
+          style: 'cancel',
+        },
+      ]);
+    });
+  }
+
   const onClickSheet = async index => {
     if (index == 1) {
-      await axios
-        .delete(`http://api.givegarden.info/api/post/${data.id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+      if(data?.type == 1){
+        Alert.alert('GIVE Garden', 'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
           },
-        })
-        .then(res => {
-          if (res.status == 200) {
-            Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
-              {
-                text: 'Xác nhận',
-                onPress: () => navigation.push('HomeScreen'),
-                style: 'cancel',
-              },
-            ]);
-          }
-        })
-        .catch(err => {
-          Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
-            {
-              text: 'Xác nhận',
-              style: 'cancel',
-            },
-          ]);
-        });
+          {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},
+        ]);
+      }else {
+        Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},
+        ]);
+      }
     } else if (index == 2) {
       Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho admin', [
         {

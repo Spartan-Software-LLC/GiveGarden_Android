@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext,useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,33 +10,44 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import {
-  Ionicons,
-  Feather,
-} from '@expo/vector-icons';
+import {Ionicons, Feather} from '@expo/vector-icons';
 import {AuthContext} from '../context/AuthContext';
+import {SlideContext} from '../context/SlideContext';
 import axios from 'axios';
 import moment from 'moment';
 
 Ionicons.loadFont();
 const CustomDrawer = props => {
-  const {logout, userInfo, isLoggedIn, token, setLoading} = useContext(AuthContext);
+  const {logout, userInfo, isLoggedIn, token, setLoading} =
+    useContext(AuthContext);
+    const {groupChange, setGroupChange} = useContext(SlideContext);
 
-  const actionData = async (group_id) => {
-    await axios.post("http://api.givegarden.info/api/user/change-group", {
-      user_id: userInfo.id,
-      group_id: group_id
-    } ,{
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    }).then(response => {
-      setLoading(true);
-      isLoggedIn();
-      setLoading(false);
-    })
-    .catch(error => console.log('error',error))
-  }
+  const actionData = async group_id => {
+    
+    await axios
+      .post(
+        'https://api.givegarden.info/api/user/change-group',
+        {
+          user_id: userInfo.id,
+          group_id: group_id,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+      )
+      .then(response => {
+        setGroupChange(group_id)
+        isLoggedIn();
+        setLoading(true);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('error', error);
+        setLoading(false);
+      });
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView>
@@ -45,9 +56,15 @@ const CustomDrawer = props => {
           style={{padding: 20}}>
           <Image
             source={{
-              uri: userInfo?.avatar
+              uri: userInfo?.avatar,
             }}
-            style={{height: 80, width: 80, borderRadius: 40, marginTop: 30, marginBottom:10}}
+            style={{
+              height: 80,
+              width: 80,
+              borderRadius: 40,
+              marginTop: 30,
+              marginBottom: 10,
+            }}
           />
           <Text
             style={{
@@ -75,7 +92,7 @@ const CustomDrawer = props => {
                 return (
                   <TouchableOpacity
                     style={styles.drawerItem}
-                    onPress={()=>actionData(item.id)}>
+                    onPress={() => actionData(item.id)}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -95,9 +112,7 @@ const CustomDrawer = props => {
                 );
               }}
             />
-            
           )}
-          
         </View>
       </ScrollView>
       <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>

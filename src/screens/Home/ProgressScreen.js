@@ -46,7 +46,7 @@ const ProgessScreen = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'http://api.givegarden.info/api/post/progress',
+        'https://api.givegarden.info/api/post/progress',
         {
           user_id: userInfo.id,
           group_id: userInfo.group_id,
@@ -99,7 +99,7 @@ const ProgessScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`http://api.givegarden.info/api/post/${id}`, {
+        .delete(`https://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -109,7 +109,7 @@ const ProgessScreen = () => {
           if (res && res.status == 200) {
             Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
               {
-                text: 'Xác nhận',
+                text: 'Đồng ý',
                 style: 'cancel',
               },
             ]);
@@ -120,7 +120,7 @@ const ProgessScreen = () => {
         .catch(err => {
           Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
             {
-              text: 'Xác nhận',
+              text: 'Đồng ý',
               style: 'cancel',
             },
           ]);
@@ -201,7 +201,7 @@ const ProgessScreen = () => {
             }}>
             {error == true || posts?.length <= 0 ? (
               <ScrollView
-                style={{height: '100%'}}
+                style={{height: '100%', width: '100%'}}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
