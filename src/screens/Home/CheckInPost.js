@@ -58,7 +58,7 @@ export default class CheckInPost extends React.Component {
                 key={i}
                 onPress={() => this.setState({index: i})}>
                 <Animated.Text
-                  style={{opacity, fontSize: 18, fontWeight: '600'}}>
+                  style={{opacity, fontSize: 15, fontWeight: '600', }}>
                   {route.title}
                 </Animated.Text>
               </TouchableOpacity>
@@ -89,13 +89,14 @@ export default class CheckInPost extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   tabBar: {
     flexDirection: 'row',
     paddingTop: StatusBar.currentHeight,
     backgroundColor: '#f7f8fa',
-    paddingRight: '40%',
+    // backgroundColor: 'red',
+    paddingRight: '30%',
   },
   tabItem: {
     flex: 1,

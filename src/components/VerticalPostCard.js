@@ -106,16 +106,31 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
   const onClickSheet = async index => {
     if (index == 1) {
-      if(dataPost?.type == 1){
-        Alert.alert('GIVE Garden', 'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?', [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
-        ]);
-      }else {
+      if (dataPost?.type == 1) {
+        if (userInfo.group_id != 5) {
+          Alert.alert(
+            'GIVE Garden',
+            'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+            ],
+          );
+        } else {
+          Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+          ]);
+        }
+      } else {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
           {
             text: 'Cancel',
@@ -128,7 +143,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
     } else if (index == 2) {
       Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho admin', [
         {
-          text: 'Xác nhận',
+          text: 'Đồng ý',
           style: 'cancel',
         },
       ]);
