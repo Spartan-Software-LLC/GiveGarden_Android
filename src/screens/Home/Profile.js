@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {Image} from 'expo-image';
 import {Ionicons, MaterialIcons, Entypo} from '@expo/vector-icons';
+import mime from 'mime';
 import axios from 'axios';
 import React, {useState, useContext, useEffect} from 'react';
 import * as ImagePicker from 'expo-image-picker';
@@ -70,7 +71,7 @@ const Profile = () => {
           name:
             image?.fileName ||
             Math.floor(Math.random() * Math.floor(999999999)) + '.jpg',
-          type: image?.type || 'image/jpeg',
+            type: mime.getType(image?.uri),
         });
       formData.append('id', userInfo.id);
       showImages === true && formData.append('avatar', file);

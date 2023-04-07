@@ -83,8 +83,16 @@ export default function CreatePost() {
       })
       .then(response => {
         setLoading(false);
-        userInfo.role == 'member'
-          ? Alert.alert('GIVE Garden', 'Bài viết của bạn đang được Coach/Supporter kiểm duyệt, Cảm ơn.', [
+        userInfo.role == 'member' && userInfo.group_id != 5
+          ? Alert.alert('GIVE Garden', 'Bài viết của bạn đang được duyệt', [
+              {
+                text: 'Xác nhận',
+                onPress: () => navigation.navigate('Home'),
+                style: 'cancel',
+              },
+            ])
+          : userInfo.role == 'member' && userInfo.group_id == 5
+          ? Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
               {
                 text: 'Xác nhận',
                 onPress: () => navigation.navigate('Home'),

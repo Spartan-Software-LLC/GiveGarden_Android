@@ -15,7 +15,9 @@ import {SlideProvider} from './src/context/SlideContext';
 import {ImageProvider} from './src/context/ImageContext';
 import * as SplashScreen from 'expo-splash-screen';
 require('moment/locale/vi');
-
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const App = () => {
   

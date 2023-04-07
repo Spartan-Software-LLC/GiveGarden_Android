@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   ImageBackground,
   Alert,
-  useWindowDimensions 
+  useWindowDimensions,
 } from 'react-native';
 import moment from 'moment';
 import {Image} from 'expo-image';
@@ -25,7 +25,7 @@ const Avatar = require('../../../assets/images/avatar_default.jpg');
 
 const HomeScreen = () => {
   const {userInfo, token, loading} = useContext(AuthContext);
-  const { groupChange} = useContext(SlideContext);
+  const {groupChange} = useContext(SlideContext);
   const dimensions = useWindowDimensions();
   const [data, setData] = React.useState([]);
   const [topGroup, setTopGroup] = React.useState();
@@ -35,12 +35,11 @@ const HomeScreen = () => {
   const [count_page, setCountPage] = React.useState(1);
   const [last_page, setLastPage] = React.useState(100);
 
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setCountPage(1);
     setTimeout(() => {
-      fetchPostDataRefeshing()
+      fetchPostDataRefeshing();
       setRefreshing(false);
     }, 1000);
   }, []);
@@ -51,7 +50,7 @@ const HomeScreen = () => {
         const response = await axios.post(
           'https://api.givegarden.info/api/groups/index',
           {
-            id:groupChange ? groupChange: userInfo?.group_id,
+            id: groupChange ? groupChange : userInfo?.group_id,
           },
           {
             headers: {
@@ -69,7 +68,7 @@ const HomeScreen = () => {
       }
     };
     fetchTopGroup();
-  }, [groupChange,loading]);
+  }, [groupChange, loading]);
 
   React.useEffect(() => {
     fetchPostData();
@@ -77,30 +76,29 @@ const HomeScreen = () => {
 
   const fetchPostDataRefeshing = async () => {
     try {
-        setLoadingPost(true);
-        const response = await axios.post(
-          'https://api.givegarden.info/api/posts/community?page=' + 1,
-          {
-            group_id: groupChange? groupChange: userInfo?.group_id,
+      setLoadingPost(true);
+      const response = await axios.post(
+        'https://api.givegarden.info/api/posts/community?page=' + 1,
+        {
+          group_id: groupChange ? groupChange : userInfo?.group_id,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
           },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + token,
-            },
-          },
-        );
+        },
+      );
 
-        if (response?.status == 200) {
-          setData(response.data.data);
-          setCountPage(response.data.current_page + 1);
-          setLastPage(response.data.last_page);
-          setLoadingPost(false);
-        } else {
-          console.log('fetchPostDataRefeshing');
-          setLoadingPost(false);
-        }
-      
+      if (response?.status == 200) {
+        setData(response.data.data);
+        setCountPage(response.data.current_page + 1);
+        setLastPage(response.data.last_page);
+        setLoadingPost(false);
+      } else {
+        console.log('fetchPostDataRefeshing');
+        setLoadingPost(false);
+      }
     } catch (err) {
       console.error('fetchPostDataRefeshing', err);
     }
@@ -110,10 +108,10 @@ const HomeScreen = () => {
     if (loading == true) {
       setData([]);
       setTimeout(() => {
-        fetchPostDataRefeshing()
+        fetchPostDataRefeshing();
       }, 1000);
     }
-  }, [groupChange,loading]);
+  }, [groupChange, loading]);
 
   const fetchPostData = async () => {
     try {
@@ -124,7 +122,7 @@ const HomeScreen = () => {
         const response = await axios.post(
           'https://api.givegarden.info/api/posts/community?page=' + count_page,
           {
-            group_id:  userInfo?.group_id,
+            group_id: userInfo?.group_id,
           },
           {
             headers: {
@@ -207,7 +205,7 @@ const HomeScreen = () => {
     }
   };
 
-  const renderItem =({item, index}) => (
+  const renderItem = ({item, index}) => (
     <VerticalPostCard
       containerStyle={{
         marginLeft: 24,
@@ -255,7 +253,7 @@ const HomeScreen = () => {
             style={{
               height: dimensions.height - 120,
               width: '100%',
-              justifyContent:'center',
+              justifyContent: 'center',
               alignItems: 'center',
             }}>
             {/* <View style={{ backgroundColor: 'grey',
@@ -263,8 +261,8 @@ const HomeScreen = () => {
             <Text
               style={{
                 color: '#637381',
-                  paddingHorizontal: 10,
-                  fontSize: 16,
+                paddingHorizontal: 10,
+                fontSize: 16,
               }}>
               Không có bài post
             </Text>
@@ -323,87 +321,93 @@ const HomeScreen = () => {
                       {moment(topGroup?.open_at).format('L')}
                     </Text>
                     {/* Bảng xếp hạng */}
-                    <View style={{position: 'relative', marginTop: -30}}>
-                      <View style={Styles.CardStyle}>
-                        <Text style={Styles.titleTop}>
-                          BẢNG XẾP HẠNG NGƯỜI DÙNG CỦA THÁNG
-                        </Text>
+                    {userInfo.group_id == 5 ? (
+                      <>
+                        <View style={{marginBottom: 20}}></View>
+                      </>
+                    ) : (
+                      <View style={{position: 'relative', marginTop: -30}}>
+                        <View style={Styles.CardStyle}>
+                          <Text style={Styles.titleTop}>
+                            BẢNG XẾP HẠNG NGƯỜI DÙNG CỦA THÁNG
+                          </Text>
 
-                        {/* top rank user */}
-                        <View style={Styles.dataTop}>
-                          {topGroup &&
-                            topGroup?.top_user?.map((item, index) => (
-                              <View
-                                key={index}
-                                style={{
-                                  flexDirection: 'row',
-                                  flex: 1,
-                                  marginHorizontal: 4,
-                                }}>
+                          {/* top rank user */}
+                          <View style={Styles.dataTop}>
+                            {topGroup &&
+                              topGroup?.top_user?.map((item, index) => (
                                 <View
+                                  key={index}
                                   style={{
-                                    position: 'relative',
+                                    flexDirection: 'row',
+                                    flex: 1,
+                                    marginHorizontal: 4,
                                   }}>
-                                  <View style={Styles.dataRank}>
-                                    <View
-                                      style={{
-                                        width: 15,
-                                        height: 15,
-                                        borderRadius: 50,
-                                        backgroundColor: '#10C45C',
-                                        justifyContent: 'center',
-                                      }}>
-                                      <Text
-                                        style={{
-                                          textAlign: 'center',
-                                          color: 'white',
-                                          fontSize: 7,
-                                          fontWeight: 'bold',
-                                        }}>
-                                        {item.level}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                  {item.avatar ? (
-                                    <Image
-                                      source={{uri: `${item.avatar}`}}
-                                      style={{
-                                        width: 30,
-                                        height: 30,
-                                        borderRadius: 40,
-                                      }}
-                                    />
-                                  ) : (
-                                    <Image
-                                      source={Avatar}
-                                      style={{
-                                        width: 30,
-                                        height: 30,
-                                        borderRadius: 40,
-                                      }}
-                                    />
-                                  )}
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    marginLeft: 8,
-                                    justifyContent: 'center',
-                                  }}>
-                                  <Text
+                                  <View
                                     style={{
-                                      fontSize: 10,
-                                      color: '#212B36',
-                                      fontWeight: 'bold',
+                                      position: 'relative',
                                     }}>
-                                    {item.name}
-                                  </Text>
+                                    <View style={Styles.dataRank}>
+                                      <View
+                                        style={{
+                                          width: 15,
+                                          height: 15,
+                                          borderRadius: 50,
+                                          backgroundColor: '#10C45C',
+                                          justifyContent: 'center',
+                                        }}>
+                                        <Text
+                                          style={{
+                                            textAlign: 'center',
+                                            color: 'white',
+                                            fontSize: 7,
+                                            fontWeight: 'bold',
+                                          }}>
+                                          {item.level}
+                                        </Text>
+                                      </View>
+                                    </View>
+                                    {item.avatar ? (
+                                      <Image
+                                        source={{uri: `${item.avatar}`}}
+                                        style={{
+                                          width: 30,
+                                          height: 30,
+                                          borderRadius: 40,
+                                        }}
+                                      />
+                                    ) : (
+                                      <Image
+                                        source={Avatar}
+                                        style={{
+                                          width: 30,
+                                          height: 30,
+                                          borderRadius: 40,
+                                        }}
+                                      />
+                                    )}
+                                  </View>
+                                  <View
+                                    style={{
+                                      flex: 2,
+                                      marginLeft: 8,
+                                      justifyContent: 'center',
+                                    }}>
+                                    <Text
+                                      style={{
+                                        fontSize: 10,
+                                        color: '#212B36',
+                                        fontWeight: 'bold',
+                                      }}>
+                                      {item.name}
+                                    </Text>
+                                  </View>
                                 </View>
-                              </View>
-                            ))}
+                              ))}
+                          </View>
                         </View>
                       </View>
-                    </View>
+                    )}
                   </View>
                 }
                 initialNumToRender={data.length} // Reduce initial render amount
@@ -415,7 +419,6 @@ const HomeScreen = () => {
                 keyExtractor={(item, index) => index}
                 renderItem={renderItem}
                 ListFooterComponent={renderFooterComponent}
-                
               />
             </View>
           </ScrollView>
