@@ -41,7 +41,6 @@ const CustomDrawer = props => {
         setGroupChange(group_id)
         isLoggedIn();
         setLoading(true);
-        setLoading(false);
       })
       .catch(error => {
         console.log('error', error);

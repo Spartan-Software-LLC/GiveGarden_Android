@@ -24,7 +24,7 @@ const Afternoon = require('../../../assets/images/frame.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
 
 const HomeScreen = () => {
-  const {userInfo, token, loading} = useContext(AuthContext);
+  const {userInfo, token, loading, setLoading} = useContext(AuthContext);
   const {groupChange} = useContext(SlideContext);
   const dimensions = useWindowDimensions();
   const [data, setData] = React.useState([]);
@@ -37,10 +37,11 @@ const HomeScreen = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setCountPage(1);
+    setLoading(true)
     setTimeout(() => {
-      fetchPostDataRefeshing();
+      // fetchPostDataRefeshing();
       setRefreshing(false);
+      setLoading(false)
     }, 1000);
   }, []);
 
@@ -76,7 +77,6 @@ const HomeScreen = () => {
 
   const fetchPostDataRefeshing = async () => {
     try {
-      setLoadingPost(true);
       const response = await axios.post(
         'https://api.givegarden.info/api/posts/community?page=' + 1,
         {
@@ -91,13 +91,16 @@ const HomeScreen = () => {
       );
 
       if (response?.status == 200) {
+        console.log('response.data.data',response.data.data.length)
         setData(response.data.data);
         setCountPage(response.data.current_page + 1);
         setLastPage(response.data.last_page);
-        setLoadingPost(false);
+
+        setLoading(false);
       } else {
         console.log('fetchPostDataRefeshing');
-        setLoadingPost(false);
+
+        setLoading(false);
       }
     } catch (err) {
       console.error('fetchPostDataRefeshing', err);
@@ -106,7 +109,6 @@ const HomeScreen = () => {
 
   React.useEffect(() => {
     if (loading == true) {
-      setData([]);
       setTimeout(() => {
         fetchPostDataRefeshing();
       }, 1000);
