@@ -36,7 +36,7 @@ const Profile = () => {
 
   const pickImage = async type => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       aspect: [4, 3],
       quality: 1,
       selectionLimit: 1,
@@ -155,25 +155,32 @@ const Profile = () => {
                         alignItems: 'center',
                         color: 'white',
                       }}>
-                      <TouchableOpacity
+                       <TouchableOpacity
                         onPress={pickImage}
                         style={{
                           justifyContent: 'center',
                           alignItems: 'center',
+                          backgroundColor: 'white',
+                          zIndex: 10,
+                          height: 24,
+                          width: 24,
+                          position: 'absolute',
+                          borderRadius: 50,
+                          top: 80,
+                          right: 80,
                         }}>
                         <MaterialIcons
-                          style={{
-                            position: 'absolute',
-                            zIndex: 10,
-                            opacity: 0.3,
-                          }}
+                          style={{opacity: 0.5}}
                           name="camera-alt"
-                          size={36}
+                          size={16}
                           color="black"
                         />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={pickImage}>
                         {showImages === true ? (
                           <Image
                             style={{
+                              zIndex: 1,
                               height: 80,
                               width: 80,
                               borderRadius: 50,
@@ -184,6 +191,7 @@ const Profile = () => {
                         ) : (
                           <Image
                             style={{
+                              zIndex: 1,
                               height: 80,
                               width: 80,
                               borderRadius: 50,

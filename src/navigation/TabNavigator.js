@@ -21,11 +21,13 @@ import {
 } from 'react-native';
 import {ImageContext} from '../context/ImageContext';
 import {SlideContext} from '../context/SlideContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 import Union from '../../assets/images/Union.svg';
+
 
 function CustomerTabBarButton({children, onPress}) {
   return (
@@ -123,6 +125,7 @@ const NotificationStack = () => {
 const TabNavigator = ({navigation}) => {
   const dimensions = useWindowDimensions();
   const {slide, setSlide} = useContext(SlideContext);
+  const {isLoggedIn} = useContext(AuthContext)
   const {setImageUri, setModalVisibleStatus} = useContext(ImageContext);
   const CheckIn = props => <CheckInPost slide={slide} {...props} />;
   return (
@@ -163,6 +166,7 @@ const TabNavigator = ({navigation}) => {
             setSlide('home');
             setModalVisibleStatus(false);
             setImageUri('');
+            isLoggedIn()
           },
         })}
         component={HomeStack}
@@ -279,6 +283,7 @@ const TabNavigator = ({navigation}) => {
           tabBarIcon: ({color, size}) => (
             <Feather name="user" size={24} color={color} />
           ),
+          unmountOnBlur: true,
           headerTitleAlign: 'center',
         }}
       />
