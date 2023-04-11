@@ -4,7 +4,9 @@
     "slug": "givegarden",
     "version": "1.1.6",
     "icon": "./assets/images/noti.png",
-    
+    "updates": {
+      "checkAutomatically": "ON_ERROR_RECOVERY"
+    },
     "extra": {
       "eas": {
         "projectId": "7f68606c-9d95-495a-8cc6-ffd0dafb2a66"
@@ -26,6 +28,13 @@
       "expo-image-picker",
       {
         "photosPermission": "The app accesses your photos to let you share them with your friends."
+      }
+    ],
+    [
+      "expo-notifications",
+      {
+        "icon": "./assets/images/noti.png",
+        "color": "#ffffff"
       }
     ],
     [
