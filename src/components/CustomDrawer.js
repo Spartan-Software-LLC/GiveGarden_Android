@@ -26,7 +26,7 @@ const CustomDrawer = props => {
     
     await axios
       .post(
-        'https://api.givegarden.info/api/user/change-group',
+        'http://api.givegarden.info/api/user/change-group',
         {
           user_id: userInfo.id,
           group_id: group_id,

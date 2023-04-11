@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {
   SafeAreaView,
   RefreshControl,
@@ -37,11 +37,10 @@ const HomeScreen = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      // fetchPostDataRefeshing();
       setRefreshing(false);
-      setLoading(false)
+      setLoading(false);
     }, 1000);
   }, []);
 
@@ -49,7 +48,7 @@ const HomeScreen = () => {
     const fetchTopGroup = async () => {
       try {
         const response = await axios.post(
-          'https://api.givegarden.info/api/groups/index',
+          'http://api.givegarden.info/api/groups/index',
           {
             id: groupChange ? groupChange : userInfo?.group_id,
           },
@@ -78,7 +77,7 @@ const HomeScreen = () => {
   const fetchPostDataRefeshing = async () => {
     try {
       const response = await axios.post(
-        'https://api.givegarden.info/api/posts/community?page=' + 1,
+        'http://api.givegarden.info/api/posts/community?page=' + 1,
         {
           group_id: groupChange ? groupChange : userInfo?.group_id,
         },
@@ -91,7 +90,7 @@ const HomeScreen = () => {
       );
 
       if (response?.status == 200) {
-        console.log('response.data.data',response.data.data.length)
+        console.log('response.data.data', response.data.data.length);
         setData(response.data.data);
         setCountPage(response.data.current_page + 1);
         setLastPage(response.data.last_page);
@@ -122,7 +121,7 @@ const HomeScreen = () => {
       } else {
         setLoadingPost(true);
         const response = await axios.post(
-          'https://api.givegarden.info/api/posts/community?page=' + count_page,
+          'http://api.givegarden.info/api/posts/community?page=' + count_page,
           {
             group_id: userInfo?.group_id,
           },
@@ -148,6 +147,8 @@ const HomeScreen = () => {
       console.error('homescreen', err);
     }
   };
+
+  console.log('re-render')
 
   const renderFooterComponent = () => {
     return (
@@ -178,7 +179,7 @@ const HomeScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`https://api.givegarden.info/api/post/${id}`, {
+        .delete(`http://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -207,7 +208,7 @@ const HomeScreen = () => {
     }
   };
 
-  const renderItem = ({item, index}) => (
+  const renderItem = useCallback(({item, index}) => 
     <VerticalPostCard
       containerStyle={{
         marginLeft: 24,
@@ -223,7 +224,9 @@ const HomeScreen = () => {
       actionDelte={actionDelte}
       onPress={() => console.log('VerticalPostCard')}
     />
-  );
+  ,[]);
+
+  const keyExtractor = useCallback((item, index) => index, [])
 
   return (
     <>
@@ -288,7 +291,6 @@ const HomeScreen = () => {
             <View>
               <FlatList
                 data={data}
-                removeClippedSubviews={true}
                 ListHeaderComponent={
                   <View>
                     {/* View image  */}
@@ -413,12 +415,15 @@ const HomeScreen = () => {
                   </View>
                 }
                 initialNumToRender={data.length} // Reduce initial render amount
-                maxToRenderPerBatch={100}
+                legacyImplementation={false}
                 scrollEnabled={false}
-                updateCellsBatchingPeriod={100}
+                windowSize={21}
+                maxToRenderPerBatch={8}
+                updateCellsBatchingPeriod={10}
+                removeClippedSubviews={true}
                 onEndReached={fetchPostData}
-                onEndReachedThreshold={1}
-                keyExtractor={(item, index) => index}
+                onEndReachedThreshold={0.2}
+                keyExtractor={keyExtractor}
                 renderItem={renderItem}
                 ListFooterComponent={renderFooterComponent}
               />

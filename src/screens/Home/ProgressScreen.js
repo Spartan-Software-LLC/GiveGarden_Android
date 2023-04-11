@@ -46,7 +46,7 @@ const ProgessScreen = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'https://api.givegarden.info/api/post/progress',
+        'http://api.givegarden.info/api/post/progress',
         {
           user_id: userInfo.id,
           group_id: userInfo.group_id,
@@ -99,7 +99,7 @@ const ProgessScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`https://api.givegarden.info/api/post/${id}`, {
+        .delete(`http://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,

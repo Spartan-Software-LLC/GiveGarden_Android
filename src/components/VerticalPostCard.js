@@ -191,7 +191,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                   </Text>
                 </View>
               </View>
-              <Image
+              {/* <Image
                 source={{uri: `${dataPost?.user?.avatar}`}}
                 style={{
                   width: 40,
@@ -201,7 +201,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 placeholder={blurhash}
                 contentFit="cover"
                 transition={100}
-              />
+              /> */}
             </View>
             <View style={{flex: 2, marginLeft: 15}}>
               <View style={{display: 'flex', flexDirection: 'row'}}>
@@ -295,7 +295,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         {/* Content */}
         <View style={{marginTop: 10}}>
           <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
-          {dataPost?.images == null || dataPost?.images[0] == null ? (
+          {/* {dataPost?.images == null || dataPost?.images[0] == null ? (
             <></>
           ) : (
             <TouchableOpacity
@@ -315,7 +315,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 style={Styles.PostImage}
               />
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
 
         {/* Infor  actions*/}

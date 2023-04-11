@@ -103,7 +103,7 @@ const DetailPostScreen = ({route, navigation}) => {
 
   const actionDelte =async(dataPostId)=>{
     await axios
-    .delete(`https://api.givegarden.info/api/post/${dataPostId}`, {
+    .delete(`http://api.givegarden.info/api/post/${dataPostId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
