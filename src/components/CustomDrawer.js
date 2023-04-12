@@ -121,7 +121,7 @@ const CustomDrawer = props => {
                         // left: 20,
                         fontSize: 13,
                         marginLeft: 5,
-                        padingRight: 44,
+                        paddingRight: 44,
                         color: '#919EAB',
                       }}
                       >
@@ -165,7 +165,7 @@ const CustomDrawer = props => {
           </TouchableOpacity>
         </View>
         <View
-          style={{ paddingLeft:15, paddingTop: 15,paddingRight: 15, width: '50%', alignContent: 'left'}}
+          style={{ paddingLeft:15, paddingTop: 15,paddingRight: 15, width: '50%', alignContent: "flex-start"}}
         >
           <Text
             style={{

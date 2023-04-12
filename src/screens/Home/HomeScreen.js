@@ -324,7 +324,7 @@ const HomeScreen = () => {
                         top: 50,
                         left: 20,
                         fontWeight: 'bold',
-                        fontSize: '14',
+                        fontSize: 14,
                         color: 'white',
                       }}>
                       {(topGroup?.open_at)? moment(topGroup?.open_at).format('MM/DD/YYYY'): '' } {(topGroup?.expired_at)? "- "+moment(topGroup?.expired_at).format('MM/DD/YYYY'):''}

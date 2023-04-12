@@ -10,6 +10,7 @@ import {
   Image,
   useWindowDimensions,
   ActivityIndicator,
+  Dimensions
 } from 'react-native';
 // import {Image} from 'expo-image';
 import ExpoFastImage from 'expo-fast-image';
@@ -153,6 +154,11 @@ const VerticalPostCard = ({item, actionDelte}) => {
     }
   };
 
+  const deviceHeight = Dimensions.get('window').height;
+  const deviceWidth = Dimensions.get('window').width;
+  const heightApp = ( dataPost?.size?.height / 10 *deviceWidth / (dataPost?.size?.width/ 10))
+  
+
   return (
     <View style={Styles.CardStyle}>
       <View style={{flexDirection: 'column', marginTop: 10}}>
@@ -211,6 +217,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 style={{
                   width: 40,
                   height: 40,
+                  
                   borderRadius: 40,
                 }}
               /> */}
@@ -324,18 +331,15 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 })
               }
               style={Styles.ImageView}>
-              {/* <Image
-                source={{
-                  uri: dataPost?.images[0],
+              <CacheImage
+                uri={dataPost?.images[0]}
+                style={{
+                  // flex: 1,
+                  height: heightApp,
+                  width: deviceWidth - 20,
+                  // resizeMode: 'contain'
                 }}
-                style={Styles.PostImage}
-              /> */}
-              <ExpoFastImage
-  uri={dataPost?.images[0]} // image address
-  cacheKey={dataPost.id} // could be a unque id
-  style={Styles.PostImage} // your custom style object
-  // any supported props by Image
-/>
+              />
               {/* <ExpoFastImage
               cache={dataPost.id}
                 uri={dataPost?.images[0]}
