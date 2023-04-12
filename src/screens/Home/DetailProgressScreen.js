@@ -37,7 +37,7 @@ import axios from 'axios';
 Ionicons.loadFont();
 MaterialIcons.loadFont();
 
-let optionArray = ['Xóa', 'Báo cáo', 'Huỷ'];
+let optionArray = ['Xóa', 'Báo cáo', 'Bỏ Qua'];
 YellowBox.ignoreWarnings(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 const DetailPostScreen = ({route, navigation}) => {
 

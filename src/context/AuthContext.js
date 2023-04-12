@@ -12,6 +12,7 @@ export const AuthProvider = ({children}) => {
   const [isError, setIsError] = useState(false);
   const [Error, setError] = useState(false);
   const [token, setToken] = useState('');
+  const [err_message, setMessage] = useState('');
 
   const login = (email, otp) => {
     setIsLoading(true);
@@ -34,15 +35,18 @@ export const AuthProvider = ({children}) => {
           AsyncStorage.setItem('AccessToken', res?.data?.access_token);
           
         } else {
-          setIsError(true);
-          console.log('login fail')
+          // setIsError(true);
+          setError(true);
+          setMessage('Xin vui lòng liên hệ ban quản trị GIVE Garden để được đăng ký lớp học!')
+          // console.log('login fail')
         }
 
         setIsLoading(false);
       })
       .catch(e => {
-        console.log(`login error ${e}`);
+        // console.log(`login error ${e.message}`);
         setError(true);
+        setMessage('Sai mã xác nhận!')
         setIsLoading(false);
       });
   };
@@ -94,7 +98,8 @@ export const AuthProvider = ({children}) => {
         Error,setError,
         setSplashLoading,
         setLoading,
-        loading
+        loading,
+        err_message
       }}>
       {children}
     </AuthContext.Provider>

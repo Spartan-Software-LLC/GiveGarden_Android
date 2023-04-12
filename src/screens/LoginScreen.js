@@ -45,7 +45,7 @@ const LoginScreen = () => {
   const [countdown, setCountDown] = useState(200);
   const [emailError, setEmailError] = useState('');
   const [loginFail, setLoginFail] = useState(false);
-  const {login, Error, setError, isLoading} = useContext(AuthContext);
+  const {login, Error, setError, isLoading, err_message} = useContext(AuthContext);
   const [loadData, setLoadData] = useState(false);
   const [loadOtp, setLoadOtp] = useState(false);
   const sent_at = new Date();
@@ -69,9 +69,9 @@ const LoginScreen = () => {
   const emailValidator = () => {
     setLoginFail(false);
     if (email == '') {
-      setEmailError('Email field cannot be empty');
+      setEmailError('Vui lòng điền Email.');
     } else if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-      setEmailError('Email not valid');
+      setEmailError('Email không hợp lệ.');
     } else {
       setEmailError('');
     }
@@ -85,11 +85,11 @@ const LoginScreen = () => {
 
   const handleOtp = async () => {
     if (email == '') {
-      setEmailError('Email field cannot be empty');
+      setEmailError('Vui lòng điền Email.');
       return false;
     }
     if (!strongRegex.test(email)) {
-      setEmailError('Email not valid');
+      setEmailError('Email không hợp lệ.');
       return false;
     }
     try {
@@ -242,7 +242,7 @@ const LoginScreen = () => {
                   <>
                     <InputField
                       inputType={'OTP'}
-                      label={'OTP'}
+                      label={'Mã xác nhận được gửi qua Email'}
                       color="grey"
                       value={otp}
                       onChangeText={text => setOtp(text)}
@@ -263,7 +263,7 @@ const LoginScreen = () => {
                           color: 'red',
                           textAlign: 'center',
                         }}>
-                        Sai mã OTP
+                        {err_message}
                       </Text>
                     )}
                   </>

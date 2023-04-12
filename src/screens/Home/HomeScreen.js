@@ -19,8 +19,9 @@ import axios from 'axios';
 import VerticalPostCard from '../../components/VerticalPostCard';
 import {AuthContext} from '../../context/AuthContext';
 import {SlideContext} from '../../context/SlideContext';
+import adjust from "../../adjust";
 
-const Afternoon = require('../../../assets/images/frame.png');
+const Afternoon = require('../../../assets/images/layout_infor.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
 
 const HomeScreen = () => {
@@ -303,12 +304,16 @@ const HomeScreen = () => {
                     />
 
                     <Text
+                      adjustsFontSizeToFit={true}
+                      numberOfLines={1}
                       style={{
                         position: 'absolute',
-                        top: 16,
+                        top: 20,
                         left: 20,
+                        paddingRight: 44,
                         fontWeight: 'bold',
-                        fontSize: 30,
+                        fontSize: adjust(20),
+                        
                         color: 'white',
                       }}>
                       {topGroup?.title}
@@ -319,10 +324,10 @@ const HomeScreen = () => {
                         top: 50,
                         left: 20,
                         fontWeight: 'bold',
-                        fontSize: 16,
+                        fontSize: '14',
                         color: 'white',
                       }}>
-                      {moment(topGroup?.open_at).format('L')}
+                      {(topGroup?.open_at)? moment(topGroup?.open_at).format('MM/DD/YYYY'): '' } {(topGroup?.expired_at)? "- "+moment(topGroup?.expired_at).format('MM/DD/YYYY'):''}
                     </Text>
                     {/* Bảng xếp hạng */}
                     {userInfo.group_id == 5 ? (
@@ -333,7 +338,7 @@ const HomeScreen = () => {
                       <View style={{position: 'relative', marginTop: -30}}>
                         <View style={Styles.CardStyle}>
                           <Text style={Styles.titleTop}>
-                            BẢNG XẾP HẠNG NGƯỜI DÙNG CỦA THÁNG
+                            TOP 3 THI ĐUA CHECK IN
                           </Text>
 
                           {/* top rank user */}

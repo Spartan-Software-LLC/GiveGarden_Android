@@ -167,7 +167,7 @@ const Profile = () => {
                           position: 'absolute',
                           borderRadius: 50,
                           top: 80,
-                          right: 80,
+                          right: 60,
                         }}>
                         <MaterialIcons
                           style={{opacity: 0.5}}

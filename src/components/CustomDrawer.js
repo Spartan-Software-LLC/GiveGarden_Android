@@ -15,6 +15,7 @@ import {AuthContext} from '../context/AuthContext';
 import {SlideContext} from '../context/SlideContext';
 import axios from 'axios';
 import moment from 'moment';
+var pkg = require('../../package.json');
 
 Ionicons.loadFont();
 const CustomDrawer = props => {
@@ -99,12 +100,32 @@ const CustomDrawer = props => {
                       }}>
                       <Feather name="home" size={24} color={'#919EAB'} />
                       <Text
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={1}
                         style={{
+                          position: 'absolute',
+                          bottom:9,
                           fontSize: 16,
-                          marginLeft: 5,
+                          paddingLeft: 30,
+                          fontWeight: 'bold',
                           color: '#919EAB',
                         }}>
-                        {item?.title} | {moment(item?.open_at).format('L')}
+                        {item?.title}
+                      </Text>
+                      <Text 
+                      style={{
+                        position: 'absolute',
+                        top:14,
+                        left:25,
+                        // top: 90,
+                        // left: 20,
+                        fontSize: 13,
+                        marginLeft: 5,
+                        padingRight: 44,
+                        color: '#919EAB',
+                      }}
+                      >
+                        {(item?.open_at)? moment(item?.open_at).format('MM/DD/YYYY'): '' } {(item?.expired_at)? "- "+moment(item?.expired_at).format('MM/DD/YYYY'):''}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -114,25 +135,50 @@ const CustomDrawer = props => {
           )}
         </View>
       </ScrollView>
-      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
-        <TouchableOpacity
-          onPress={() => {
-            logout();
-          }}
-          style={{paddingVertical: 15}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Ionicons name="exit-outline" size={24} color={'#919EAB'} />
-            <Text
-              style={{
-                fontSize: 15,
-                marginLeft: 5,
-                color: '#919EAB',
-              }}>
-              Đăng xuất
-            </Text>
-          </View>
-        </TouchableOpacity>
+      <View style={{
+        borderTopWidth: 1, 
+        borderTopColor: '#ccc',
+        // flex: 1,
+        paddingBottom: 20,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start'
+      }}>
+        <View style={{paddingLeft: 15, width: '50%'}}>
+          <TouchableOpacity
+            onPress={() => {
+              logout();
+            }}
+            style={{paddingVertical: 10}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Ionicons name="exit-outline" size={24} color={'#919EAB'} />
+              <Text
+                style={{
+                  fontSize: 15,
+                  marginLeft: 5,
+                  color: '#919EAB',
+                }}>
+                Đăng xuất
+              </Text>
+              
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{ paddingLeft:15, paddingTop: 15,paddingRight: 15, width: '50%', alignContent: 'left'}}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              marginLeft: 5,
+              color: '#919EAB',
+              textAlign: 'right'
+            }}>
+            Phiên bản {pkg.version}
+          </Text>
+        </View>
       </View>
+      
     </View>
   );
 };

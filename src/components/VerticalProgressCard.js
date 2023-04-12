@@ -36,7 +36,7 @@ import axios from 'axios';
 Ionicons.loadFont();
 MaterialIcons.loadFont();
 
-let optionArray = ['Xóa', 'Báo cáo', 'Huỷ'];
+let optionArray = ['Xóa', 'Báo cáo', 'Bỏ Qua'];
 
 const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
   const {token, userInfo} = useContext(AuthContext);

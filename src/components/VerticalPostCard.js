@@ -31,7 +31,7 @@ import axios from 'axios';
 
 Ionicons.loadFont();
 MaterialIcons.loadFont();
-let optionArray = ['Xóa', 'Báo cáo', 'Huỷ'];
+let optionArray = ['Xóa', 'Báo cáo', 'Bỏ Qua'];
 const VerticalPostCard = ({item, actionDelte}) => {
   const [dataPost, setDataPost] = useState(item);
   const {token, userInfo} = useContext(AuthContext);
@@ -181,19 +181,22 @@ const VerticalPostCard = ({item, actionDelte}) => {
               style={{
                 position: 'relative',
               }}>
-              <View style={Styles.headerLeftImage}>
-                <View style={Styles.headerLeftCount}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      color: 'white',
-                      fontSize: 10,
-                      fontWeight: 'bold',
-                    }}>
-                    {dataPost?.user?.level}
-                  </Text>
+              {dataPost?.user?.role == 'member' ? 
+                <View style={Styles.headerLeftImage}>
+                  <View style={Styles.headerLeftCount}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: 'white',
+                        fontSize: 10,
+                        fontWeight: 'bold',
+                      }}>
+                      {dataPost?.user?.level}
+                    </Text>
+                  </View>  
                 </View>
-              </View>
+
+                :""}
               {/* <Image
                 source={{uri: `${dataPost?.user?.avatar}`}}
                 style={{
@@ -519,7 +522,7 @@ const Styles = StyleSheet.create({
   ImageView: {
     maxHeight: 400,
     width: '100%',
-    marginTop: 4,
+    marginTop: 10,
   },
   PostImage: {
     width: '100%',
