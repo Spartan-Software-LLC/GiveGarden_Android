@@ -8,9 +8,11 @@ import {
   Share,
   Alert,
   Image,
-  useWindowDimensions 
+  useWindowDimensions,
+  ActivityIndicator,
 } from 'react-native';
 // import {Image} from 'expo-image';
+import ExpoFastImage from 'expo-fast-image';
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -23,6 +25,7 @@ import {
 import ActionSheet from 'react-native-actionsheet';
 import moment from 'moment';
 import {AuthContext} from '../context/AuthContext';
+import CacheImage from './CacheImage';
 import socket from '../utils/socket';
 import axios from 'axios';
 
@@ -198,10 +201,21 @@ const VerticalPostCard = ({item, actionDelte}) => {
                   height: 40,
                   borderRadius: 40,
                 }}
-                placeholder={blurhash}
-                contentFit="cover"
-                transition={100}
               /> */}
+              {/* <ExpoFastImage
+                uri={dataPost?.user?.avatar}
+                cacheKey={dataPost?.user?.avatar}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 40,
+                }}
+              /> */}
+              <CacheImage uri={dataPost?.user?.avatar} style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 40,
+                }}/>
             </View>
             <View style={{flex: 2, marginLeft: 15}}>
               <View style={{display: 'flex', flexDirection: 'row'}}>
@@ -295,7 +309,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         {/* Content */}
         <View style={{marginTop: 10}}>
           <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
-          {/* {dataPost?.images == null || dataPost?.images[0] == null ? (
+          {dataPost?.images == null || dataPost?.images[0] == null ? (
             <></>
           ) : (
             <TouchableOpacity
@@ -307,15 +321,25 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 })
               }
               style={Styles.ImageView}>
-            
-              <Image
+              {/* <Image
                 source={{
                   uri: dataPost?.images[0],
                 }}
                 style={Styles.PostImage}
-              />
+              /> */}
+              <ExpoFastImage
+  uri={dataPost?.images[0]} // image address
+  cacheKey={dataPost.id} // could be a unque id
+  style={Styles.PostImage} // your custom style object
+  // any supported props by Image
+/>
+              {/* <ExpoFastImage
+              cache={dataPost.id}
+                uri={dataPost?.images[0]}
+                style={Styles.PostImage}
+              /> */}
             </TouchableOpacity>
-          )} */}
+          )}
         </View>
 
         {/* Infor  actions*/}
@@ -416,11 +440,11 @@ const VerticalPostCard = ({item, actionDelte}) => {
         <ActionSheet
           ref={actionSheet}
           // title={'What do you do ?'}
-          
+
           options={optionArray}
           cancelButtonIndex={2}
           onPress={index => {
-            onClickSheet(index+1);
+            onClickSheet(index + 1);
           }}
         />
       </View>
