@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "105419260232",
+    "project_id": "givegarden-notification-expo",
+    "storage_bucket": "givegarden-notification-expo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105419260232:android:f735ac019e047f6afe337d",
+        "android_client_info": {
+          "package_name": "com.tranthanhuet.givegarden"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105419260232-mnlgmbns88boi945hb0krla5mm2koddf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy0Odq-k1kDSP93gHgs9QmFKeEA3LiRVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105419260232-mnlgmbns88boi945hb0krla5mm2koddf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useContext} from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   RefreshControl,
@@ -23,7 +23,7 @@ import adjust from "../../adjust";
 
 const Afternoon = require('../../../assets/images/layout_infor.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
-
+// console.log(pkg.version);
 const HomeScreen = () => {
   const {userInfo, token, loading, setLoading} = useContext(AuthContext);
   const {groupChange} = useContext(SlideContext);
@@ -38,10 +38,11 @@ const HomeScreen = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setLoading(true);
+    setLoading(true)
     setTimeout(() => {
+      // fetchPostDataRefeshing();
       setRefreshing(false);
-      setLoading(false);
+      setLoading(false)
     }, 1000);
   }, []);
 
@@ -91,14 +92,12 @@ const HomeScreen = () => {
       );
 
       if (response?.status == 200) {
-        console.log('response.data.data', response.data.data.length);
         setData(response.data.data);
         setCountPage(response.data.current_page + 1);
         setLastPage(response.data.last_page);
 
         setLoading(false);
       } else {
-        console.log('fetchPostDataRefeshing');
 
         setLoading(false);
       }
@@ -148,8 +147,6 @@ const HomeScreen = () => {
       console.error('homescreen', err);
     }
   };
-
-  console.log('re-render')
 
   const renderFooterComponent = () => {
     return (
@@ -209,7 +206,7 @@ const HomeScreen = () => {
     }
   };
 
-  const renderItem = useCallback(({item, index}) => 
+  const renderItem = ({item, index}) => (
     <VerticalPostCard
       containerStyle={{
         marginLeft: 24,
@@ -221,13 +218,12 @@ const HomeScreen = () => {
         width: 150,
       }}
       item={item}
-      key={index}
+      key={item.id}
+      
       actionDelte={actionDelte}
       onPress={() => console.log('VerticalPostCard')}
     />
-  ,[]);
-
-  const keyExtractor = useCallback((item, index) => index, [])
+  );
 
   return (
     <>
@@ -244,6 +240,7 @@ const HomeScreen = () => {
       ) : data.length <= 0 && loadingPost == false ? (
         <ScrollView
           style={{height: '100%'}}
+          decelerationRate="normal"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -292,6 +289,7 @@ const HomeScreen = () => {
             <View>
               <FlatList
                 data={data}
+                removeClippedSubviews={true}
                 ListHeaderComponent={
                   <View>
                     {/* View image  */}
@@ -304,8 +302,8 @@ const HomeScreen = () => {
                     />
 
                     <Text
-                      adjustsFontSizeToFit={true}
-                      numberOfLines={1}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={1}
                       style={{
                         position: 'absolute',
                         top: 20,
@@ -419,16 +417,13 @@ const HomeScreen = () => {
                     )}
                   </View>
                 }
-                initialNumToRender={data.length} // Reduce initial render amount
-                legacyImplementation={false}
+                initialNumToRender={8} // Reduce initial render amount
+                maxToRenderPerBatch={100}
                 scrollEnabled={false}
-                windowSize={21}
-                maxToRenderPerBatch={8}
-                updateCellsBatchingPeriod={10}
-                removeClippedSubviews={true}
+                updateCellsBatchingPeriod={100}
                 onEndReached={fetchPostData}
-                onEndReachedThreshold={0.2}
-                keyExtractor={keyExtractor}
+                onEndReachedThreshold={1}
+                keyExtractor={(item, index) => index}
                 renderItem={renderItem}
                 ListFooterComponent={renderFooterComponent}
               />

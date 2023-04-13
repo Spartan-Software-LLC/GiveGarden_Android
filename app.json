@@ -47,8 +47,11 @@
   ],
   "android": {
     "package": "com.givegarden",
-    "versionCode": 2
+    "versionCode": 2,
+    "googleServicesFile": "./google-services.json",
+    "useNextNotificationsApi": true
   },
+  
   "packagerOpts": {
     "config": "metro.config.js",
     "sourceExts": [

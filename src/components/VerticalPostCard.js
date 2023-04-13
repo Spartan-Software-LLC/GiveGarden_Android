@@ -12,8 +12,6 @@ import {
   ActivityIndicator,
   Dimensions
 } from 'react-native';
-// import {Image} from 'expo-image';
-import ExpoFastImage from 'expo-fast-image';
 import React, {useState, useRef, useEffect, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -153,8 +151,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
       ]);
     }
   };
-
-  const deviceHeight = Dimensions.get('window').height;
+  
   const deviceWidth = Dimensions.get('window').width;
   const heightApp = ( dataPost?.size?.height / 10 *deviceWidth / (dataPost?.size?.width/ 10))
   
@@ -211,20 +208,11 @@ const VerticalPostCard = ({item, actionDelte}) => {
                   borderRadius: 40,
                 }}
               /> */}
-              {/* <ExpoFastImage
-                uri={dataPost?.user?.avatar}
-                cacheKey={dataPost?.user?.avatar}
-                style={{
-                  width: 40,
-                  height: 40,
-                  
-                  borderRadius: 40,
-                }}
-              /> */}
               <CacheImage uri={dataPost?.user?.avatar} style={{
                   width: 40,
                   height: 40,
                   borderRadius: 40,
+                  resizeMode: 'contain'
                 }}/>
             </View>
             <View style={{flex: 2, marginLeft: 15}}>
@@ -524,7 +512,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   ImageView: {
-    maxHeight: 400,
+    // maxHeight: 400,
     width: '100%',
     marginTop: 10,
   },

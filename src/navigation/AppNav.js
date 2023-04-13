@@ -11,7 +11,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Device from 'expo-device';
 import axios from 'axios';
 import * as Notifications from 'expo-notifications';
-
+import PushNotification, {Importance} from 'react-native-push-notification';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import * as SplashScreen from 'expo-splash-screen';
@@ -42,6 +42,7 @@ const AppNav = () => {
   const notificationListener = useRef();
   const responseListener = useRef();
   const lastNotificationResponse = Notifications.useLastNotificationResponse();
+  
   useEffect(() => {
     // dang ky thong bao
     registerForPushNotificationsAsync().then(tokenRes => {
@@ -163,6 +164,7 @@ async function registerForPushNotificationsAsync() {
       lightColor: '#FF231F7C',
     });
   }
+
 
   return token;
 }
