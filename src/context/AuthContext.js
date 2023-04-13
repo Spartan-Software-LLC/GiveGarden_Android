@@ -70,10 +70,10 @@ export const AuthProvider = ({children}) => {
         setUserInfo(data.data);
         setToken(access_token);
       }else {
-        console.log('Access token not available')
+        // console.log('Access token not available')
       }
     } catch (e) {
-      console.log(`is logged in error ${e}`);
+      // console.log(`is logged in error ${e}`);
     }
   };
 

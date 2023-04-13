@@ -88,7 +88,7 @@ const AppNav = () => {
             },
           },
         )
-        .then(response => console.log('response-app-anv'))
+        .then(response)
         .catch(err => console.log('err-app-anv', err));
     };
     dataRes();

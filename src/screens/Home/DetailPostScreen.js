@@ -136,7 +136,6 @@ const DetailPostScreen = ({route, navigation}) => {
         Alert.alert('GIVE Garden', 'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?', [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
           {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},
@@ -145,7 +144,6 @@ const DetailPostScreen = ({route, navigation}) => {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
           {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},

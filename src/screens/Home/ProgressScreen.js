@@ -252,7 +252,6 @@ const ProgessScreen = () => {
                     <VerticalProgressCard
                       item={item}
                       actionDelte={actionDelte}
-                      onPress={() => console.log('VerticalProgressCard')}
                     />
                   )}
                 />

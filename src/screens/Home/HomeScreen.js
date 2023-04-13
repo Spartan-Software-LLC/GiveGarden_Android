@@ -66,7 +66,7 @@ const HomeScreen = () => {
           setTopGroup(response.data);
         }
       } catch (err) {
-        console.log('homescreen1', err);
+        // console.log('homescreen1', err);
       }
     };
     fetchTopGroup();
@@ -139,12 +139,10 @@ const HomeScreen = () => {
           setLastPage(response.data.last_page);
           setLoadingPost(false);
         } else {
-          console.log('err');
           setLoadingPost(false);
         }
       }
     } catch (err) {
-      console.error('homescreen', err);
     }
   };
 
@@ -221,7 +219,6 @@ const HomeScreen = () => {
       key={item.id}
       
       actionDelte={actionDelte}
-      onPress={() => console.log('VerticalPostCard')}
     />
   );
 

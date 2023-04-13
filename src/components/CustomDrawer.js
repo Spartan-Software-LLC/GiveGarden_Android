@@ -44,7 +44,6 @@ const CustomDrawer = props => {
         setLoading(true);
       })
       .catch(error => {
-        console.log('error', error);
         setLoading(false);
       });
   };

@@ -68,7 +68,6 @@ const Notification = () => {
             renderItem={({item, index}) => (
               <VerticalNotification
                 item={item}
-                onPress={() => console.log('VerticalNotification')}
               />
             )}
           />

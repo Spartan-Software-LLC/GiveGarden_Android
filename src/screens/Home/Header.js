@@ -11,7 +11,6 @@ const Avatar = require('../../../assets/images/avatar_default.jpg');
 const Header = () => {
   const [topGroup, setTopGroup] = React.useState();
   const {userInfo, token} = useContext(AuthContext);
-  console.log('header')
 
   React.useEffect(() => {
     const fetchPost = async () => {
@@ -33,7 +32,7 @@ const Header = () => {
           setTopGroup(response.data);
         }
       } catch (err) {
-        console.log('homescreen1', err);
+        // console.log('homescreen1', err);
       }
     };
     fetchPost();

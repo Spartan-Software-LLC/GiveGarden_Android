@@ -116,7 +116,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
             [
               {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                // onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
               {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
@@ -126,7 +126,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
           Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
             {
               text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
+              // onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
             {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
@@ -136,7 +136,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
+            // onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
           {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},

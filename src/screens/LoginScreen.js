@@ -131,11 +131,9 @@ const LoginScreen = () => {
           setError(false);
           setLoadOtp(false);
         } else {
-          console.log('resres', resData);
           setLoadOtp(false);
         }
       } else {
-        console.log('Loi otp');
         loadOtp(false);
       }
 
