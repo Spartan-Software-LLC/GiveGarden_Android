@@ -35,12 +35,14 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [count_page, setCountPage] = React.useState(1);
   const [last_page, setLastPage] = React.useState(100);
+  const [onReached, setOnReached] = React.useState(false); 
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setLoadingU(false)
     setLoading(true);
     setCountPage(1)
+    setOnReached(false)
     setTimeout(() => {
       // fetchPostDataRefeshing();
       setRefreshing(false);
@@ -74,7 +76,7 @@ const HomeScreen = () => {
 
   React.useEffect(() => {
     fetchPostData();
-  }, [count_page]);
+  }, [onReached]);
 
   const fetchPostDataRefeshing = async () => {
     try {
@@ -93,7 +95,7 @@ const HomeScreen = () => {
 
       if (response?.status == 200) {
         setData(response.data.data);
-        setCountPage(2);
+        setCountPage(response.data.current_page+1);
         setLastPage(response.data.last_page);
 
         setLoading(false);
@@ -102,10 +104,12 @@ const HomeScreen = () => {
       }
     } catch (err) {}
   };
-
   React.useEffect(() => {
-    if (loading == true) {
+    if (loading == true || groupChange) {
       setTimeout(() => {
+        setCountPage(1)
+        setLoadingU(false)
+        setOnReached(false)
         fetchPostDataRefeshing();
       }, 1000);
     }
@@ -115,8 +119,10 @@ const HomeScreen = () => {
     try {
       if (last_page < count_page) {
         setLoadingU(true);
+        setOnReached(true)
       } else {
         setLoadingPost(true);
+        setOnReached(false)
         const response = await axios.post(
           'http://api.givegarden.info/api/posts/community?page=' + count_page,
           {
@@ -132,7 +138,7 @@ const HomeScreen = () => {
 
         if (response?.status == 200) {
           setData([...data, ...response.data.data]);
-          // setCountPage(count_page + 1);
+          setCountPage(count_page + 1);
           setLastPage(response.data.last_page);
           setLoadingPost(false);
         } else {
@@ -143,10 +149,9 @@ const HomeScreen = () => {
   };
   const onEndReached = (page) => {
     if (!isLoadingU) {
-      setCountPage(count_page+1)
+      setOnReached(true)
     }
   }
-
 
   const renderFooterComponent = () => {
     return (

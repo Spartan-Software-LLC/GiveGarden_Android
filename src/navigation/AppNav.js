@@ -11,7 +11,6 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Device from 'expo-device';
 import axios from 'axios';
 import * as Notifications from 'expo-notifications';
-import PushNotification, {Importance} from 'react-native-push-notification';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import * as SplashScreen from 'expo-splash-screen';
