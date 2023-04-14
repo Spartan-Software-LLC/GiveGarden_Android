@@ -48,7 +48,7 @@
     ]
   ],
   "android": {
-    "package": "com.givegarden",
+    "package": "com.tranthanhuet.givegarden",
     "versionCode": 2,
     "googleServicesFile": "./google-services.json",
     "useNextNotificationsApi": true
