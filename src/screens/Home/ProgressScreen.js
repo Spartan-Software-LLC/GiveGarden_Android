@@ -66,7 +66,6 @@ const ProgessScreen = () => {
       }
       setLoading(false);
     } catch (err) {
-      console.log('progress', err);
     }
   };
 

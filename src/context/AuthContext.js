@@ -35,16 +35,13 @@ export const AuthProvider = ({children}) => {
           AsyncStorage.setItem('AccessToken', res?.data?.access_token);
           
         } else {
-          // setIsError(true);
           setError(true);
           setMessage('Xin vui lòng liên hệ ban quản trị GIVE Garden để được đăng ký lớp học!')
-          // console.log('login fail')
         }
 
         setIsLoading(false);
       })
       .catch(e => {
-        // console.log(`login error ${e.message}`);
         setError(true);
         setMessage('Sai mã xác nhận!')
         setIsLoading(false);
@@ -70,10 +67,8 @@ export const AuthProvider = ({children}) => {
         setUserInfo(data.data);
         setToken(access_token);
       }else {
-        // console.log('Access token not available')
       }
     } catch (e) {
-      // console.log(`is logged in error ${e}`);
     }
   };
 

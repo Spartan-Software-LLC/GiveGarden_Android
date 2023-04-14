@@ -57,7 +57,6 @@ const AppNav = () => {
     // phan hoi listen
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener(response => {
-        console.log('response', response);
       });
 
     responseListener.current = Notifications.setBadgeCountAsync(
@@ -89,7 +88,7 @@ const AppNav = () => {
           },
         )
         .then(response)
-        .catch(err => console.log('err-app-anv', err));
+        .catch(err);
     };
     dataRes();
   }, [token]);
@@ -151,7 +150,6 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }

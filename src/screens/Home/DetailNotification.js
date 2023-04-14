@@ -180,7 +180,7 @@ const DetailNotification = ({route, navigation}) => {
           ]);
         }
       })
-      .catch(err => console.log('err', err));
+      .catch(err);
   };
 
   const ShowModalFunction = (visible, ImageURL) => {

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useMemo, useRef,memo} from 'react';
 import {
   SafeAreaView,
   RefreshControl,
@@ -19,11 +19,11 @@ import axios from 'axios';
 import VerticalPostCard from '../../components/VerticalPostCard';
 import {AuthContext} from '../../context/AuthContext';
 import {SlideContext} from '../../context/SlideContext';
-import adjust from "../../adjust";
+import adjust from '../../adjust';
 
 const Afternoon = require('../../../assets/images/layout_infor.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
-// console.log(pkg.version);
+
 const HomeScreen = () => {
   const {userInfo, token, loading, setLoading} = useContext(AuthContext);
   const {groupChange} = useContext(SlideContext);
@@ -38,11 +38,13 @@ const HomeScreen = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setLoading(true)
+    setLoadingU(false)
+    setLoading(true);
+    setCountPage(1)
     setTimeout(() => {
       // fetchPostDataRefeshing();
       setRefreshing(false);
-      setLoading(false)
+      setLoading(false);
     }, 1000);
   }, []);
 
@@ -65,16 +67,14 @@ const HomeScreen = () => {
         if (response.status == 200) {
           setTopGroup(response.data);
         }
-      } catch (err) {
-        // console.log('homescreen1', err);
-      }
+      } catch (err) {}
     };
     fetchTopGroup();
   }, [groupChange, loading]);
 
   React.useEffect(() => {
     fetchPostData();
-  }, []);
+  }, [count_page]);
 
   const fetchPostDataRefeshing = async () => {
     try {
@@ -93,17 +93,14 @@ const HomeScreen = () => {
 
       if (response?.status == 200) {
         setData(response.data.data);
-        setCountPage(response.data.current_page + 1);
+        setCountPage(2);
         setLastPage(response.data.last_page);
 
         setLoading(false);
       } else {
-
         setLoading(false);
       }
-    } catch (err) {
-      console.error('fetchPostDataRefeshing', err);
-    }
+    } catch (err) {}
   };
 
   React.useEffect(() => {
@@ -135,16 +132,21 @@ const HomeScreen = () => {
 
         if (response?.status == 200) {
           setData([...data, ...response.data.data]);
-          setCountPage(count_page + 1);
+          // setCountPage(count_page + 1);
           setLastPage(response.data.last_page);
           setLoadingPost(false);
         } else {
           setLoadingPost(false);
         }
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   };
+  const onEndReached = (page) => {
+    if (!isLoadingU) {
+      setCountPage(count_page+1)
+    }
+  }
+
 
   const renderFooterComponent = () => {
     return (
@@ -216,12 +218,12 @@ const HomeScreen = () => {
         width: 150,
       }}
       item={item}
-      key={item.id}
-      
+      key={index}
       actionDelte={actionDelte}
     />
   );
 
+  const onEndReachedCalledDuringMomentum = useRef(true);
   return (
     <>
       {data.length <= 0 && loadingPost == true ? (
@@ -237,7 +239,6 @@ const HomeScreen = () => {
       ) : data.length <= 0 && loadingPost == false ? (
         <ScrollView
           style={{height: '100%'}}
-          decelerationRate="normal"
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -286,6 +287,7 @@ const HomeScreen = () => {
             <View>
               <FlatList
                 data={data}
+                renderItem={renderItem}
                 removeClippedSubviews={true}
                 ListHeaderComponent={
                   <View>
@@ -299,8 +301,8 @@ const HomeScreen = () => {
                     />
 
                     <Text
-                    adjustsFontSizeToFit={true}
-                    numberOfLines={1}
+                      adjustsFontSizeToFit={true}
+                      numberOfLines={1}
                       style={{
                         position: 'absolute',
                         top: 20,
@@ -308,7 +310,7 @@ const HomeScreen = () => {
                         paddingRight: 44,
                         fontWeight: 'bold',
                         fontSize: adjust(20),
-                        
+
                         color: 'white',
                       }}>
                       {topGroup?.title}
@@ -322,7 +324,13 @@ const HomeScreen = () => {
                         fontSize: 14,
                         color: 'white',
                       }}>
-                      {(topGroup?.open_at)? moment(topGroup?.open_at).format('MM/DD/YYYY'): '' } {(topGroup?.expired_at)? "- "+moment(topGroup?.expired_at).format('MM/DD/YYYY'):''}
+                      {topGroup?.open_at
+                        ? moment(topGroup?.open_at).format('MM/DD/YYYY')
+                        : ''}{' '}
+                      {topGroup?.expired_at
+                        ? '- ' +
+                          moment(topGroup?.expired_at).format('MM/DD/YYYY')
+                        : ''}
                     </Text>
                     {/* Bảng xếp hạng */}
                     {userInfo.group_id == 5 ? (
@@ -414,14 +422,15 @@ const HomeScreen = () => {
                     )}
                   </View>
                 }
-                initialNumToRender={8} // Reduce initial render amount
-                maxToRenderPerBatch={100}
-                scrollEnabled={false}
-                updateCellsBatchingPeriod={100}
-                onEndReached={fetchPostData}
-                onEndReachedThreshold={1}
-                keyExtractor={(item, index) => index}
-                renderItem={renderItem}
+                i
+                initialNumToRender={data.length}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.7}
+                onMomentumScrollBegin={() => {
+                  onEndReachedCalledDuringMomentum.current = false;
+                }}
+                // onEndReached={fetchPostData}
+                keyExtractor={(item, index) => 'key' + index}
                 ListFooterComponent={renderFooterComponent}
               />
             </View>

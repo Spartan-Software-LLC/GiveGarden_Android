@@ -32,7 +32,6 @@ const Header = () => {
           setTopGroup(response.data);
         }
       } catch (err) {
-        // console.log('homescreen1', err);
       }
     };
     fetchPost();

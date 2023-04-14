@@ -232,22 +232,7 @@ const Profile = () => {
                 <Spacer height={20} />
                 {/* Input info change  */}
                 <View>
-                  <View style={styles.ViewForm}>
-                    <Text style={styles.NameInput}>Unique ID (*)</Text>
-                    <TextInput
-                      editable={false}
-                      selectTextOnFocus={false}
-                      style={styles.TextInput}
-                      placeholder={
-                        `${userInfo.id}`
-                          ? `${userInfo.country_code}-00000${userInfo.id}`
-                          : 'Chưa cập nhật'
-                      }
-                      placeholderTextColor="green"
-                      keyboardType={`default`}
-                      focusable={false}
-                    />
-                  </View>
+                  
                   <View style={styles.ViewForm}>
                     <Text style={styles.NameInput}>Họ và tên</Text>
                     <TextInput
