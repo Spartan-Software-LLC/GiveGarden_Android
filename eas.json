@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 3.8.0"
+    "version": ">= 3.9.2"
   },
   "build": {
     "development": {
@@ -8,29 +8,32 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
-      }
+      },
+      "channel": "preview"
     },
-    "production": {
+    "production-android": {
       "ios": {
         "resourceClass": "m-medium"
-      }
+      },
+      "channel": "production-android"
     }
   },
   "submit": {
     "production": {
-      "ios":{
+      "ios": {
         "appleId": "danieltrinh29@gmail.com",
         "ascAppId": "6446326929",
         "appleTeamId": "3Q87NQ7R2Q"
       },
-      "android":{
-        "serviceAccountKeyPath":"../givegarden/pc-api-4666331775527642913-356-a5ca9273f435.json"
+      "android": {
+        "serviceAccountKeyPath": "../givegarden/pc-api-4666331775527642913-356-a5ca9273f435.json"
       }
     }
   }

@@ -5,17 +5,6 @@
  * @format
  */
 
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-        assetPlugins: ['expo-asset/tools/hashAssetFiles']
-      },
-    }),
-  },
-};
 
 const {getDefaultConfig} = require('metro-config');
 
@@ -26,6 +15,7 @@ module.exports = (async () => {
   return {
     transformer: {
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
+      assetPlugins: ['expo-asset/tools/hashAssetFiles'],
     },
     resolver: {
       assetExts: assetExts.filter(ext => ext !== 'svg'),
