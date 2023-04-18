@@ -334,7 +334,7 @@ const LoginScreen = () => {
                       />
                       <TouchableOpacity onPress={onPress}>
                         <Text style={styles.label}>
-                          Tôi đồng ý với các điều khoản và điều kiện của GIVE Garden
+                          Tôi Xác nhận với các điều khoản và điều kiện của GIVE Garden
                         </Text>
                       </TouchableOpacity>
                     </View>

@@ -11,6 +11,8 @@ import {
   Alert,
   TouchableOpacity,
   useWindowDimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {Image} from 'expo-image';
 import {
@@ -19,6 +21,7 @@ import {
   AntDesign,
   FontAwesome,
 } from '@expo/vector-icons';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ImageModal from 'react-native-image-modal';
 import ActionSheet from 'react-native-actionsheet';
 import axios from 'axios';
@@ -62,7 +65,6 @@ const DetailNotification = ({route, navigation}) => {
       if (res.status == 200) {
         setData(res?.data);
       } else {
-        console.error('Error getting');
       }
     };
     fetchData();
@@ -111,7 +113,7 @@ const DetailNotification = ({route, navigation}) => {
   };
 
   const submitPost = async () => {
-    if (value === '') {
+    if (value == '' || value === undefined) {
       Alert.alert('GIVE Garden', 'Nhập lý do', [
         {
           text: 'Xác nhận',
@@ -135,18 +137,18 @@ const DetailNotification = ({route, navigation}) => {
         )
         .then(res => {
           if (res.status == 200) {
-            setData('');
+            setData();
             setShowDelete(false);
             Alert.alert('GIVE Garden', 'Hủy bài thành công', [
               {
                 text: 'Xác nhận',
-                onPress: () => navigation.navigate('Notifications'),
+                onPress: () => navigation.navigate('NotificationList'),
                 style: 'cancel',
               },
             ]);
           }
         })
-        .catch(err);
+        .catch(err => console.log(err));
     }
   };
 
@@ -194,315 +196,317 @@ const DetailNotification = ({route, navigation}) => {
   };
 
   const date = new Date(data?.created_at ? data?.created_at : []);
- 
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 80}>
-      <View style={Styles.container}>
-        {typeof data == 'object' && data?.content == '' ? (
-          <View style={{justifyContent: 'center'}}>
-            <Text style={{textAlign: 'center', paddingTop: 20}}>
-              Không có dữ liệu
-            </Text>
-          </View>
-        ) : (
-          <>
-            {modalVisibleStatus == false ? (
-              <View>
-                <View style={{marginTop: 10}}>
-                  {loading == false && (
-                    <View style={Styles.CardStyle}>
-                      {/* Header  */}
-                      <View
-                        style={{
-                          marginTop: 10,
-                          alignItems: 'center',
-                          flexDirection: 'row',
-                        }}>
-                        {/* Header Left  */}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 80}>
+        <View style={Styles.container}>
+          {typeof data == 'object' && data?.content == '' ? (
+            <View style={{justifyContent: 'center'}}>
+              <Text style={{textAlign: 'center', paddingTop: 20}}>
+                Không có dữ liệu
+              </Text>
+            </View>
+          ) : (
+            <>
+              {modalVisibleStatus == false ? (
+                <View>
+                  <View style={{marginTop: 10}}>
+                    {loading == false && (
+                      <View style={Styles.CardStyle}>
+                        {/* Header  */}
                         <View
                           style={{
-                            flex: 1,
+                            marginTop: 10,
+                            alignItems: 'center',
                             flexDirection: 'row',
                           }}>
+                          {/* Header Left  */}
                           <View
                             style={{
-                              position: 'relative',
+                              flex: 1,
+                              flexDirection: 'row',
                             }}>
                             <View
                               style={{
-                                width: 20,
-                                height: 20,
-                                borderRadius: 40,
-                                backgroundColor: 'white',
-                                position: 'absolute',
-                                zIndex: 100,
-                                top: -4,
-                                left: 30,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                position: 'relative',
                               }}>
                               <View
                                 style={{
-                                  width: 17,
-                                  height: 17,
-                                  borderRadius: 50,
-                                  backgroundColor: '#10C45C',
+                                  width: 20,
+                                  height: 20,
+                                  borderRadius: 40,
+                                  backgroundColor: 'white',
+                                  position: 'absolute',
+                                  zIndex: 100,
+                                  top: -4,
+                                  left: 30,
+                                  display: 'flex',
                                   justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <View
+                                  style={{
+                                    width: 17,
+                                    height: 17,
+                                    borderRadius: 50,
+                                    backgroundColor: '#10C45C',
+                                    justifyContent: 'center',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      textAlign: 'center',
+                                      color: 'white',
+                                      fontSize: 10,
+                                      fontWeight: 'bold',
+                                    }}>
+                                    {data?.user?.level}
+                                  </Text>
+                                </View>
+                              </View>
+                              <Image
+                                source={{
+                                  uri: data?.user?.avatar,
+                                }}
+                                style={{
+                                  width: 40,
+                                  height: 40,
+                                  borderRadius: 40,
+                                }}
+                              />
+                            </View>
+                            <View style={{marginLeft: 15}}>
+                              <Text
+                                style={{
+                                  fontSize: 16,
+                                  color: 'black',
+                                  fontWeight: '500',
+                                }}>
+                                {data?.user?.name}
+                              </Text>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
                                 }}>
                                 <Text
                                   style={{
-                                    textAlign: 'center',
-                                    color: 'white',
-                                    fontSize: 10,
-                                    fontWeight: 'bold',
+                                    color: '#919EAB',
                                   }}>
-                                  {data?.user?.level}
+                                  {moment(date).fromNow()}
                                 </Text>
                               </View>
                             </View>
-                            <Image
-                              source={{
-                                uri: data?.user?.avatar,
-                              }}
-                              style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 40,
-                              }}
-                            />
                           </View>
-                          <View style={{marginLeft: 15}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color: 'black',
-                                fontWeight: '500',
-                              }}>
-                              {data?.user?.name}
-                            </Text>
+
+                          {/* Header Right  */}
+                          {data?.status == 'declined' ? (
                             <View
                               style={{
                                 flexDirection: 'row',
-                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                backgroundColor: '#e06666',
+                                borderRadius: 6,
+                                maxWidth: 180,
                               }}>
                               <Text
                                 style={{
-                                  color: '#919EAB',
+                                  padding: 6,
+                                  color: 'white',
                                 }}>
-                                {moment(date).fromNow()}
+                                {data?.note}
                               </Text>
                             </View>
-                          </View>
+                          ) : data?.status == 'approved' ? (
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                backgroundColor: '#10C45C',
+                                borderRadius: 6,
+                              }}>
+                              <Text
+                                style={{
+                                  padding: 6,
+                                  color: 'white',
+                                }}>
+                                Đã được duyệt
+                              </Text>
+                            </View>
+                          ) : (
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                              }}>
+                              <TouchableHighlight
+                                style={{marginRight: 12}}
+                                onPress={showApporve}>
+                                <AntDesign
+                                  name="checkcircle"
+                                  size={24}
+                                  color="#10C45C"
+                                />
+                              </TouchableHighlight>
+                              <TouchableHighlight onPress={showActionSheet}>
+                                <AntDesign
+                                  name="closecircle"
+                                  size={24}
+                                  color="#e06666"
+                                />
+                              </TouchableHighlight>
+                            </View>
+                          )}
+                          {data?.status == 'approved'}
                         </View>
 
-                        {/* Header Right  */}
-                        {data?.status == 'declined' ? (
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              backgroundColor: '#e06666',
-                              borderRadius: 6,
-                              maxWidth: 180,
-                            }}>
-                            <Text
-                              style={{
-                                padding: 6,
-                                color: 'white',
-                              }}>
-                              {data?.note}
-                            </Text>
-                          </View>
-                        ) : data?.status == 'approved' ? (
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              backgroundColor: '#10C45C',
-                              borderRadius: 6,
-                            }}>
-                            <Text
-                              style={{
-                                padding: 6,
-                                color: 'white',
-                              }}>
-                              Đã được duyệt
-                            </Text>
-                          </View>
-                        ) : (
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                            }}>
-                            <TouchableHighlight
-                              style={{marginRight: 12}}
-                              onPress={showApporve}>
-                              <AntDesign
-                                name="checkcircle"
-                                size={24}
-                                color="#10C45C"
+                        {/* Content */}
+                        <View style={{marginVertical: 10}}>
+                          <Text style={Styles.PostTitle}>{data?.content}</Text>
+                          {data?.images?.length > 1 ? (
+                            <View style={Styles.ImageView}>
+                              <FlatList
+                                data={data?.images}
+                                renderItem={({item, index}) => {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() =>
+                                        ShowModalFunction(true, item)
+                                      }
+                                      key={index}
+                                      style={Styles.imageContainerStyle}>
+                                      <ImageModal
+                                        resizeMode="contain"
+                                        style={{
+                                          width: (dimensions.width - 30) / 3,
+                                          height: 280,
+                                        }}
+                                        source={{
+                                          uri: item,
+                                        }}
+                                      />
+                                    </TouchableOpacity>
+                                  );
+                                }}
+                                //Setting the number of column
+                                numColumns={3}
+                                keyExtractor={(item, index) => index.toString()}
                               />
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={showActionSheet}>
-                              <AntDesign
-                                name="closecircle"
-                                size={24}
-                                color="#e06666"
-                              />
-                            </TouchableHighlight>
-                          </View>
-                        )}
-                        {data?.status == 'approved'}
-                      </View>
-
-                      {/* Content */}
-                      <View style={{marginVertical: 10}}>
-                        <Text style={Styles.PostTitle}>{data?.content}</Text>
-                        {data?.images?.length > 1 ? (
-                          <View style={Styles.ImageView}>
-                            <FlatList
-                              data={data?.images}
-                              renderItem={({item, index}) => {
-                                return (
-                                  <TouchableOpacity
-                                    onPress={() =>
-                                      ShowModalFunction(true, item)
-                                    }
-                                    key={index}
-                                    style={Styles.imageContainerStyle}>
-                                    <ImageModal
-                                      resizeMode="contain"
-                                      style={{
-                                        width: (dimensions.width - 30) / 3,
-                                        height: 280,
-                                      }}
-                                      source={{
-                                        uri: item,
-                                      }}
-                                    />
-                                  </TouchableOpacity>
-                                );
+                            </View>
+                          ) : data?.images?.length == 0 ? (
+                            <></>
+                          ) : (
+                            <ImageModal
+                              resizeMode="contain"
+                              style={{
+                                width: dimensions.width - 42,
+                                height: 220,
                               }}
-                              //Setting the number of column
-                              numColumns={3}
-                              keyExtractor={(item, index) => index.toString()}
+                              source={{
+                                uri: data?.images[0],
+                              }}
                             />
-                          </View>
-                        ) : data?.images?.length == 0 ? (
-                          <></>
-                        ) : (
-                          <ImageModal
-                            resizeMode="contain"
-                            style={{
-                              width: dimensions.width - 42,
-                              height: 220,
-                            }}
-                            source={{
-                              uri: data?.images[0],
-                            }}
-                          />
-                        )}
-                        <Spacer height={20} />
-                      </View>
+                          )}
+                          <Spacer height={20} />
+                        </View>
 
-                      <ActionSheet
-                        ref={actionSheet}
-                        // Title of the Bottom Sheet
-                        title={'Thao tác'}
-                        // Options Array to show in bottom sheet
-                        options={optionArray}
-                        // Define cancel button index in the option array
-                        // This will take the cancel option in bottom
-                        // and will highlight it
-                        cancelButtonIndex={4}
-                        // Highlight any specific option
-                        onPress={index => {
-                          // Clicking on the option will give you alert
-                          onClickSheet(optionArray[index]);
-                        }}
+                        <ActionSheet
+                          ref={actionSheet}
+                          // Title of the Bottom Sheet
+                          title={'Thao tác'}
+                          // Options Array to show in bottom sheet
+                          options={optionArray}
+                          // Define cancel button index in the option array
+                          // This will take the cancel option in bottom
+                          // and will highlight it
+                          cancelButtonIndex={4}
+                          // Highlight any specific option
+                          onPress={index => {
+                            // Clicking on the option will give you alert
+                            onClickSheet(optionArray[index]);
+                          }}
+                        />
+                      </View>
+                    )}
+                  </View>
+                  {showDelete && (
+                    <View style={Styles.CardStyle}>
+                      <Spacer height={20} />
+                      <TextInput
+                        style={Styles.TextInput}
+                        placeholder={`Lý do hủy bài viết! (*)`}
+                        keyboardType={`default`}
+                        focusable={false}
+                        multiline={true}
+                        numberOfLines={4}
+                        value={value}
+                        onChangeText={text => setValue(text)}
+                        secureTextEntry={false}
                       />
+                      <Spacer height={20} />
+
+                      <View
+                        style={{
+                          display: 'flex',
+                          alignSelf: 'flex-end',
+                        }}>
+                        <CustomButton label="Lưu" onPress={submitPost} />
+                      </View>
+                      <Spacer height={20} />
                     </View>
                   )}
-                </View>
-                {showDelete && (
-                  <View style={Styles.CardStyle}>
-                    <Spacer height={20} />
-                    <TextInput
-                      style={Styles.TextInput}
-                      placeholder={`Lý do hủy bài viết! (*)`}
-                      keyboardType={`default`}
-                      focusable={false}
-                      multiline={true}
-                      numberOfLines={4}
-                      value={value}
-                      onChangeText={text => setValue(text)}
-                      secureTextEntry={false}
-                    />
-                    <Spacer height={20} />
 
+                  {showApprove && (
                     <View
                       style={{
                         display: 'flex',
                         alignSelf: 'flex-end',
+                        marginRight: 12,
                       }}>
-                      <CustomButton label="Lưu" onPress={submitPost} />
+                      <CustomButton
+                        label="Xác nhận duyệt bài"
+                        onPress={submitPostApprove}
+                      />
                     </View>
-                    <Spacer height={20} />
-                  </View>
-                )}
-
-                {showApprove && (
+                  )}
+                </View>
+              ) : (
+                <>
                   <View
                     style={{
-                      display: 'flex',
-                      alignSelf: 'flex-end',
-                      marginRight: 12,
+                      backgroundColor: '#f7f8fa',
+                      flex: 1,
+                      marginTop: 30,
+                      paddingHorizontal: 20,
                     }}>
-                    <CustomButton
-                      label="Xác nhận duyệt bài"
-                      onPress={submitPostApprove}
+                    <View
+                      style={{
+                        height: 30,
+                        display: 'flex',
+                        marginTop: 10,
+                        alignItems: 'flex-end',
+                      }}>
+                      <TouchableOpacity onPress={hideShow}>
+                        <FontAwesome name="close" size={24} color="black" />
+                      </TouchableOpacity>
+                    </View>
+                    <Image
+                      style={Styles.imageShow}
+                      source={{
+                        uri: imageuri,
+                      }}
                     />
                   </View>
-                )}
-              </View>
-            ) : (
-              <>
-                <View
-                  style={{
-                    backgroundColor: '#f7f8fa',
-                    flex: 1,
-                    marginTop: 30,
-                    paddingHorizontal: 20,
-                  }}>
-                  <View
-                    style={{
-                      height: 30,
-                      display: 'flex',
-                      marginTop: 10,
-                      alignItems: 'flex-end',
-                    }}>
-                    <TouchableOpacity onPress={hideShow}>
-                      <FontAwesome name="close" size={24} color="black" />
-                    </TouchableOpacity>
-                  </View>
-                  <Image
-                    style={Styles.imageShow}
-                    source={{
-                      uri: imageuri,
-                    }}
-                  />
-                </View>
-              </>
-            )}
-          </>
-        )}
-        <Spacer height={20} />
-      </View>
-    </KeyboardAvoidingView>
+                </>
+              )}
+            </>
+          )}
+          <Spacer height={20} />
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

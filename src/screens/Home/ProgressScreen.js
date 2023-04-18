@@ -108,7 +108,7 @@ const ProgessScreen = () => {
           if (res && res.status == 200) {
             Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
               {
-                text: 'Đồng ý',
+                text: 'Xác nhận',
                 style: 'cancel',
               },
             ]);
@@ -119,7 +119,7 @@ const ProgessScreen = () => {
         .catch(err => {
           Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
             {
-              text: 'Đồng ý',
+              text: 'Xác nhận',
               style: 'cancel',
             },
           ]);

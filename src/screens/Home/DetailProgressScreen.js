@@ -555,7 +555,7 @@ const DetailPostScreen = ({route, navigation}) => {
 
               <ActionSheet
                 ref={actionSheet}
-                // title={'What do you do ?'}
+                // title={'Thao tác'}
                 options={optionArray}
                 cancelButtonIndex={2}
                 onPress={index => {

@@ -118,7 +118,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 text: 'Cancel',
                 style: 'cancel',
               },
-              {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+              {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
             ],
           );
         } else {
@@ -127,7 +127,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
               text: 'Cancel',
               style: 'cancel',
             },
-            {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+            {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
           ]);
         }
       } else {
@@ -136,13 +136,13 @@ const VerticalPostCard = ({item, actionDelte}) => {
             text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+          {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
         ]);
       }
     } else if (index == 2) {
       Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho  Admin GIVE Garden', [
         {
-          text: 'Đồng ý',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);
@@ -431,7 +431,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
         <ActionSheet
           ref={actionSheet}
-          // title={'What do you do ?'}
+          // title={'Thao tác'}
 
           options={optionArray}
           cancelButtonIndex={2}

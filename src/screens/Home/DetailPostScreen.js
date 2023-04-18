@@ -113,7 +113,7 @@ const DetailPostScreen = ({route, navigation}) => {
       if (res.status == 200) {
         Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
           {
-            text: 'Đồng ý',
+            text: 'Xác nhận',
             onPress: () => navigation.push('HomeScreen'),
             style: 'cancel',
           },
@@ -123,7 +123,7 @@ const DetailPostScreen = ({route, navigation}) => {
     .catch(err => {
       Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
         {
-          text: 'Đồng ý',
+          text: 'Xác nhận',
           style: 'cancel',
         },
       ]);
@@ -138,7 +138,7 @@ const DetailPostScreen = ({route, navigation}) => {
             text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},
+          {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
         ]);
       }else {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
@@ -146,7 +146,7 @@ const DetailPostScreen = ({route, navigation}) => {
             text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Đồng ý', onPress: () => actionDelte(1, data?.id)},
+          {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
         ]);
       }
     } else if (index == 2) {
