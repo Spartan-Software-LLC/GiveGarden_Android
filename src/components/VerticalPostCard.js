@@ -7,9 +7,6 @@ import {
   TouchableHighlight,
   Share,
   Alert,
-  Image,
-  useWindowDimensions,
-  ActivityIndicator,
   Dimensions
 } from 'react-native';
 import React, {useState, useRef, useEffect, useContext} from 'react';
@@ -319,17 +316,11 @@ const VerticalPostCard = ({item, actionDelte}) => {
               <CacheImage
                 uri={dataPost?.images[0]}
                 style={{
-                  // flex: 1,
                   height: heightApp,
                   width: deviceWidth - 20,
-                  // resizeMode: 'contain'
                 }}
               />
-              {/* <ExpoFastImage
-              cache={dataPost.id}
-                uri={dataPost?.images[0]}
-                style={Styles.PostImage}
-              /> */}
+             
             </TouchableOpacity>
           )}
         </View>

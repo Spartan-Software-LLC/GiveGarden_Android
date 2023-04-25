@@ -181,7 +181,7 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                   }}
                   placeholder={blurhash}
                   contentFit="cover"
-                  transition={100}
+                  transition={1000}
                   cachePolicy={'memory'}
                 />
               </View>
@@ -289,6 +289,10 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                         source={{
                           uri: item,
                         }}
+                        placeholder={blurhash}
+                        contentFit="cover"
+                        transition={1000}
+                        cachePolicy={'memory'}
                       />
                     </TouchableOpacity>
                   </View>

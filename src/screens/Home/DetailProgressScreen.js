@@ -15,7 +15,6 @@ import {
   YellowBox,
 } from 'react-native';
 import {useHeaderHeight} from '@react-navigation/elements';
-import ImageModal from 'react-native-image-modal';
 import {Image} from 'expo-image';
 import React, {useState, useRef, useContext, useEffect} from 'react';
 import {
@@ -179,6 +178,9 @@ const DetailPostScreen = ({route, navigation}) => {
   };
 
   const date = new Date(data?.created_at);
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
   return (
     <View style={Styles.container}>
       <KeyboardAvoidingView
@@ -247,6 +249,10 @@ const DetailPostScreen = ({route, navigation}) => {
                         height: 40,
                         borderRadius: 40,
                       }}
+                      placeholder={blurhash}
+                      contentFit="cover"
+                      transition={1000}
+                      cachePolicy={'memory'}
                     />
                   </View>
                   <View style={{flex: 2, marginLeft: 15}}>
@@ -367,6 +373,7 @@ const DetailPostScreen = ({route, navigation}) => {
                               // onPress={()=> ShowModalFunction(true, item)}
                             >
                               <ImageModal
+                               contentFit="contain"
                                 resizeMode="contain"
                                 style={{
                                   width: (dimensions.width - 20) /3 ,
@@ -375,6 +382,9 @@ const DetailPostScreen = ({route, navigation}) => {
                                 source={{
                                   uri: item,
                                 }}
+                                placeholder={blurhash}
+                                transition={1000}
+                                cachePolicy={'memory'}
                               />
                             </TouchableOpacity>
                           </View>
