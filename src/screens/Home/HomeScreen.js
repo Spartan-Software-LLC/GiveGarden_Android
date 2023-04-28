@@ -80,6 +80,9 @@ const HomeScreen = () => {
 
   const fetchPostDataRefeshing = async () => {
     try {
+      setCountPage(1)
+      setLastPage(10)
+      setLoadingU(true)
       const response = await axios.post(
         'http://api.givegarden.info/api/posts/community?page=' + 1,
         {
@@ -97,10 +100,11 @@ const HomeScreen = () => {
         setData(response.data.data);
         setCountPage(response.data.current_page+1);
         setLastPage(response.data.last_page);
-
+        setLoadingU(false)
         setLoading(false);
       } else {
         setLoading(false);
+        setLoadingU(false)
       }
     } catch (err) {}
   };
@@ -192,7 +196,7 @@ const HomeScreen = () => {
           if (res.status == 200) {
             Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
               {
-                text: 'Xác nhận',
+                text: 'Đồng ý',
                 style: 'cancel',
               },
             ]);
@@ -203,7 +207,7 @@ const HomeScreen = () => {
         .catch(err => {
           Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
             {
-              text: 'Xác nhận',
+              text: 'Đồng ý',
               style: 'cancel',
             },
           ]);
