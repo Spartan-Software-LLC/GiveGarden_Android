@@ -174,7 +174,7 @@ const CustomDrawer = props => {
               color: '#919EAB',
               textAlign: 'right'
             }}>
-            Phiên bản {pkg.version}
+            Phiên bản 1.2.8
           </Text>
         </View>
       </View>

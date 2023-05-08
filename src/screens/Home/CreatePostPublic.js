@@ -83,29 +83,39 @@ export default function CreatePost() {
       })
       .then(response => {
         setLoading(false);
-        userInfo.role == 'member' && userInfo.group_id != 5
-          ? Alert.alert('GIVE Garden', 'Bài viết của bạn đang được duyệt', [
-              {
-                text: 'Xác nhận',
-                onPress: () => navigation.navigate('Home'),
-                style: 'cancel',
-              },
-            ])
-          : userInfo.role == 'member' && userInfo.group_id == 5
-          ? Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
-              {
-                text: 'Xác nhận',
-                onPress: () => navigation.navigate('Home'),
-                style: 'cancel',
-              },
-            ])
-          : Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
-              {
-                text: 'Xác nhận',
-                onPress: () => navigation.navigate('Home'),
-                style: 'cancel',
-              },
-            ]);
+        if (response.status == 202) {
+          Alert.alert('GIVE Garden', 'Group đã dừng hoạt động. Bạn không thể check in. Cảm ơn', [
+            {
+              text: 'Xác nhận',
+              onPress: () => navigation.navigate('Home'),
+              style: 'cancel',
+            },
+          ])
+        }else{
+          userInfo.role == 'member' && userInfo.group_id != 5
+            ? Alert.alert('GIVE Garden', 'Bài viết của bạn đang được duyệt bởi Coach và Supporter', [
+                {
+                  text: 'Xác nhận',
+                  onPress: () => navigation.navigate('Home'),
+                  style: 'cancel',
+                },
+              ])
+            : userInfo.role == 'member' && userInfo.group_id == 5
+            ? Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
+                {
+                  text: 'Xác nhận',
+                  onPress: () => navigation.navigate('Home'),
+                  style: 'cancel',
+                },
+              ])
+            : Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
+                {
+                  text: 'Xác nhận',
+                  onPress: () => navigation.navigate('Home'),
+                  style: 'cancel',
+                },
+              ]);
+        }
       })
       .catch(err => {
         setLoading(false);
@@ -153,9 +163,9 @@ export default function CreatePost() {
               </TouchableOpacity>
 
               <SelectDropdown
-                data={types}
+                data={userInfo.group_id == '5' ? ['Thông báo', 'Câu hỏi']: types}
                 buttonStyle={{
-                  width: 120,
+                  width: 150,
                   borderRadius: 50,
                   backgroundColor: 'rgba(145, 158, 171, 0.08)',
                 }}

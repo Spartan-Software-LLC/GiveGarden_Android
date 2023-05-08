@@ -159,7 +159,7 @@ const ProgessScreen = () => {
                 dropdownStyle={{
                   borderRadius: 12,
                 }}
-                defaultButtonText={'Chọn người dùng'}
+                defaultButtonText={'Chọn Thành Viên'}
                 buttonTextStyle={Styles.customText}
                 defaultValue={users[0]?.name}
                 onSelect={(selectedItem, index) => {

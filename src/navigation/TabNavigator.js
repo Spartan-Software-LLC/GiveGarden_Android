@@ -79,6 +79,7 @@ const HomeStack = () => {
             id: route.params?.id,
             item: route.params?.item,
             like: route.params?.like,
+            is_commented: route.params?.is_commented,
           },
           unmountOnBlur: true,
         })}
@@ -99,6 +100,7 @@ const ProgressStack = () => {
             id: route.params?.id,
             item: route.params?.item,
             like: route.params?.like,
+            is_commented: route.params?.is_commented,
           },
           unmountOnBlur: true,
         })}

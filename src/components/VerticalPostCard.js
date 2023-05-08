@@ -11,6 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 import {Image} from 'expo-image';
+import Hyperlink from 'react-native-hyperlink'
+
 import React, {useState, useRef, useEffect, useContext, memo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -311,7 +313,10 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
         {/* Content */}
         <View style={{marginTop: 10}}>
-          <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
+          <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
+            linkStyle={ { color: '#2980b9'} }>
+            <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
+          </Hyperlink>
           {dataPost?.images == null || dataPost?.images[0] == null ? (
             <></>
           ) : (
@@ -402,6 +407,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 id: dataPost.id,
                 item: dataPost,
                 like: liked,
+                is_commented: true,
               })
             }>
             <View

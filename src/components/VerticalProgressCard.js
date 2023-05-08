@@ -365,6 +365,7 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                   id: dataPost.id,
                   item: dataPost,
                   like: liked,
+                  is_commented: true,
                 })
               }>
               <View

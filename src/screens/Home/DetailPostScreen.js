@@ -14,8 +14,12 @@ import {
   ActivityIndicator,
   useWindowDimensions,
   Image,
+  Linking,
   YellowBox
 } from 'react-native';
+import Hyperlink from 'react-native-hyperlink'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import ImageModal from 'react-native-image-modal';
 import {useHeaderHeight} from '@react-navigation/elements';
 // import {Image} from 'expo-image';
@@ -46,7 +50,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const dimensions = useWindowDimensions();
 
   const {token, userInfo, loading} = useContext(AuthContext);
-  const {id, item, like} = route.params;
+  const {id, item, like, is_commented} = route.params;
   const [data, setData] = useState(item);
   const [liked, setLiked] = useState(like);
   const [value, setValue] = useState('');
@@ -135,7 +139,7 @@ const DetailPostScreen = ({route, navigation}) => {
       if(data?.type == 1){
         Alert.alert('GIVE Garden', 'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?', [
           {
-            text: 'Cancel',
+            text: 'Bỏ qua',
             style: 'cancel',
           },
           {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
@@ -143,7 +147,7 @@ const DetailPostScreen = ({route, navigation}) => {
       }else {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
           {
-            text: 'Cancel',
+            text: 'Bỏ qua',
             style: 'cancel',
           },
           {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
@@ -238,11 +242,7 @@ const DetailPostScreen = ({route, navigation}) => {
           </View>
         </>
       ) : (
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={height}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{flex: 1}}
-          enabled>
+        <KeyboardAwareScrollView extraHeight={100} enableOnAndroid={true}>
           <ScrollView keyboardShouldPersistTaps={'handled'}>
             <View style={Styles.CardStyle}>
               <View style={{marginTop: 10}}>
@@ -264,39 +264,43 @@ const DetailPostScreen = ({route, navigation}) => {
                       style={{
                         position: 'relative',
                       }}>
-                      <View
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: 40,
-                          backgroundColor: 'white',
-                          position: 'absolute',
-                          zIndex: 100,
-                          top: -4,
-                          left: 30,
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <View
+                      {data?.user?.role == 'member' ? 
+                          <View
                           style={{
-                            width: 17,
-                            height: 17,
-                            borderRadius: 50,
-                            backgroundColor: '#10C45C',
+                            width: 20,
+                            height: 20,
+                            borderRadius: 40,
+                            backgroundColor: 'white',
+                            position: 'absolute',
+                            zIndex: 100,
+                            top: -4,
+                            left: 30,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                           }}>
-                          <Text
+                          <View
                             style={{
-                              padding: 3,
-                              textAlign: 'center',
-                              color: 'white',
-                              fontSize: 10,
-                              fontWeight: 'bold',
+                              width: 17,
+                              height: 17,
+                              borderRadius: 50,
+                              backgroundColor: '#10C45C',
                             }}>
-                            {data?.user?.level}
-                          </Text>
-                        </View>
-                      </View>
+                            <Text
+                              style={{
+                                padding: 3,
+                                textAlign: 'center',
+                                color: 'white',
+                                fontSize: 10,
+                                fontWeight: 'bold',
+                              }}>
+                              {data?.user?.level}
+                            </Text>
+                          </View>
+                        </View>:
+                        ''
+                        
+                          }
                       <Image
                         source={{uri: `${data?.user?.avatar}`}}
                         style={{
@@ -410,7 +414,10 @@ const DetailPostScreen = ({route, navigation}) => {
 
                 {/* Content */}
                 <View style={{marginTop: 10}}>
-                  <Text style={Styles.PostTitle}>{data?.content}</Text>
+                  <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
+                    linkStyle={ { color: '#2980b9'} }>
+                    <Text style={Styles.PostTitle}>{data?.content}</Text>
+                  </Hyperlink>   
 
                   {data?.images == null || data?.images[0] == null ? (
                     <></>
@@ -561,15 +568,17 @@ const DetailPostScreen = ({route, navigation}) => {
                       )}
                       <View style={{flex: 2, marginLeft: 10}}>
                         <TextInput
+                          autoFocus={is_commented}
                           style={Styles.InputField}
                           onChangeText={text => setValue(text)}
                           value={value}
                           placeholder="Viết bình luận..."
                           keyboardType="default"
                           placeholderTextColor={'gray'}
-                          returnKeyType="done"
+                          returnKeyType="none"
                           multiline={true}
-                          blurOnSubmit={true}
+                          numberOfLines={4}
+                          blurOnSubmit={false}
                           onBlur={() => {
                             Keyboard.dismiss();
                           }}
@@ -609,7 +618,7 @@ const DetailPostScreen = ({route, navigation}) => {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       )}
     </View>
   );
@@ -676,9 +685,12 @@ const Styles = StyleSheet.create({
     borderColor: '#eeeeee',
     borderWidth: 1,
     paddingLeft: 10,
+    // paddingVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: '98%',
     borderRadius: 8,
-    height: 40,
+    height: null,
   },
   InputSend: {
     backgroundColor: '#F6F7F8',

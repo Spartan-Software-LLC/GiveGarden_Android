@@ -14,6 +14,10 @@ import {
   useWindowDimensions,
   YellowBox,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Hyperlink from 'react-native-hyperlink'
+import ImageModal from 'react-native-image-modal';
+
 import {useHeaderHeight} from '@react-navigation/elements';
 import {Image} from 'expo-image';
 import React, {useState, useRef, useContext, useEffect} from 'react';
@@ -43,7 +47,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const height = useHeaderHeight();
   const dimensions = useWindowDimensions();
   const {token, userInfo} = useContext(AuthContext);
-  const {id, item, like} = route.params;
+  const {id, item, like, is_commented} = route.params;
   const [data, setData] = useState(item);
   const [liked, setLiked] = useState(like);
   const [value, setValue] = useState('');
@@ -183,11 +187,8 @@ const DetailPostScreen = ({route, navigation}) => {
 
   return (
     <View style={Styles.container}>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={height}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 1}}
-        enabled>
+      <KeyboardAwareScrollView extraHeight={100} enableOnAndroid={true}>
+
         <ScrollView keyboardShouldPersistTaps={'handled'}>
           <View style={Styles.CardStyle}>
             <View style={{ marginTop: 10}}>
@@ -358,8 +359,12 @@ const DetailPostScreen = ({route, navigation}) => {
 
               {/* Content */}
               <View style={{marginTop: 10}}>
-                <Text style={Styles.PostTitle}>{data?.content}</Text>
+                <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
+                    linkStyle={ { color: '#2980b9'} }>
+                    <Text style={Styles.PostTitle}>{data?.content}</Text>
 
+                  </Hyperlink>
+                
                 {data?.images?.length == 3 && (
                   <View style={Styles.ImageView}>
                     <>
@@ -527,15 +532,17 @@ const DetailPostScreen = ({route, navigation}) => {
                     )}
                     <View style={{flex: 2, marginLeft: 10}}>
                       <TextInput
+                        autoFocus={is_commented}
                         style={Styles.InputField}
                         onChangeText={text => setValue(text)}
                         value={value}
                         placeholder="Viết bình luận..."
                         keyboardType="default"
                         placeholderTextColor={'gray'}
-                        returnKeyType="done"
+                        returnKeyType="none"
                         multiline={true}
-                        blurOnSubmit={true}
+                        numberOfLines={4}
+                        blurOnSubmit={false}
                         onBlur={() => {
                           Keyboard.dismiss();
                         }}
@@ -575,7 +582,7 @@ const DetailPostScreen = ({route, navigation}) => {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -649,9 +656,11 @@ const Styles = StyleSheet.create({
     borderColor: '#eeeeee',
     borderWidth: 1,
     paddingLeft: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: '98%',
     borderRadius: 8,
-    height: 40,
+    height: null,
   },
   InputSend: {
     backgroundColor: '#F6F7F8',
