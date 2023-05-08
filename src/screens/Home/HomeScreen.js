@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useMemo, useRef,memo} from 'react';
+import React, {useContext, useMemo, useRef, memo, PureComponent} from 'react';
 import {
   SafeAreaView,
   RefreshControl,
@@ -30,31 +30,31 @@ const HomeScreen = () => {
   const dimensions = useWindowDimensions();
   const [data, setData] = React.useState([]);
   const [topGroup, setTopGroup] = React.useState();
-  const [isLoadingU, setLoadingU] = React.useState(false);
+  const [isLoadingReached, setIsLoadingReached] = React.useState(false);
   const [loadingPost, setLoadingPost] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const [count_page, setCountPage] = React.useState(1);
-  const [last_page, setLastPage] = React.useState(100);
-  const [onReached, setOnReached] = React.useState(false); 
+  const [last_page, setLastPage] = React.useState(10);
+  const [onReached, setOnReached] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setLoadingU(false)
-    setLoading(true);
-    setCountPage(1)
-    setOnReached(false)
     setTimeout(() => {
-      // fetchPostDataRefeshing();
       setRefreshing(false);
-      setLoading(false);
-    }, 1000);
-  }, []);
 
+      setLoadingPost(true);
+      setIsLoadingReached(false);
+      setOnReached(false);
+      fetchPostDataRefeshing();
+    }, 200);
+  }, [groupChange]);
+
+  // top level group
   React.useEffect(() => {
     const fetchTopGroup = async () => {
       try {
         const response = await axios.post(
-          'http://api.givegarden.info/api/groups/index',
+          'https://api.givegarden.info/api/groups/index',
           {
             id: groupChange ? groupChange : userInfo?.group_id,
           },
@@ -72,19 +72,18 @@ const HomeScreen = () => {
       } catch (err) {}
     };
     fetchTopGroup();
-  }, [groupChange, loading]);
+  }, [groupChange]);
 
+  // list posts
   React.useEffect(() => {
     fetchPostData();
   }, [onReached]);
 
+  // posts first
   const fetchPostDataRefeshing = async () => {
     try {
-      setCountPage(1)
-      setLastPage(10)
-      setLoadingU(true)
       const response = await axios.post(
-        'http://api.givegarden.info/api/posts/community?page=' + 1,
+        'https://api.givegarden.info/api/posts/community?page=' + 1,
         {
           group_id: groupChange ? groupChange : userInfo?.group_id,
         },
@@ -98,39 +97,25 @@ const HomeScreen = () => {
 
       if (response?.status == 200) {
         setData(response.data.data);
-        setCountPage(response.data.current_page+1);
+        setCountPage(response.data.current_page + 1);
         setLastPage(response.data.last_page);
-        setLoadingU(false)
-        setLoading(false);
-      } else {
-        setLoading(false);
-        setLoadingU(false)
+        setLoadingPost(false);
       }
     } catch (err) {}
   };
-  React.useEffect(() => {
-    if (loading == true || groupChange) {
-      setTimeout(() => {
-        setCountPage(1)
-        setLoadingU(false)
-        setOnReached(false)
-        fetchPostDataRefeshing();
-      }, 1000);
-    }
-  }, [groupChange, loading]);
 
   const fetchPostData = async () => {
     try {
       if (last_page < count_page) {
-        setLoadingU(true);
-        setOnReached(true)
+        setIsLoadingReached(true);
+        setOnReached(true);
       } else {
         setLoadingPost(true);
-        setOnReached(false)
+        setOnReached(false);
         const response = await axios.post(
-          'http://api.givegarden.info/api/posts/community?page=' + count_page,
+          'https://api.givegarden.info/api/posts/community?page=' + count_page,
           {
-            group_id: userInfo?.group_id,
+            group_id: groupChange ? groupChange : userInfo?.group_id,
           },
           {
             headers: {
@@ -151,11 +136,12 @@ const HomeScreen = () => {
       }
     } catch (err) {}
   };
-  const onEndReached = (page) => {
-    if (!isLoadingU) {
-      setOnReached(true)
+
+  React.useEffect(() => {
+    if (loading == true) {
+      fetchPostDataRefeshing();
     }
-  }
+  }, [loading, groupChange]);
 
   const renderFooterComponent = () => {
     return (
@@ -165,7 +151,7 @@ const HomeScreen = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {isLoadingU == true ? (
+        {isLoadingReached == true ? (
           <View style={{backgroundColor: 'grey', borderRadius: 4}}>
             <Text
               style={{
@@ -186,7 +172,7 @@ const HomeScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`http://api.givegarden.info/api/post/${id}`, {
+        .delete(`https://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
@@ -232,7 +218,6 @@ const HomeScreen = () => {
     />
   );
 
-  const onEndReachedCalledDuringMomentum = useRef(true);
   return (
     <>
       {data.length <= 0 && loadingPost == true ? (
@@ -431,15 +416,14 @@ const HomeScreen = () => {
                     )}
                   </View>
                 }
-                i
                 initialNumToRender={data.length}
-                onEndReached={onEndReached}
-                onEndReachedThreshold={0.7}
-                onMomentumScrollBegin={() => {
-                  onEndReachedCalledDuringMomentum.current = false;
-                }}
+                onEndReached={fetchPostData}
+                onEndReachedThreshold={0.5}
+                windowSize={5}
                 // onEndReached={fetchPostData}
-                keyExtractor={(item, index) => 'key' + index}
+                keyExtractor={(item, index) =>
+                  'key ' + index + item.id.toString()
+                }
                 ListFooterComponent={renderFooterComponent}
               />
             </View>
@@ -450,7 +434,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default React.memo(HomeScreen);
 
 const Styles = StyleSheet.create({
   container: {

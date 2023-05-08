@@ -42,6 +42,7 @@ const CustomDrawer = props => {
         setGroupChange(group_id)
         isLoggedIn();
         setLoading(true);
+        props.navigation.closeDrawer();
       })
       .catch(error => {
         setLoading(false);

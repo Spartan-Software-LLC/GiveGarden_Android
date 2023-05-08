@@ -7,9 +7,11 @@ import {
   TouchableHighlight,
   Share,
   Alert,
-  Dimensions
+  useWindowDimensions,
+  Dimensions,
 } from 'react-native';
-import React, {useState, useRef, useEffect, useContext} from 'react';
+import {Image} from 'expo-image';
+import React, {useState, useRef, useEffect, useContext, memo} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   Ionicons,
@@ -28,6 +30,7 @@ import axios from 'axios';
 Ionicons.loadFont();
 MaterialIcons.loadFont();
 let optionArray = ['Xóa', 'Báo cáo', 'Bỏ Qua'];
+
 const VerticalPostCard = ({item, actionDelte}) => {
   const [dataPost, setDataPost] = useState(item);
   const {token, userInfo} = useContext(AuthContext);
@@ -35,6 +38,8 @@ const VerticalPostCard = ({item, actionDelte}) => {
   const [liked, setLiked] = useState(dataPost?.liked);
   const [likedLocal, setLikedLocal] = useState(dataPost?.reactions);
   const [commentsLocal, setCommentsLocal] = useState(dataPost?.comments);
+
+  // const {height, width} = useWindowDimensions();
 
   let actionSheet = useRef();
   const showActionSheet = () => {
@@ -63,7 +68,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
   const onSubmitLike = async () => {
     const res = await axios.post(
-      'http://api.givegarden.info/api/posts/reaction',
+      'https://api.givegarden.info/api/posts/reaction',
       {
         post_id: item.id,
       },
@@ -115,7 +120,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 text: 'Cancel',
                 style: 'cancel',
               },
-              {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
+              {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
             ],
           );
         } else {
@@ -124,7 +129,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
               text: 'Cancel',
               style: 'cancel',
             },
-            {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
+            {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
           ]);
         }
       } else {
@@ -133,23 +138,23 @@ const VerticalPostCard = ({item, actionDelte}) => {
             text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Xác nhận', onPress: () => actionDelte(1, dataPost?.id)},
+          {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
         ]);
       }
     } else if (index == 2) {
-      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho  Admin GIVE Garden', [
+      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho Admin GIVE Garden', [
         {
-          text: 'Xác nhận',
+          text: 'Đồng ý',
           style: 'cancel',
         },
       ]);
     }
   };
-  
-  const deviceWidth = Dimensions.get('window').width;
-  const heightApp = ( dataPost?.size?.height / 10 *deviceWidth / (dataPost?.size?.width/ 10))
-  
 
+  const deviceWidth = Dimensions.get('window').width;
+  const heightApp =
+    ((dataPost?.size?.height / 10) * deviceWidth) /
+    (dataPost?.size?.width / 10);
   return (
     <View style={Styles.CardStyle}>
       <View style={{flexDirection: 'column', marginTop: 10}}>
@@ -178,7 +183,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
               style={{
                 position: 'relative',
               }}>
-              {dataPost?.user?.role == 'member' ? 
+              {dataPost?.user?.role == 'member' ? (
                 <View style={Styles.headerLeftImage}>
                   <View style={Styles.headerLeftCount}>
                     <Text
@@ -190,26 +195,32 @@ const VerticalPostCard = ({item, actionDelte}) => {
                       }}>
                       {dataPost?.user?.level}
                     </Text>
-                  </View>  
+                  </View>
                 </View>
-
-                :""}
-              {/* <Image
+              ) : (
+                ''
+              )}
+              {/* <CacheImage
+                uri={dataPost?.user?.avatar}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 40,
+                }}
+                
+              /> */}
+              <Image
                 source={{uri: `${dataPost?.user?.avatar}`}}
                 style={{
                   width: 40,
                   height: 40,
                   borderRadius: 40,
                 }}
-              /> */}
-              <CacheImage uri={dataPost?.user?.avatar} style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 40,
-                  resizeMode: 'contain'
-                }}/>
+                // placeholder={blurhash}
+                // transition={1000}
+              />
             </View>
-            <View style={{flex: 2, marginLeft: 15}}>
+            <View style={{flex: 2, marginLeft: 13}}>
               <View style={{display: 'flex', flexDirection: 'row'}}>
                 <Text style={{fontSize: 16, color: 'black', fontWeight: '500'}}>
                   {dataPost?.user?.name}
@@ -313,14 +324,16 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 })
               }
               style={Styles.ImageView}>
+             
               <CacheImage
                 uri={dataPost?.images[0]}
                 style={{
                   height: heightApp,
                   width: deviceWidth - 20,
                 }}
+                
               />
-             
+            
             </TouchableOpacity>
           )}
         </View>
@@ -422,8 +435,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
         <ActionSheet
           ref={actionSheet}
-          // title={'Thao tác'}
-
+          // title={'Thao tác ?'}
           options={optionArray}
           cancelButtonIndex={2}
           onPress={index => {
@@ -435,7 +447,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
   );
 };
 
-export default VerticalPostCard;
+export default memo(VerticalPostCard);
 
 const Styles = StyleSheet.create({
   CardStyle: {
@@ -505,9 +517,11 @@ const Styles = StyleSheet.create({
     marginTop: 10,
   },
   PostImage: {
-    width: '100%',
-    height: '100%',
-    minHeight: 300,
+    flex: 1,
+    alignSelf: 'stretch',
+    // width: width,
+    // height: height,
+    // minHeight: 300,
   },
   additionalTextInput: {
     flexDirection: 'row',
