@@ -70,7 +70,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
 
   const onSubmitLike = async () => {
     const res = await axios.post(
-      'https://api.givegarden.info/api/posts/reaction',
+      'http://api.givegarden.info/api/posts/reaction',
       {
         post_id: item.id,
       },

@@ -54,7 +54,7 @@ const HomeScreen = () => {
     const fetchTopGroup = async () => {
       try {
         const response = await axios.post(
-          'https://api.givegarden.info/api/groups/index',
+          'http://api.givegarden.info/api/groups/index',
           {
             id: groupChange ? groupChange : userInfo?.group_id,
           },
@@ -65,7 +65,6 @@ const HomeScreen = () => {
             },
           },
         );
-
         if (response.status == 200) {
           setTopGroup(response.data);
         }
@@ -83,7 +82,7 @@ const HomeScreen = () => {
   const fetchPostDataRefeshing = async () => {
     try {
       const response = await axios.post(
-        'https://api.givegarden.info/api/posts/community?page=' + 1,
+        'http://api.givegarden.info/api/posts/community?page=' + 1,
         {
           group_id: groupChange ? groupChange : userInfo?.group_id,
         },
@@ -113,7 +112,7 @@ const HomeScreen = () => {
         setLoadingPost(true);
         setOnReached(false);
         const response = await axios.post(
-          'https://api.givegarden.info/api/posts/community?page=' + count_page,
+          'http://api.givegarden.info/api/posts/community?page=' + count_page,
           {
             group_id: groupChange ? groupChange : userInfo?.group_id,
           },
@@ -172,7 +171,7 @@ const HomeScreen = () => {
   const actionDelte = async (index, id) => {
     if (index == 1) {
       await axios
-        .delete(`https://api.givegarden.info/api/post/${id}`, {
+        .delete(`http://api.givegarden.info/api/post/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer ' + token,
