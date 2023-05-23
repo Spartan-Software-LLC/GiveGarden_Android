@@ -273,7 +273,7 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
 
           {/* Content */}
           <View style={{marginTop: 10}}>
-            <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
+            <Text selectable style={Styles.PostTitle}>{dataPost?.content}</Text>
             {dataPost?.images?.length == 3 && (
               <View style={Styles.ImageView}>
                 {dataPost?.images.map((item, index) => (

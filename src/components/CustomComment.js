@@ -1,6 +1,7 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Linking} from 'react-native';
 import React from 'react';
 import moment from 'moment';
+import Hyperlink from 'react-native-hyperlink'
 
 const CustomComment = ({item}) => {
   const date = new Date(item.created_at);
@@ -106,9 +107,12 @@ const CustomComment = ({item}) => {
         </View>
       </View>
       <View style={{paddingVertical: 8}}>
-        <Text style={{paddingHorizontal: 10, color: 'black', fontSize: 14}}>
-          {item?.content}
-        </Text>
+        <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
+          linkStyle={ { color: '#2980b9'} }>
+          <Text selectable style={{paddingHorizontal: 10, color: 'black', fontSize: 14}}>
+            {item?.content}
+          </Text>
+        </Hyperlink>
       </View>
     </View>
   );

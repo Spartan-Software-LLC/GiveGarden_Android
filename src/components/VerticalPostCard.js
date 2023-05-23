@@ -315,7 +315,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         <View style={{marginTop: 10}}>
           <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
             linkStyle={ { color: '#2980b9'} }>
-            <Text style={Styles.PostTitle}>{dataPost?.content}</Text>
+            <Text selectable style={Styles.PostTitle}>{dataPost?.content}</Text>
           </Hyperlink>
           {dataPost?.images == null || dataPost?.images[0] == null ? (
             <></>

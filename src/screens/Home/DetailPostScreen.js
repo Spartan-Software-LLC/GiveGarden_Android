@@ -416,7 +416,7 @@ const DetailPostScreen = ({route, navigation}) => {
                 <View style={{marginTop: 10}}>
                   <Hyperlink onPress={ (url, text) => Linking.openURL(url) }
                     linkStyle={ { color: '#2980b9'} }>
-                    <Text style={Styles.PostTitle}>{data?.content}</Text>
+                    <Text selectable style={Styles.PostTitle}>{data?.content}</Text>
                   </Hyperlink>   
 
                   {data?.images == null || data?.images[0] == null ? (
