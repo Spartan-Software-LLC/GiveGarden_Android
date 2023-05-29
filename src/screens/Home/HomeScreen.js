@@ -26,7 +26,7 @@ const Avatar = require('../../../assets/images/avatar_default.jpg');
 
 const HomeScreen = () => {
   const {userInfo, token, loading, setLoading} = useContext(AuthContext);
-  const {groupChange} = useContext(SlideContext);
+  const {groupChange, setGroupName} = useContext(SlideContext);
   const dimensions = useWindowDimensions();
   const [data, setData] = React.useState([]);
   const [topGroup, setTopGroup] = React.useState();
@@ -67,6 +67,8 @@ const HomeScreen = () => {
         );
         if (response.status == 200) {
           setTopGroup(response.data);
+          setGroupName(response.data.title)
+
         }
       } catch (err) {}
     };

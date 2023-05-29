@@ -67,7 +67,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name="HomeScreen"
+        name="HomeScrseen"
         component={HomeScreen}
         options={{unmountOnBlur: true}}
       />
@@ -112,7 +112,9 @@ const ProgressStack = () => {
 const NotificationStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="NotificationList" component={Notifications} />
+      <Stack.Screen name="NotificationList" component={Notifications} options={{
+        unmountOnBlur: true
+      }}/>
       <Stack.Screen
         name="Notification Detail"
         component={DetailNotification}
@@ -126,7 +128,8 @@ const NotificationStack = () => {
 
 const TabNavigator = ({navigation}) => {
   const dimensions = useWindowDimensions();
-  const {slide, setSlide} = useContext(SlideContext);
+  const {slide, setSlide, groupName} = useContext(SlideContext);
+
   const {isLoggedIn} = useContext(AuthContext)
   const {setImageUri, setModalVisibleStatus} = useContext(ImageContext);
   const CheckIn = props => <CheckInPost slide={slide} {...props} />;
@@ -185,7 +188,7 @@ const TabNavigator = ({navigation}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 width: dimensions.width-40,
-                justifyContent:'space-between'
+                // justifyContent:'space-between'
                 // gap: dimensions.width /3.2
               }}>
               <TouchableOpacity onPress={()=>navigation.openDrawer()}>
@@ -200,6 +203,7 @@ const TabNavigator = ({navigation}) => {
                 }}
                 resizeMode="contain"
               />
+              <Text style={{fontWeight:'bold'}}>{groupName}</Text>
               <View style={{width: 24, height:24}}></View>
             </View>
           ),

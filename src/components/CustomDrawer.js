@@ -21,7 +21,7 @@ Ionicons.loadFont();
 const CustomDrawer = props => {
   const {logout, userInfo, isLoggedIn, token, setLoading} =
     useContext(AuthContext);
-    const {groupChange, setGroupChange} = useContext(SlideContext);
+    const {setGroupName, setGroupChange} = useContext(SlideContext);
 
   const actionData = async group_id => {
     
@@ -39,6 +39,7 @@ const CustomDrawer = props => {
         },
       )
       .then(response => {
+        setGroupName(response.data.group_name);
         setGroupChange(group_id)
         isLoggedIn();
         setLoading(true);
@@ -174,7 +175,7 @@ const CustomDrawer = props => {
               color: '#919EAB',
               textAlign: 'right'
             }}>
-            Phiên bản 1.2.8
+            Phiên bản 1.2.9
           </Text>
         </View>
       </View>
