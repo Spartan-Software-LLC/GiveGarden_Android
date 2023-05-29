@@ -69,7 +69,12 @@ export default function CreatePost() {
     {
       imageArr && formData.append('image_1', file);
     }
-    formData.append('image_length', 1);
+    if(imageArr){
+      formData.append('image_length', 1);
+    }else{
+      formData.append('image_length', 0);
+
+    }
     formData.append('is_public', 1);
     formData.append('type', type);
     formData.append('content', value);
@@ -83,7 +88,15 @@ export default function CreatePost() {
       })
       .then(response => {
         setLoading(false);
-        if (response.status == 202) {
+        if (response.status == 203) {
+          Alert.alert('GIVE Garden', 'Xin vui lòng điền nội dung bài viết và chọn hình ảnh để được Checkin.', [
+            {
+              text: 'Xác nhận',
+              style: 'cancel',
+            },
+          ])
+        }
+        else if (response.status == 202) {
           Alert.alert('GIVE Garden', 'Group đã dừng hoạt động. Bạn không thể check in. Cảm ơn', [
             {
               text: 'Xác nhận',
