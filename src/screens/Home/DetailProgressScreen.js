@@ -36,6 +36,7 @@ import CustomComment from '../../components/CustomComment';
 import {AuthContext} from '../../context/AuthContext';
 import socket from '../../utils/socket';
 import axios from 'axios';
+import {useTranslation} from 'react-i18next'
 
 Ionicons.loadFont();
 MaterialIcons.loadFont();
@@ -51,6 +52,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const [data, setData] = useState(item);
   const [liked, setLiked] = useState(like);
   const [value, setValue] = useState('');
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,26 +111,26 @@ const DetailPostScreen = ({route, navigation}) => {
         })
         .then(res => {
           if (res.status == 200) {
-            Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
+            Alert.alert('GIVE Garden', t('delete_success'), [
               {
-                text: 'Xác nhận',
+                text: t('agree'),
                 style: 'cancel',
               },
             ]);
           }
         })
         .catch(err => {
-          Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
+          Alert.alert('GIVE Garden', t('delete_error'), [
             {
-              text: 'Xác nhận',
+              text: t('agree'),
               style: 'cancel',
             },
           ]);
         });
-    }else if(index == 2){
-      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho  Admin GIVE Garden', [
+    } else if (index == 2) {
+      Alert.alert('GIVE Garden', ' Đã gửi đánh giá cho Admin GIVE Garden', [
         {
-          text: 'Xác nhận',
+          text: t('agree'),
           style: 'cancel',
         },
       ]);
@@ -139,7 +141,7 @@ const DetailPostScreen = ({route, navigation}) => {
     if (value == '') {
       Alert.alert('GIVE Garden', 'Please enter a comment', [
         {
-          text: 'Xác nhận',
+          text: t('agree'),
           style: 'cancel',
         },
       ]);
@@ -433,7 +435,7 @@ const DetailPostScreen = ({route, navigation}) => {
                   <Text style={Styles.styleInfor}>
                     {data?.comments?.length == 0
                       ? ''
-                      : `${data?.comments?.length} bình luận`}
+                      : `${data?.comments?.length} ${t('comment')}`}
                   </Text>
                 </View>
               </View>
@@ -463,7 +465,7 @@ const DetailPostScreen = ({route, navigation}) => {
                       <AntDesign name="like2" size={18} color="#637381" />
                     )}
 
-                    <Text style={Styles.actionStyle}>Thích</Text>
+                    <Text style={Styles.actionStyle}>{t('like')}</Text>
                   </View>
                 </TouchableOpacity>
                 {/* Comments  */}
@@ -479,7 +481,7 @@ const DetailPostScreen = ({route, navigation}) => {
                     }}>
                     <FontAwesome name="comment-o" size={18} color="#637381" />
 
-                    <Text style={Styles.actionStyle}>Bình luận</Text>
+                    <Text style={Styles.actionStyle}>{t('comment')}</Text>
                   </View>
                 </TouchableOpacity>
                 {/* Chia sẻ  */}
@@ -495,7 +497,7 @@ const DetailPostScreen = ({route, navigation}) => {
                     }}>
                     <AntDesign name="sharealt" size={18} color="#637381" />
 
-                    <Text style={Styles.actionStyle}>Chia sẻ</Text>
+                    <Text style={Styles.actionStyle}>{t('share')}</Text>
                   </View>
                 </TouchableOpacity>
               </View>

@@ -17,6 +17,10 @@ import mime from 'mime';
 import axios from 'axios';
 import React, {useState, useContext, useEffect} from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import {useTranslation} from 'react-i18next'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18next, {languageResources} from '../../../services/i18next';
+
 //Context
 import {AuthContext} from '../../context/AuthContext';
 //component
@@ -33,7 +37,19 @@ const Profile = () => {
   const [err, setErrEmail] = useState(null);
   const [showImages, setImages] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
+  const {t} = useTranslation();
+  const storeLng = async (lng) => {
+    try {
+      await AsyncStorage.setItem("lng", lng);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const changeLng = async (lng) => {
+    i18next.changeLanguage(lng);
+    storeLng(lng)
+    const d = await AsyncStorage.getItem('lng');
+  }
   const pickImage = async type => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -232,9 +248,17 @@ const Profile = () => {
                 <Spacer height={20} />
                 {/* Input info change  */}
                 <View>
-                  
+                  <Text style={styles.LangText}>Ngôn ngữ/Language</Text>
+                  <View style={styles.ViewLang}>
+                      <TouchableOpacity style={styles.LangInput} onPress={() => changeLng('vi')}>
+                        <Text>Tiếng Việt</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.LangInput} onPress={() => changeLng('en')}>
+                        <Text>English</Text>
+                      </TouchableOpacity>
+                  </View>
                   <View style={styles.ViewForm}>
-                    <Text style={styles.NameInput}>Họ và tên</Text>
+                    <Text style={styles.NameInput}>{t('fullname')}</Text>
                     <TextInput
                       style={styles.TextInput}
                       value={name}
@@ -245,7 +269,7 @@ const Profile = () => {
                     />
                   </View>
                   <View style={styles.ViewForm}>
-                    <Text style={styles.NameInput}>Số điện thoại</Text>
+                    <Text style={styles.NameInput}>{t('phone')}</Text>
                     <TextInput
                       style={styles.TextInput}
                       value={phone}
@@ -291,7 +315,7 @@ const Profile = () => {
                         textAlign: 'center',
                         fontWeight: '600',
                       }}>
-                      Đăng xuất
+                      {t('signout')}
                     </Text>
                   </TouchableOpacity>
                   <View style={{marginRight: 16}}>
@@ -300,7 +324,7 @@ const Profile = () => {
                         <ActivityIndicator size={'small'} />
                       </>
                     ) : (
-                      <CustomButton label={'Lưu'} onPress={submitPost} />
+                      <CustomButton label={t('save')} onPress={submitPost} />
                     )}
                   </View>
                 </View>
@@ -342,6 +366,25 @@ const styles = StyleSheet.create({
   NameInput: {
     marginBottom: 8,
     color: 'grey',
+  },
+  ViewLang: {
+    flexDirection:'row', flexWrap:'wrap',
+    marginTop: 8,
+    marginHorizontal: 16,
+  },
+  LangInput:{
+    // flex: 1,
+    marginRight: 23,
+    borderRadius: 12,
+    borderColor: 'green',
+    color: 'grey',
+    borderWidth: 1,
+    padding: 9,
+    shadowColor: '#919EAB',
+  },
+  LangText:{
+    color: 'grey',
+    marginHorizontal: 16,
   },
   TextInput: {
     borderWidth: 1,

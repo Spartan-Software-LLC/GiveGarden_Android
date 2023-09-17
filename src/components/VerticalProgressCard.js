@@ -30,6 +30,7 @@ import moment from 'moment';
 import {AuthContext} from '../context/AuthContext';
 import {ImageContext} from '../context/ImageContext';
 import socket from '../utils/socket';
+import {useTranslation} from 'react-i18next'
 
 import axios from 'axios';
 
@@ -39,6 +40,7 @@ MaterialIcons.loadFont();
 let optionArray = ['Xóa', 'Báo cáo', 'Bỏ Qua'];
 
 const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
+  const {t} = useTranslation();
   const {token, userInfo} = useContext(AuthContext);
   const {setImageUri,setModalVisibleStatus} = useContext(ImageContext);
 
@@ -352,7 +354,7 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                   <AntDesign name="like2" size={18} color="#637381" />
                 )}
 
-                <Text style={Styles.actionStyle}>Thích</Text>
+                <Text style={Styles.actionStyle}>{t('like')}</Text>
               </View>
             </TouchableOpacity>
             {/* Comments  */}
@@ -376,7 +378,7 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                 }}>
                 <FontAwesome name="comment-o" size={18} color="#637381" />
 
-                <Text style={Styles.actionStyle}>Bình luận</Text>
+                <Text style={Styles.actionStyle}>{t('comment')}</Text>
               </View>
             </TouchableOpacity>
             {/* Chia sẻ  */}
@@ -392,14 +394,14 @@ const VerticalProgressCard = ({item, pageCurrent, actionDelte}) => {
                 }}>
                 <AntDesign name="sharealt" size={18} color="#637381" />
 
-                <Text style={Styles.actionStyle}>Chia sẻ</Text>
+                <Text style={Styles.actionStyle}>{t('share')}</Text>
               </View>
             </TouchableOpacity>
           </View>
 
           <ActionSheet
             ref={actionSheet}
-            options={optionArray}
+            options={[t('delete'), t('report'), t('skip')]}
             cancelButtonIndex={2}
             onPress={index => {
               onClickSheet(index+1);

@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
+import {useTranslation} from 'react-i18next'
 
 const HideKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -16,6 +17,8 @@ const HideKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 function OnboardingScreen({navigation}) {
+  const {t} = useTranslation()
+
   return (
     <>
       <HideKeyboard>
@@ -73,7 +76,7 @@ function OnboardingScreen({navigation}) {
                   textAlign: 'center',
                   fontWeight: 'bold',
                 }}>
-                THAM GIA CỘNG ĐỒNG
+                {t('join')}
               </Text>
               {/* <MaterialIcons name="arrow-forward-ios" size={22} color="#fff" /> */}
             </TouchableOpacity>

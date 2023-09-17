@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Image} from 'expo-image';
 import Hyperlink from 'react-native-hyperlink'
+import {useTranslation} from 'react-i18next'
 
 import React, {useState, useRef, useEffect, useContext, memo} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -116,37 +117,37 @@ const VerticalPostCard = ({item, actionDelte}) => {
         if (userInfo.group_id != 5) {
           Alert.alert(
             'GIVE Garden',
-            'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?',
+            t('delete_alert_1'),
             [
               {
-                text: 'Cancel',
+                text: t('skip'),
                 style: 'cancel',
               },
-              {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+              {text: t('agree'), onPress: () => actionDelte(1, dataPost?.id)},
             ],
           );
         } else {
-          Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
+          Alert.alert('GIVE Garden',  t('delete_alert_2'), [
             {
-              text: 'Cancel',
+              text: t('skip'),
               style: 'cancel',
             },
-            {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+            {text: t('agree'), onPress: () => actionDelte(1, dataPost?.id)},
           ]);
         }
       } else {
         Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
           {
-            text: 'Cancel',
+            text: t('skip'),
             style: 'cancel',
           },
-          {text: 'Đồng ý', onPress: () => actionDelte(1, dataPost?.id)},
+          {text: t('agree'), onPress: () => actionDelte(1, dataPost?.id)},
         ]);
       }
     } else if (index == 2) {
       Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho Admin GIVE Garden', [
         {
-          text: 'Đồng ý',
+          text: t('agree'),
           style: 'cancel',
         },
       ]);
@@ -154,9 +155,12 @@ const VerticalPostCard = ({item, actionDelte}) => {
   };
 
   const deviceWidth = Dimensions.get('window').width;
+
   const heightApp =
     ((dataPost?.size?.height / 10) * deviceWidth) /
     (dataPost?.size?.width / 10);
+  const {t} = useTranslation();
+
   return (
     <View style={Styles.CardStyle}>
       <View style={{flexDirection: 'column', marginTop: 10}}>
@@ -296,8 +300,8 @@ const VerticalPostCard = ({item, actionDelte}) => {
                   {dataPost?.type == 1
                     ? 'Check In'
                     : dataPost?.type == 2
-                    ? 'Thông báo'
-                    : 'Câu hỏi'}
+                    ?  t('anouncement')
+                    : t('question')}
                   : {moment(date).fromNow()}
                 </Text>
               </View>
@@ -353,7 +357,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
             <Text style={Styles.styleInfor}>
               {likedLocal && likedLocal.length == 0
                 ? ''
-                : `${likedLocal.length} thích`}
+                : `${likedLocal.length} ${t('like')}`}
             </Text>
           </View>
           <View
@@ -364,7 +368,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
             <Text style={Styles.styleInfor}>
               {commentsLocal?.length == 0
                 ? ''
-                : `${commentsLocal.length} bình luận`}
+                : `${commentsLocal.length} ${t('comment')}`}
             </Text>
           </View>
         </View>
@@ -394,7 +398,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
                 <AntDesign name="like2" size={18} color="#637381" />
               )}
 
-              <Text style={Styles.actionStyle}>Thích</Text>
+              <Text style={Styles.actionStyle}>{t('like')}</Text>
             </View>
           </TouchableOpacity>
           {/* Comments  */}
@@ -418,7 +422,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
               }}>
               <FontAwesome name="comment-o" size={18} color="#637381" />
 
-              <Text style={Styles.actionStyle}>Bình luận</Text>
+              <Text style={Styles.actionStyle}>{t('comment')}</Text>
             </View>
           </TouchableOpacity>
           {/* Chia sẻ  */}
@@ -434,7 +438,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
               }}>
               <AntDesign name="sharealt" size={18} color="#637381" />
 
-              <Text style={Styles.actionStyle}>Chia sẻ</Text>
+              <Text style={Styles.actionStyle}>{t('share')}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -442,7 +446,7 @@ const VerticalPostCard = ({item, actionDelte}) => {
         <ActionSheet
           ref={actionSheet}
           // title={'Thao tác ?'}
-          options={optionArray}
+          options={[t('delete'), t('report'), t('skip')]}
           cancelButtonIndex={2}
           onPress={index => {
             onClickSheet(index + 1);

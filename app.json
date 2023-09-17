@@ -2,7 +2,7 @@
   "expo": {
     "name": "GIVE Garden",
     "slug": "givegarden",
-    "version": "1.2.6",
+    "version": "1.2.12",
     "icon": "./assets/images/noti.png",
     "updates": {
       "url": "https://u.expo.dev/7f68606c-9d95-495a-8cc6-ffd0dafb2a66"
@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "com.tranthanhuet.givegarden",
-      "versionCode": 13,
+      "versionCode": 17,
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true
     },

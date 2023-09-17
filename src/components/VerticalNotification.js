@@ -10,6 +10,8 @@ import {Image} from 'expo-image';
 import React, {useState, useRef, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {useTranslation} from 'react-i18next'
+
 const moment = require('moment');
 import * as SplashScreen from 'expo-splash-screen';
 // import moment from 'moment-with-locales-es6';
@@ -21,7 +23,7 @@ MaterialIcons.loadFont();
 const VerticalPostCard = ({item, appIsReady}) => {
   const date = new Date(item?.created_at);
   const navigation = useNavigation();
-  require('moment/locale/vi');
+  const {t} = useTranslation();
 
   return (
     <TouchableOpacity
@@ -64,7 +66,7 @@ const VerticalPostCard = ({item, appIsReady}) => {
                   color: '#637381',
                   paddingRight:12,
                 }}>
-                {item?.content}
+                {item?.content.replace('Đã đăng bài viết mới trong ', t('posted'))}
               </Text>
            
             </Text>

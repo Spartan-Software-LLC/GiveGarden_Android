@@ -12,6 +12,7 @@ import {
   RefreshControl,
   useWindowDimensions,
 } from 'react-native';
+import {useTranslation} from 'react-i18next'
 
 import axios from 'axios';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -31,6 +32,7 @@ const ProgessScreen = () => {
   const [loadingData, setLoading] = useState(false);
   const selectRef = useRef('');
   const [refreshing, setRefreshing] = React.useState(false);
+  const {t} = useTranslation();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -106,9 +108,9 @@ const ProgessScreen = () => {
         })
         .then(res => {
           if (res && res.status == 200) {
-            Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
+            Alert.alert('GIVE Garden', t('delete_success'), [
               {
-                text: 'Xác nhận',
+                text: t('agree'),
                 style: 'cancel',
               },
             ]);
@@ -117,9 +119,9 @@ const ProgessScreen = () => {
           }
         })
         .catch(err => {
-          Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
+          Alert.alert('GIVE Garden', t('delete_error'), [
             {
-              text: 'Xác nhận',
+              text: t('agree'),
               style: 'cancel',
             },
           ]);
@@ -159,7 +161,7 @@ const ProgessScreen = () => {
                 dropdownStyle={{
                   borderRadius: 12,
                 }}
-                defaultButtonText={'Chọn Thành Viên'}
+                defaultButtonText={t('select_user')}
                 buttonTextStyle={Styles.customText}
                 defaultValue={users[0]?.name}
                 onSelect={(selectedItem, index) => {
@@ -185,7 +187,7 @@ const ProgessScreen = () => {
                   }}
                   onPress={handleShow}>
                   <Text style={[Styles.customButton, Styles.customText]}>
-                    Xóa chọn
+                  {t('deselect')}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -227,7 +229,7 @@ const ProgessScreen = () => {
                       paddingHorizontal: 10,
                       fontSize: 16,
                     }}>
-                    Không có bài post cho member
+                    {t('no_post')}
                   </Text>
                   {/* </View> */}
                 </View>

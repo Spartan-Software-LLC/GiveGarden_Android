@@ -22,6 +22,7 @@ import {
 import {ImageContext} from '../context/ImageContext';
 import {SlideContext} from '../context/SlideContext';
 import { AuthContext } from '../context/AuthContext';
+import {useTranslation} from 'react-i18next'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -129,6 +130,7 @@ const NotificationStack = () => {
 const TabNavigator = ({navigation}) => {
   const dimensions = useWindowDimensions();
   const {slide, setSlide, groupName} = useContext(SlideContext);
+  const {t} = useTranslation();
 
   const {isLoggedIn} = useContext(AuthContext)
   const {setImageUri, setModalVisibleStatus} = useContext(ImageContext);
@@ -215,7 +217,7 @@ const TabNavigator = ({navigation}) => {
         })}
       />
       <Tab.Screen
-        name="Hình chuyển đổi"
+        name = {t('transformation')}
         listeners={({navigation}) => ({
           tabPress: event => {
             setSlide('progress');
@@ -254,7 +256,7 @@ const TabNavigator = ({navigation}) => {
         }}
       />
       <Tab.Screen
-        name="Thông báo"
+        name={t('notification')}
         listeners={({navigation}) => ({
           tabPress: event => {
             setSlide('home');
@@ -278,7 +280,7 @@ const TabNavigator = ({navigation}) => {
         })}
       />
       <Tab.Screen
-        name="Thông tin cá nhân"
+        name={t('profile')}
         listeners={({navigation}) => ({
           tabPress: event => {
             setSlide('home');

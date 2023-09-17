@@ -33,6 +33,7 @@ import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheetLicense from '../components/BottomSheetLicense';
+import {useTranslation} from 'react-i18next'
 
 const LoginScreen = () => {
   Ionicons.loadFont();
@@ -52,6 +53,7 @@ const LoginScreen = () => {
   const [isSelected, setSelection] = useState(true);
   const [showLi, setShowLi] = useState(false);
   const dimensions = useWindowDimensions();
+  const {t} = useTranslation()
 
   const onPress = useCallback(() => {
     const isActive = ref?.current?.isActive();
@@ -69,9 +71,9 @@ const LoginScreen = () => {
   const emailValidator = () => {
     setLoginFail(false);
     if (email == '') {
-      setEmailError('Vui lòng điền Email.');
+      setEmailError(t("invalid_email"));
     } else if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-      setEmailError('Email không hợp lệ.');
+      setEmailError(t("invalid_email"));
     } else {
       setEmailError('');
     }
@@ -85,11 +87,11 @@ const LoginScreen = () => {
 
   const handleOtp = async () => {
     if (email == '') {
-      setEmailError('Vui lòng điền Email.');
+      setEmailError(t("invalid_email"));
       return false;
     }
     if (!strongRegex.test(email)) {
-      setEmailError('Email không hợp lệ.');
+      setEmailError(t("invalid_email"));
       return false;
     }
     try {
@@ -199,7 +201,7 @@ const LoginScreen = () => {
                     paddingTop: 30,
                     textAlign: 'center',
                   }}>
-                  THAM GIA CỘNG ĐỒNG
+                  {t("join")}
                 </Text>
                 <Text
                   style={{
@@ -210,7 +212,7 @@ const LoginScreen = () => {
                     paddingBottom: 30,
                     paddingTop: 4,
                   }}>
-                  số 1 về chuyển đổi vóc dáng và sức khoẻ
+                  {t("sub_join")}
                 </Text>
                 <InputField
                   label={'Email'}
@@ -240,7 +242,7 @@ const LoginScreen = () => {
                   <>
                     <InputField
                       inputType={'OTP'}
-                      label={'Mã xác nhận được gửi qua Email'}
+                      label={t('sent_otp')}
                       color="grey"
                       value={otp}
                       onChangeText={text => setOtp(text)}
@@ -253,7 +255,7 @@ const LoginScreen = () => {
                         color: 'green',
                         paddingVertical: 4,
                       }}>
-                      Mã OTP có hiệu lực trong: {countdown}s
+                      {t("otp_expire")} {countdown}s
                     </Text>
                     {Error == true && (
                       <Text
@@ -289,7 +291,7 @@ const LoginScreen = () => {
                           textAlign: 'center',
                           fontWeight: 'bold',
                         }}>
-                        Đăng nhập
+                        {t("login")}
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -313,7 +315,7 @@ const LoginScreen = () => {
                           textAlign: 'center',
                           fontWeight: 'bold',
                         }}>
-                        Gửi Mã OTP
+                         {t('send_otp')}
                       </Text>
                     )}
                   </TouchableOpacity>
@@ -334,7 +336,7 @@ const LoginScreen = () => {
                       />
                       <TouchableOpacity onPress={onPress}>
                         <Text style={styles.label}>
-                          Tôi Xác nhận với các điều khoản và điều kiện của GIVE Garden
+                          {t('term')}
                         </Text>
                       </TouchableOpacity>
                     </View>

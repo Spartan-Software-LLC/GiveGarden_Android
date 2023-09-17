@@ -20,6 +20,7 @@ import VerticalPostCard from '../../components/VerticalPostCard';
 import {AuthContext} from '../../context/AuthContext';
 import {SlideContext} from '../../context/SlideContext';
 import adjust from '../../adjust';
+import {useTranslation} from 'react-i18next'
 
 const Afternoon = require('../../../assets/images/layout_infor.png');
 const Avatar = require('../../../assets/images/avatar_default.jpg');
@@ -36,6 +37,7 @@ const HomeScreen = () => {
   const [count_page, setCountPage] = React.useState(1);
   const [last_page, setLastPage] = React.useState(10);
   const [onReached, setOnReached] = React.useState(false);
+  const {t} = useTranslation();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -181,9 +183,9 @@ const HomeScreen = () => {
         })
         .then(res => {
           if (res.status == 200) {
-            Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
+            Alert.alert('GIVE Garden', t('delete_success'), [
               {
-                text: 'Đồng ý',
+                text: t('agree'),
                 style: 'cancel',
               },
             ]);
@@ -192,9 +194,9 @@ const HomeScreen = () => {
           }
         })
         .catch(err => {
-          Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
+          Alert.alert('GIVE Garden', t('delete_error'), [
             {
-              text: 'Đồng ý',
+              text: t('agree'),
               style: 'cancel',
             },
           ]);
@@ -336,7 +338,7 @@ const HomeScreen = () => {
                       <View style={{position: 'relative', marginTop: -30}}>
                         <View style={Styles.CardStyle}>
                           <Text style={Styles.titleTop}>
-                            TOP 3 THI ĐUA CHECK IN
+                          {t('top3')}
                           </Text>
 
                           {/* top rank user */}

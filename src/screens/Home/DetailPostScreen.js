@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useTranslation} from 'react-i18next'
 
 import ImageModal from 'react-native-image-modal';
 import {useHeaderHeight} from '@react-navigation/elements';
@@ -55,6 +56,7 @@ const DetailPostScreen = ({route, navigation}) => {
   const [liked, setLiked] = useState(like);
   const [value, setValue] = useState('');
   const [Isloading, setLoading] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -115,7 +117,7 @@ const DetailPostScreen = ({route, navigation}) => {
     })
     .then(res => {
       if (res.status == 200) {
-        Alert.alert('GIVE Garden', 'Xóa bài viết thành công', [
+        Alert.alert('GIVE Garden', t('delete_success'), [
           {
             text: 'Xác nhận',
             onPress: () => navigation.push('HomeScreen'),
@@ -125,7 +127,7 @@ const DetailPostScreen = ({route, navigation}) => {
       }
     })
     .catch(err => {
-      Alert.alert('GIVE Garden', 'Không thể xóa bài viết', [
+      Alert.alert('GIVE Garden',  t('delete_error'), [
         {
           text: 'Xác nhận',
           style: 'cancel',
@@ -137,26 +139,27 @@ const DetailPostScreen = ({route, navigation}) => {
   const onClickSheet = async index => {
     if (index == 1) {
       if(data?.type == 1){
-        Alert.alert('GIVE Garden', 'Bạn sẽ bị trừ một điểm checkin nếu xoá bài viết này. Bạn có chắc muốn xoá không?', [
+        Alert.alert('GIVE Garden', t('delete_alert_1'), [
           {
-            text: 'Bỏ qua',
+            text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
+          {text: t('agree'), onPress: () => actionDelte(1, data?.id)},
         ]);
       }else {
-        Alert.alert('GIVE Garden', 'Bạn có chắc muốn xoá bài viết này?', [
+        Alert.alert('GIVE Garden', t('delete_alert_2'), [
           {
-            text: 'Bỏ qua',
+            text: 'Cancel',
             style: 'cancel',
           },
-          {text: 'Xác nhận', onPress: () => actionDelte(1, data?.id)},
+          {text: t('agree'), onPress: () => actionDelte(1, data?.id)},
         ]);
       }
-    } else if (index == 2) {
-      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho  Admin GIVE Garden', [
+      
+    }else if(index == 2){
+      Alert.alert('GIVE Garden', 'Đã gửi đánh giá cho Admin GIVE Garden', [
         {
-          text: 'Xác nhận',
+          text: t('agree'),
           style: 'cancel',
         },
       ]);
@@ -167,7 +170,7 @@ const DetailPostScreen = ({route, navigation}) => {
     if (value == '') {
       Alert.alert('GIVE Garden', 'Please enter a comment', [
         {
-          text: 'Xác nhận',
+          text: t('agree'),
           style: 'cancel',
         },
       ]);
@@ -457,7 +460,7 @@ const DetailPostScreen = ({route, navigation}) => {
                     <Text style={Styles.styleInfor}>
                       {data?.reactions?.length == 0
                         ? ''
-                        : `${data?.reactions?.length} thích`}
+                        : `${data?.reactions?.length} ${t('like')}`}
                     </Text>
                   </View>
                   <View
@@ -468,7 +471,7 @@ const DetailPostScreen = ({route, navigation}) => {
                     <Text style={Styles.styleInfor}>
                       {data?.comments?.length == 0
                         ? ''
-                        : `${data?.comments?.length} bình luận`}
+                        : `${data?.comments?.length} ${t('comment')}`}
                     </Text>
                   </View>
                 </View>
@@ -498,7 +501,7 @@ const DetailPostScreen = ({route, navigation}) => {
                         <AntDesign name="like2" size={18} color="#637381" />
                       )}
 
-                      <Text style={Styles.actionStyle}>Thích</Text>
+                      <Text style={Styles.actionStyle}>{t('like')}</Text>
                     </View>
                   </TouchableOpacity>
                   {/* Comments  */}
@@ -514,7 +517,7 @@ const DetailPostScreen = ({route, navigation}) => {
                       }}>
                       <FontAwesome name="comment-o" size={18} color="#637381" />
 
-                      <Text style={Styles.actionStyle}>Bình luận</Text>
+                      <Text style={Styles.actionStyle}>{t('comment')}</Text>
                     </View>
                   </TouchableOpacity>
                   {/* Chia sẻ  */}
@@ -530,7 +533,7 @@ const DetailPostScreen = ({route, navigation}) => {
                       }}>
                       <AntDesign name="sharealt" size={18} color="#637381" />
 
-                      <Text style={Styles.actionStyle}>Chia sẻ</Text>
+                      <Text style={Styles.actionStyle}>{t('share')}</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -572,7 +575,7 @@ const DetailPostScreen = ({route, navigation}) => {
                           style={Styles.InputField}
                           onChangeText={text => setValue(text)}
                           value={value}
-                          placeholder="Viết bình luận..."
+                          placeholder={t('comment')}
                           keyboardType="default"
                           placeholderTextColor={'gray'}
                           returnKeyType="none"
@@ -609,7 +612,7 @@ const DetailPostScreen = ({route, navigation}) => {
                 <ActionSheet
                  
                   ref={actionSheet}
-                  options={optionArray}
+                  options={[t('delete'), t('report'), t('skip')]}
                   cancelButtonIndex={2}
                   onPress={index => {
                     onClickSheet(index + 1);

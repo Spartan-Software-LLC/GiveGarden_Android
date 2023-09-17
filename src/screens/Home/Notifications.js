@@ -10,11 +10,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import VerticalNotification from '../../components/VerticalNotification';
 import {AuthContext} from '../../context/AuthContext';
 import axios from 'axios';
+import {useTranslation} from 'react-i18next'
 
 const Notification = () => {
   const {userInfo, token} = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {t} = useTranslation();
+
   useEffect(() => {
     const asyncData = async () => {
       setLoading(true);

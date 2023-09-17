@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
+import {useTranslation} from 'react-i18next'
 
 import * as ImagePicker from 'expo-image-picker';
 //components
@@ -34,6 +35,7 @@ const titleImage = ['Ảnh đằng trước', 'Ảnh bên hông', 'Ảnh đằng
 export default function CreatePostPrivate() {
   const {token, userInfo} = useContext(AuthContext);
   const navigation = useNavigation();
+  const {t} = useTranslation();
 
   const [value, setValue] = useState('');
   const [images, setImages] = useState([['1'], ['1'], ['1']]);
@@ -69,10 +71,10 @@ export default function CreatePostPrivate() {
     if (checkImage == false || value == '') {
       Alert.alert(
         'GIVE Garden',
-        'Vui lòng chọn 3 ảnh và điền đẩy đủ nội dung',
+        t('post_failed_1'),
         [
           {
-            text: 'Xác nhận',
+            text: t('agree'),
             style: 'cancel',
           },
         ],
@@ -107,9 +109,9 @@ export default function CreatePostPrivate() {
         .then(response => {
           setLoading(false);
           response.status === 200 &&
-            Alert.alert('GIVE Garden', 'Đăng bài thành công', [
+            Alert.alert('GIVE Garden',  t('post_success'), [
               {
-                text: 'Xác nhận',
+                text: t('agree'),
                 onPress: () => navigation.navigate('Progress'),
                 style: 'cancel',
               },
@@ -119,7 +121,7 @@ export default function CreatePostPrivate() {
           setLoading(false);
           Alert.alert('GIVE Garden', 'Đăng bài thất bại', [
             {
-              text: 'Xác nhận',
+              text: t('agree'),
               style: 'cancel',
             },
           ]);
@@ -137,7 +139,7 @@ export default function CreatePostPrivate() {
             {/* Input text  */}
             <TextInput
               style={styles.TextInput}
-              placeholder={`Nếu có thể xin vui lòng điền chỉ số cân nặng, số đo vòng eo vào bài viết này. Xin Cảm ơn.`}
+              placeholder={t('transformation_content')}
               keyboardType={`default`}
               focusable={false}
               multiline={true}
@@ -196,7 +198,7 @@ export default function CreatePostPrivate() {
             {!isLoading && titleImage.length > 0 && (
               <>
                 <FlatList
-                  data={titleImage}
+                  data={[t('front'), t('side'), t('back')]}
                   renderItem={({item}) => (
                     <View style={styles.titleContainerStyle}>
                       <Text style={{textAlign: 'center'}}>{item}</Text>
@@ -219,7 +221,7 @@ export default function CreatePostPrivate() {
               {loading == true ? (
                 <ActivityIndicator size={'small'} />
               ) : (
-                <CustomButton label={'Đăng bài'} onPress={submitPost} />
+                <CustomButton label={t('post')} onPress={submitPost} />
               )}
             </View>
             <Spacer height={20} />

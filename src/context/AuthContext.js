@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 export const AuthContext = createContext();
 import {BASE_URL} from '../../config';
+import i18next, {languageResources} from '../../services/i18next';
+import moment from 'moment'
 
 export const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState({});
@@ -57,6 +59,22 @@ export const AuthProvider = ({children}) => {
   const isLoggedIn = async () => {
     try {
       const access_token = await AsyncStorage.getItem('AccessToken');
+      let language = await AsyncStorage.getItem('lng');
+      if(language){
+        i18next.changeLanguage(language);
+        if(language == 'en'){
+          require ('moment/locale/en-gb');
+          moment.locale('en-gb')
+        }else{
+          require('moment/locale/vi');
+          moment.locale('vi')
+        }
+      }
+      else{
+        require ('moment/locale/vi');
+        moment.locale('vi')
+
+      }
       if (access_token) {
         const data = await axios.get(`${BASE_URL}/user`, {
           headers: {

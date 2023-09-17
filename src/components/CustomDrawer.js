@@ -15,10 +15,14 @@ import {AuthContext} from '../context/AuthContext';
 import {SlideContext} from '../context/SlideContext';
 import axios from 'axios';
 import moment from 'moment';
+import {useTranslation} from 'react-i18next'
+
 var pkg = require('../../package.json');
 
 Ionicons.loadFont();
 const CustomDrawer = props => {
+  const {t} = useTranslation();
+
   const {logout, userInfo, isLoggedIn, token, setLoading} =
     useContext(AuthContext);
     const {setGroupName, setGroupChange} = useContext(SlideContext);
@@ -159,7 +163,7 @@ const CustomDrawer = props => {
                   marginLeft: 5,
                   color: '#919EAB',
                 }}>
-                Đăng xuất
+                {t('signout')}
               </Text>
               
             </View>
@@ -175,7 +179,7 @@ const CustomDrawer = props => {
               color: '#919EAB',
               textAlign: 'right'
             }}>
-            Phiên bản 1.2.9
+            {t('version')} 1.2.12
           </Text>
         </View>
       </View>

@@ -23,6 +23,7 @@ import Spacer from '../../components/Spacer';
 import CustomButton from '../../components/CustomButton';
 import {Ionicons, FontAwesome} from '@expo/vector-icons';
 import axios from 'axios';
+import {useTranslation} from 'react-i18next'
 
 const HideKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -39,6 +40,7 @@ export default function CreatePost() {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const {token, isLoading, userInfo} = useContext(AuthContext);
+  const {t} = useTranslation();
 
   const pickImage = async type => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -89,41 +91,41 @@ export default function CreatePost() {
       .then(response => {
         setLoading(false);
         if (response.status == 203) {
-          Alert.alert('GIVE Garden', 'Xin vui lòng điền nội dung bài viết và chọn hình ảnh để được Checkin.', [
+          Alert.alert('GIVE Garden', t('post_failed_1'), [
             {
-              text: 'Xác nhận',
+              text: t('confirm'),
               style: 'cancel',
             },
           ])
         }
         else if (response.status == 202) {
-          Alert.alert('GIVE Garden', 'Group đã dừng hoạt động. Bạn không thể check in. Cảm ơn', [
+          Alert.alert('GIVE Garden', t('post_failed_2'), [
             {
-              text: 'Xác nhận',
+              text: t('confirm'),
               onPress: () => navigation.navigate('Home'),
               style: 'cancel',
             },
           ])
         }else{
           userInfo.role == 'member' && userInfo.group_id != 5
-            ? Alert.alert('GIVE Garden', 'Bài viết của bạn đang được duyệt bởi Coach và Supporter', [
+            ? Alert.alert('GIVE Garden', t('post_success_1'), [
                 {
-                  text: 'Xác nhận',
+                  text: t('confirm'),
                   onPress: () => navigation.navigate('Home'),
                   style: 'cancel',
                 },
               ])
             : userInfo.role == 'member' && userInfo.group_id == 5
-            ? Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
+            ? Alert.alert('GIVE Garden', t('post_success'), [
                 {
-                  text: 'Xác nhận',
+                  text: t('confirm'),
                   onPress: () => navigation.navigate('Home'),
                   style: 'cancel',
                 },
               ])
-            : Alert.alert('GIVE Garden', 'Đăng bài viết thành công', [
+            : Alert.alert('GIVE Garden', t('post_success'), [
                 {
-                  text: 'Xác nhận',
+                  text: t('confirm'),
                   onPress: () => navigation.navigate('Home'),
                   style: 'cancel',
                 },
@@ -132,9 +134,9 @@ export default function CreatePost() {
       })
       .catch(err => {
         setLoading(false);
-        Alert.alert('GIVE Garden', 'Đăng bài thất bại', [
+        Alert.alert('GIVE Garden', t('post_failed'), [
           {
-            text: 'Xác nhận',
+            text: t('confirm'),
             style: 'cancel',
           },
         ]);
@@ -176,7 +178,7 @@ export default function CreatePost() {
               </TouchableOpacity>
 
               <SelectDropdown
-                data={userInfo.group_id == '5' ? ['Thông báo', 'Câu hỏi']: types}
+                data={['Check In', t('anouncement'), t('question')]}
                 buttonStyle={{
                   width: 150,
                   borderRadius: 50,
@@ -214,7 +216,7 @@ export default function CreatePost() {
           {/* Input text  */}
           <TextInput
             style={styles.TextInput}
-            placeholder={`Nội dung bài viết bạn muốn đăng...`}
+            placeholder={t('content')}
             keyboardType={`default`}
             focusable={false}
             multiline={true}
@@ -246,7 +248,7 @@ export default function CreatePost() {
             {loading == true ? (
               <ActivityIndicator size={'small'} />
             ) : (
-              <CustomButton label={'Đăng bài'} onPress={submitPost} />
+              <CustomButton label={t('post')} onPress={submitPost} />
             )}
           </View>
           <Spacer height={20} />
